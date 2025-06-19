@@ -10,7 +10,7 @@ bool isprime(int n){
     {
         return false;
     }
-    else
+    else  
     {
         for (int i = 2; i <= n/2; i++)
         {
@@ -25,6 +25,22 @@ bool isprime(int n){
     }
 }
 
+//better logic for isprime
+bool o_isprime(int n){
+    if (n <= 1) return false;
+
+    for (int i = 2; i*i <= n ; i++)
+    {
+        if (n % i == 0)
+        {
+            return false;
+        }
+            
+    }
+
+    return true;
+    
+}
 //print all prime numbers from 2 to N
 
 void printPrimeNum(int n){
