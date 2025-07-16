@@ -13,6 +13,7 @@
 11Recursion/merge_sort
 11Recursion/quick_sort
 11Recursion/rat_in_maze
+11Recursion/count_inversion
 
 # Compiled Dynamic libraries
 *.so
