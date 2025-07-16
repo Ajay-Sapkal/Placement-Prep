@@ -7,6 +7,13 @@
 *.out
 *.app
 
+# Linux executables (files without extension but with execute permission)
+10Sort/bubble
+11Recursion/print_subsets
+11Recursion/merge_sort
+11Recursion/quick_sort
+11Recursion/rat_in_maze
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
