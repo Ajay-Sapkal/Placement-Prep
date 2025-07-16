@@ -7,13 +7,32 @@
 *.out
 *.app
 
-# Linux executables (files without extension but with execute permission)
-10Sort/bubble
-11Recursion/print_subsets
-11Recursion/merge_sort
-11Recursion/quick_sort
-11Recursion/rat_in_maze
-11Recursion/count_inversion
+# Ignore all files without extensions (likely executables)
+# But keep source files and common text files
+*
+!*/
+!*.cpp
+!*.c
+!*.h
+!*.hpp
+!*.txt
+!*.md
+!*.py
+!*.java
+!*.js
+!*.html
+!*.css
+!*.json
+!*.xml
+!*.gitignore
+!*.yml
+!*.yaml
+!*.makefile
+!Makefile
+!*.cmake
+!CMakeLists.txt
+!README*
+!LICENSE*
 
 # Compiled Dynamic libraries
 *.so
