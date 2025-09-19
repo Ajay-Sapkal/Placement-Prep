@@ -287,9 +287,21 @@ public:
         *gpaPtr = gpa;
     }
     
-    // Default copy constructor performs shallow copy
-    // Both objects will share same gpaPtr memory
+    // Shallow copy constructor (problematic for pointers)
+    Student(Student &obj) {
+        name = obj.name;
+        gpaPtr = obj.gpaPtr;  // PROBLEM: Both objects point to same memory!
+    }
+    
+    ~Student() {
+        delete gpaPtr;  // DANGER: Double deletion will cause crash
+    }
 };
+
+// Usage showing the problem:
+Student s1("John", 85);
+Student s2(s1);  // Shallow copy - both share same gpaPtr
+// When s1 and s2 go out of scope, destructor tries to delete same memory twice!
 ```
 
 ### Deep Copy:
@@ -359,6 +371,19 @@ public:
 ### Types of Inheritance:
 
 #### 1. Single Inheritance:
+**Diagram:**
+```
+    ┌─────────┐
+    │ Animal  │ (Parent)
+    └─────────┘
+         │
+         ▼
+    ┌─────────┐
+    │   Dog   │ (Child)
+    └─────────┘
+```
+
+**Code:**
 ```cpp
 class Animal {  // Parent class
 public:
@@ -377,6 +402,24 @@ public:
 ```
 
 #### 2. Multi-level Inheritance:
+**Diagram:**
+```
+    ┌─────────┐
+    │ Animal  │ (Grandparent)
+    └─────────┘
+         │
+         ▼
+    ┌─────────┐
+    │ Mammal  │ (Parent)
+    └─────────┘
+         │
+         ▼
+    ┌─────────┐
+    │   Dog   │ (Child)
+    └─────────┘
+```
+
+**Code:**
 ```cpp
 class Animal {
 public:
@@ -395,6 +438,20 @@ public:
 ```
 
 #### 3. Multiple Inheritance:
+**Diagram:**
+```
+    ┌─────────┐    ┌─────────┐
+    │ Father  │    │ Mother  │ (Multiple Parents)
+    └─────────┘    └─────────┘
+         │              │
+         └──────┬───────┘
+                ▼
+          ┌─────────┐
+          │  Child  │
+          └─────────┘
+```
+
+**Code:**
 ```cpp
 class Father {
 public:
@@ -413,6 +470,20 @@ public:
 ```
 
 #### 4. Hierarchical Inheritance:
+**Diagram:**
+```
+                ┌─────────┐
+                │ Animal  │ (Single Parent)
+                └─────────┘
+                     │
+            ┌────────┼────────┐
+            ▼        ▼        ▼
+       ┌─────────┐ ┌─────────┐ ┌─────────┐
+       │   Dog   │ │   Cat   │ │  Bird   │ (Multiple Children)
+       └─────────┘ └─────────┘ └─────────┘
+```
+
+**Code:**
 ```cpp
 class Animal {
 public:
@@ -431,7 +502,33 @@ public:
 ```
 
 #### 5. Hybrid Inheritance:
+**Diagram:**
+```
+                ┌─────────┐
+                │ Animal  │
+                └─────────┘
+                     │
+            ┌────────┼────────┐
+            ▼        ▼        ▼
+       ┌─────────┐ ┌─────────┐ ┌─────────┐
+       │ Mammal  │ │  Bird   │ │  Fish   │
+       └─────────┘ └─────────┘ └─────────┘
+            │                       │
+            ▼                       ▼
+       ┌─────────┐             ┌─────────┐
+       │   Dog   │             │ Shark   │
+       └─────────┘             └─────────┘
+            │                       │
+            └───────┬───────────────┘
+                    ▼
+              ┌─────────┐
+              │ Hybrid  │ (Multiple + Multi-level)
+              └─────────┘
+```
+
+**Definition:**
 - Combination of two or more types of inheritance
+- Example: Multi-level + Multiple inheritance together
 
 ### Inheritance Modes:
 - **Public**: Public members remain public, protected remain protected
@@ -439,6 +536,8 @@ public:
 - **Private**: Public and protected members become private
 
 ### Constructor and Destructor in Inheritance:
+
+#### Default Constructors:
 ```cpp
 class Parent {
 public:
@@ -456,11 +555,63 @@ public:
 // Destruction: Child destructor → Parent destructor
 ```
 
----
+#### Parameterized Constructors:
+When both parent and child have parameterized constructors, you must explicitly call the parent's constructor using an **initializer list**:
+
+```cpp
+class Parent {
+private:
+    string parentName;
+public:
+    Parent(string pname) {
+        parentName = pname;
+        cout << "Parent constructor: " << parentName << endl;
+    }
+    
+    ~Parent() {
+        cout << "Parent destructor: " << parentName << endl;
+    }
+};
+
+class Child : public Parent {
+private:
+    string childName;
+public:
+    // Must call Parent constructor using initializer list
+    Child(string pname, string cname) : Parent(pname) {
+        childName = cname;
+        cout << "Child constructor: " << childName << endl;
+    }
+    
+    ~Child() {
+        cout << "Child destructor: " << childName << endl;
+    }
+};
+
+// Usage:
+Child c("ParentName", "ChildName");
+/*
+Output:
+Parent constructor: ParentName
+Child constructor: ChildName
+(On destruction)
+Child destructor: ChildName
+Parent destructor: ParentName
+*/
+```
+
+**Important Notes:**
+- Use `: Parent(pname)` syntax to call parent's parameterized constructor
+- If you don't call parent's constructor explicitly, compiler looks for default constructor in parent
+- Parent constructor is always called before child constructor
+- Destructors are called in reverse order (child first, then parent)
+
+--- 
 
 ## 10. Polymorphism
 
 ### Definition:
+- Polymorphism is the ability of object to take on different forms or behave in different ways depending on the context in which they are used.
 - Same name, different implementations
 - Third pillar of OOPs
 - "Poly" = many, "morphism" = forms
@@ -474,18 +625,33 @@ public:
 class Calculator {
 public:
     int add(int a, int b) {
+        cout << "Two integers" << endl;
         return a + b;
     }
     
     double add(double a, double b) {
+        cout << "Two doubles" << endl;
         return a + b;
     }
     
     int add(int a, int b, int c) {
+        cout << "Three integers" << endl;
         return a + b + c;
-    }
+    }  
 };
+
+// Usage and Explanation:
+Calculator calc;
+
+calc.add(5, 10);           // Calls add(int, int) - matches exactly
+calc.add(5.5, 10.5);       // Calls add(double, double) - matches exactly 
 ```
+
+**How Compiler Decides:**
+1. **Exact Match**: Look for function with exact parameter types
+2. **Promotion**: Convert smaller types to larger (int → double)
+3. **Standard Conversion**: If no exact match found
+4. **Error**: If ambiguous or no match found
 
 ##### b) Operator Overloading:
 ```cpp
@@ -496,26 +662,70 @@ public:
     Complex(int r = 0, int i = 0) : real(r), imag(i) {}
     
     Complex operator + (Complex &obj) {
+        cout << "Custom + operator called" << endl;
         Complex temp;
         temp.real = real + obj.real;
         temp.imag = imag + obj.imag;
         return temp;
     }
+    
+    void display() {
+        cout << real << " + " << imag << "i" << endl;
+    }
 };
 
-// Usage
-Complex c1(1, 2);
-Complex c2(3, 4);
-Complex c3 = c1 + c2;  // Operator overloading
+// Usage and Explanation:
+Complex c1(1, 2);          // c1 = 1 + 2i
+Complex c2(3, 4);          // c2 = 3 + 4i
+Complex c3 = c1 + c2;      // Calls c1.operator+(c2) - custom operator
+int result = 5 + 10;       // Uses built-in + operator for integers
+
+c3.display();              // Output: 4 + 6i
 ```
+
+**How Compiler Decides:**
+1. **Check for Custom Operator**: If operator is overloaded for the class
+2. **Use Custom Implementation**: Calls the overloaded operator function
+3. **Built-in Operator**: Uses default operator for primitive types
+4. **Compile-time Decision**: Determined during compilation, not runtime
 
 #### 2. Runtime Polymorphism (Virtual Functions):
 
+##### a) Function Overriding (Without Virtual):
 ```cpp
 class Animal {
 public:
-    virtual void sound() {  // Virtual function
+    void sound() {  // Non-virtual function
         cout << "Animal makes sound" << endl;
+    }
+};
+
+class Dog : public Animal {
+public:
+    void sound() {  // Overrides but NOT polymorphic
+        cout << "Dog barks" << endl;
+    }
+};
+
+// Example showing problem without virtual:
+Animal* ptr;
+Dog d;
+ptr = &d;
+ptr->sound();  // Calls Animal's sound() - NOT polymorphic!
+```
+
+**Problem**: Pointer type determines which function is called, not the actual object type.
+
+##### b) Virtual Functions (True Polymorphism):
+```cpp
+class Animal {
+public:
+    virtual void sound() {  // Virtual function enables polymorphism
+        cout << "Animal makes sound" << endl;
+    }
+    
+    virtual void move() {
+        cout << "Animal moves" << endl;
     }
 };
 
@@ -524,6 +734,10 @@ public:
     void sound() override {  // Override virtual function
         cout << "Dog barks" << endl;
     }
+    
+    void move() override {
+        cout << "Dog runs" << endl;
+    }
 };
 
 class Cat : public Animal {
@@ -531,25 +745,37 @@ public:
     void sound() override {
         cout << "Cat meows" << endl;
     }
+    
+    void move() override {
+        cout << "Cat walks silently" << endl;
+    }
 };
 
-// Runtime polymorphism
+// Runtime polymorphism examples:
 Animal* ptr;
 Dog d;
 Cat c;
 
 ptr = &d;
-ptr->sound();  // Calls Dog's sound()
+ptr->sound();  // Calls Dog's sound() - "Dog barks"
+ptr->move();   // Calls Dog's move() - "Dog runs"
 
 ptr = &c;
-ptr->sound();  // Calls Cat's sound()
+ptr->sound();  // Calls Cat's sound() - "Cat meows"
+ptr->move();   // Calls Cat's move() - "Cat walks silently"
 ```
 
-### Virtual Functions:
-- Functions that can be overridden in derived classes
-- Enable runtime polymorphism
-- Use `virtual` keyword in base class
-- Use `override` keyword in derived class (C++11)
+### How Runtime Polymorphism Works:
+
+**1. Virtual Function Table (vtable):**
+- Each class with virtual functions has a vtable
+- Contains pointers to the actual function implementations
+- Object contains pointer to its class's vtable
+
+**2. Function Call Resolution:**
+- At runtime, program looks up the vtable
+- Finds the correct function for the actual object type
+- Calls the appropriate function
 
 ---
 
@@ -606,6 +832,14 @@ public:
 };
 ```
 
+### Key Difference:
+- **Abstract Class**: Can have both pure virtual functions (= 0) AND regular functions with implementation
+- **Interface**: Only pure virtual functions (= 0), no implementation at all
+
+**Simple Rule:**
+- Use **Abstract Class** when classes share some common code
+- Use **Interface** when you just want to define a contract (what methods must exist)
+
 ---
 
 ## 12. Static Keyword
@@ -655,6 +889,75 @@ public:
 // Usage
 int result = MathUtils::add(5, 3);  // No object needed
 ```
+
+---
+
+## 13. Friend Functions and Friend Classes
+
+### Definition:
+- Friend functions/classes can access private and protected members of a class
+- Breaks encapsulation in a controlled way
+
+### Types:
+
+#### 1. Normal Friend Functions:
+```cpp
+class Box {
+private:
+    int width, height;
+public:
+    Box(int w, int h) : width(w), height(h) {}
+    friend void display(Box b);  // Friend function declaration
+};
+
+void display(Box b) {
+    cout << b.width << " x " << b.height;  // Can access private members
+}
+```
+
+#### 2. Friend Functions of Another Class:
+```cpp
+class Rectangle;  // Forward declaration
+
+class Calculator {
+public:
+    int getArea(Rectangle r);
+};
+
+class Rectangle {
+private:
+    int length, width;
+public:
+    Rectangle(int l, int w) : length(l), width(w) {}
+    friend int Calculator::getArea(Rectangle r);  // Specific function as friend
+};
+
+int Calculator::getArea(Rectangle r) {
+    return r.length * r.width;  // Can access private members
+}
+```
+
+#### 3. Friend Classes:
+```cpp
+class Engine {
+private:
+    int horsepower;
+public:
+    Engine(int hp) : horsepower(hp) {}
+    friend class Car;  // Entire Car class is friend
+};
+
+class Car {
+public:
+    void showEngine(Engine e) {
+        cout << e.horsepower << " HP";  // Can access private members
+    }
+};
+```
+
+### Key Points:
+- Not inherited, not mutual, not transitive
+- Use sparingly - breaks encapsulation
 
 ---
 
