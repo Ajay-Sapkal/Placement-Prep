@@ -13,6 +13,7 @@
 10. [Polymorphism](#polymorphism)
 11. [Abstraction](#abstraction)
 12. [Static Keyword](#static-keyword)
+13. [Friend Functions and Friend Classes](#friend-functions-and-friend-classes)
 
 ---
 
@@ -776,6 +777,74 @@ ptr->move();   // Calls Cat's move() - "Cat walks silently"
 - At runtime, program looks up the vtable
 - Finds the correct function for the actual object type
 - Calls the appropriate function
+
+### Virtual Destructor:
+
+**Theory:**
+When you have a base class pointer pointing to a derived class object:
+- **Without virtual destructor**: Only BASE destructor is called (derived destructor is skipped)
+- **With virtual destructor**: BOTH destructors are called in correct order (derived → base)
+
+**Problem without Virtual Destructor:**
+```cpp
+class Base {
+public:
+    ~Base() {  // Non-virtual destructor
+        cout << "Base destructor" << endl;
+    }
+};
+
+class Derived : public Base {
+private:
+    int* data;
+public:
+    Derived() { data = new int[100]; }
+    
+    ~Derived() {  // This won't be called!
+        cout << "Derived destructor" << endl;
+        delete[] data;  // Memory leak - never executed!
+    }
+};
+
+Base* ptr = new Derived();
+delete ptr;  
+// Output: Only "Base destructor"
+// Problem: Derived destructor NEVER called - MEMORY LEAK!
+```
+
+**Solution with Virtual Destructor:**
+```cpp
+class Base {
+public:
+    virtual ~Base() {  // Virtual destructor
+        cout << "Base destructor" << endl;
+    }
+};
+
+class Derived : public Base {
+private:
+    int* data;
+public:
+    Derived() { data = new int[100]; }
+    
+    ~Derived() {
+        cout << "Derived destructor" << endl;
+        delete[] data;  // Now this executes correctly!
+    }
+};
+
+Base* ptr = new Derived();
+delete ptr;  
+// Output: 
+// "Derived destructor"
+// "Base destructor"
+// Both destructors called in correct order!
+```
+
+**Key Points:**
+- **Without virtual**: Compiler uses pointer type (Base) to decide destructor
+- **With virtual**: Compiler uses actual object type (Derived) via vtable
+- **Always use virtual destructor** in base classes for polymorphism!
 
 ---
 
