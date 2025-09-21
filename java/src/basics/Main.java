@@ -2,10 +2,13 @@ package basics;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("hello world");
-        int age = 10;
-        byte na = 15;
-        String name = "ajay";
-        System.out.println(name.length());
+        int[] marks = {97, 98, 95};
+        try {
+            System.out.println(marks[5]);
+        }catch (Exception exception) {
+            System.out.println("index is out of bond");
+        }
+        System.out.println("student name is ajay ");
     }
+
 }

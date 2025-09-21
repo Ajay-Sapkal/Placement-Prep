@@ -87,7 +87,7 @@ Heap Memory
  └─ Unused Objects (unreferenced) → Garbage Collector → Memory Freed
 ```
 
-## 2. Core Java Topics
+## 2. Basic Java Topics
 
 ### 2.1 Data Types (Primitive vs Reference)
 
@@ -190,16 +190,6 @@ System.out.println(matrix[1][2]); // Output: 6
     int y = (int) x; // Explicit casting
     ```
 
-### Constants in Java
-
-**Constants:** Variables whose values cannot be changed once assigned.
-
-- Declared using the `final` keyword.
-- Example:
-  ```java
-  final int MAX_VALUE = 100;
-  ```
-- Naming convention: Use uppercase letters with underscores (e.g., `PI`, `MAX_VALUE`).
 ---
 
 ### 2.2 Variables & Operators
@@ -249,7 +239,54 @@ System.out.println(matrix[1][2]); // Output: 6
   ```
 ---
 
-### 2.3 Control Flow
+**Math Functions:**
+- Java provides the `Math` class for mathematical operations.
+- Common functions:
+  - `Math.abs(num)`: Returns the absolute value.
+  - `Math.pow(a, b)`: Calculates `a` raised to the power of `b`.
+  - `Math.sqrt(num)`: Returns the square root.
+  - `Math.max(a, b)`, `Math.min(a, b)`: Returns the maximum/minimum of two numbers.
+  - `Math.random()`: Generates a random number between 0.0 and 1.0.
+
+Example:
+```java
+int max = Math.max(10, 20); // Output: 20
+double sqrt = Math.sqrt(25); // Output: 5.0
+```
+
+**Taking Input in Java:**
+- Use the `Scanner` class to read input from the user.
+- Steps:
+  1. Import the `java.util.Scanner` package.
+  2. Create a `Scanner` object.
+  3. Use methods like `nextInt()`, `nextDouble()`, `nextLine()` to read input.
+
+Example:
+```java
+import java.util.Scanner;
+
+public class InputExample {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter an integer: ");
+        int num = sc.nextInt(); // Reads an integer input
+
+        System.out.print("Enter a word: ");
+        String word = sc.next(); // Reads a single word (up to a space)
+
+        sc.nextLine(); // Consume the leftover newline
+
+        System.out.print("Enter a full sentence: ");
+        String sentence = sc.nextLine(); // Reads an entire line (including spaces)
+
+        System.out.println("You entered: " + num + ", " + word + ", and \"" + sentence + "\"");
+    }
+}
+```
+---
+
+### 2.3 Conditional Statements
 - **If-Else:** Conditional execution
 - **Switch:** Multi-way branching
 - **Loops:**
@@ -257,10 +294,228 @@ System.out.println(matrix[1][2]); // Output: 6
   - **While:** Condition-based
   - **Do-While:** Executes at least once
 
+**Break and Continue:**
+- **`break`:** Exits the current loop or switch statement immediately.
+  ```java
+  for (int i = 0; i < 5; i++) {
+      if (i == 3) break; // Exits loop when i is 3
+      System.out.println(i);
+  }
+  ```
+- **`continue`:** Skips the current iteration and moves to the next one.
+  ```java
+  for (int i = 0; i < 5; i++) {
+      if (i == 3) continue; // Skips when i is 3
+      System.out.println(i);
+  }
+  ```
 ---
 
 ### 2.4 Keywords: `static`, `final`
-- **`static`:** Belongs to class, not instance
-- **`final`:** Declares constants, prevents inheritance/overriding
 
+**`static`:**
+- Belongs to the class rather than an instance.
+- Can be applied to variables, methods, and blocks.
+- Example:
+  ```java
+  class Example {
+      static int count = 0; // Shared among all objects
+
+      static void displayCount() {
+          System.out.println("Count: " + count);
+      }
+  }
+  ```
+
+**`final`:**
+- Used to declare constants, prevent inheritance, or prevent method overriding.
+- **Final Variable:** Value cannot be changed after initialization.
+  ```java
+  final int MAX = 100;
+  ```
+- **Final Method:** Cannot be overridden by subclasses.
+  ```java
+  class Parent {
+      final void show() {
+          System.out.println("This is a final method.");
+      }
+  }
+  ```
+- **Final Class:** Cannot be extended by other classes.
+  ```java
+  final class Example {
+      // Class content
+  }
+  ```
+  - Naming convention: Use uppercase letters with underscores (e.g., `PI`, `MAX_VALUE`).
+
+  ---
+
+## 3. Exception Handling
+
+**What is Exception Handling?**
+- Mechanism to handle runtime errors and maintain normal program flow.
+- Exceptions are unexpected events that disrupt program execution.
+
+**Throwable:**
+- `Throwable` is the superclass for all errors and exceptions in Java.
+- It has two main subclasses:
+  - **`Exception`:** Used for recoverable conditions (e.g., file not found).
+  - **`Error`:** Used for serious issues that the application cannot handle (e.g., OutOfMemoryError).
+
+**Hierarchy Diagram:**
+```
+Throwable
+ ├── Exception
+ │    ├── IOException
+ │    ├── SQLException
+ │    └── RuntimeException
+ │         ├── NullPointerException
+ │         └── ArithmeticException
+ └── Error
+      ├── OutOfMemoryError
+      └── StackOverflowError
+```
+- Common methods in `Throwable`:
+  - `getMessage()`: Returns the error message.
+  - `printStackTrace()`: Prints the stack trace of the exception.
+
+**Checked vs Unchecked Exceptions:**
+- **Checked Exceptions:**
+  - Checked at compile-time.
+  - Must be handled using `try-catch` or declared with `throws`.
+  - Example:
+    ```java
+    import java.io.*;
+
+    public class CheckedExample {
+        public static void main(String[] args) {
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("file.txt"));
+                System.out.println(br.readLine());
+            } catch (IOException e) {
+                System.out.println("Checked Exception: " + e.getMessage());
+            }
+        }
+    }
+    ```
+    **Explanation:**
+    - The `BufferedReader` tries to read a file named `file.txt`.
+    - If the file does not exist, an `IOException` is thrown.
+    - The `catch` block handles the exception and prints an error message.
+
+- **Unchecked Exceptions:**
+  - Occur at runtime.
+  - Not required to be handled explicitly.
+  - Example:
+    ```java
+    public class UncheckedExample {
+        public static void main(String[] args) {
+            try {
+                int result = 10 / 0; // Throws ArithmeticException
+            } catch (ArithmeticException e) {
+                System.out.println("Unchecked Exception: " + e.getMessage());
+            }
+        }
+    }
+    ```
+    **Explanation:**
+    - The code attempts to divide 10 by 0, which is not allowed.
+    - An `ArithmeticException` is thrown and caught in the `catch` block.
+
+**Keywords:**
+- **`try`:** Defines a block of code to test for exceptions.
+- **`catch`:** Defines a block of code to handle the exception.
+- **`finally`:** Defines a block of code that always executes (optional).
+- **`throw`:** Used to explicitly throw an exception.
+  - Example:
+    ```java
+    public class ThrowExample {
+        public static void main(String[] args) {
+            throw new IllegalArgumentException("Invalid argument");
+        }
+    }
+    ```
+    **Explanation:**
+    - The `throw` keyword explicitly throws an `IllegalArgumentException` with a custom message.
+    - The program terminates unless the exception is caught.
+
+- **`throws`:** Declares exceptions that a method can throw.
+  - Example:
+    ```java
+    public class ThrowsExample {
+        public static void main(String[] args) throws Exception {
+            method();
+        }
+
+        static void method() throws Exception {
+            throw new Exception("An error occurred");
+        }
+    }
+    ```
+    **Explanation:**
+    - The `throws` keyword declares that the `method` can throw an `Exception`.
+    - The `main` method calls `method` and must handle or declare the exception.
+
+**Try-with-Resources (Java 7+):**
+- Used to automatically close resources (e.g., files, streams) after use.
+- Syntax:
+  ```java
+  try (ResourceType resource = new ResourceType()) {
+      // Use the resource
+  } catch (Exception e) {
+      e.printStackTrace();
+  }
+  ```
+- Example:
+  ```java
+  import java.io.*;
+
+  public class TryWithResourcesExample {
+      public static void main(String[] args) {
+          try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+              System.out.println(br.readLine());
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+      }
+  }
+  ```
+  **Explanation:**
+  - The `try-with-resources` block ensures that the `BufferedReader` is closed automatically after use.
+  - If an `IOException` occurs while reading the file, it is caught and handled in the `catch` block.
 ---
+
+## 4. Methods/Functions
+
+**What are Methods?**
+- A block of code designed to perform a specific task.
+- Helps in code reusability and modularity.
+
+**Syntax:**
+```java
+returnType methodName(parameters) {
+    // Method body
+    return value; // Optional
+}
+```
+
+**Example:**
+```java
+public class MethodExample {
+    public static void main(String[] args) {
+        int result = add(5, 10); // Calling the method
+        System.out.println("Sum: " + result);
+    }
+
+    static int add(int a, int b) { // Method definition
+        return a + b;
+    }
+}
+```
+
+**Key Points:**
+- **Static Methods:** Belong to the class, can be called without creating an object.
+- **Instance Methods:** Belong to an object, require an object to be called.
+- **Parameters:** Values passed to methods.
+- **Return Type:** Specifies the type of value the method returns (use `void` if no value is returned).
