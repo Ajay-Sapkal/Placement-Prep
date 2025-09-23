@@ -90,6 +90,7 @@ public class Main {
         pen1.write();
     }
 }
+```
 
 **Output:**
 ```
@@ -119,6 +120,7 @@ public class Main {
         s1.printInfo();
     }
 }
+```
 
 **Output:**
 ```
@@ -194,6 +196,7 @@ class Student {
 
 // Usage
 Student s1 = new Student();
+```
 
 **Output:**
 ```
@@ -310,6 +313,7 @@ Calculator calc = new Calculator();
 System.out.println(calc.add(5, 10));           // Calls add(int, int)
 System.out.println(calc.add(5.5, 10.5));       // Calls add(double, double)
 System.out.println(calc.add(1, 2, 3));         // Calls add(int, int, int)
+```
 
 **Output:**
 ```
@@ -358,7 +362,16 @@ public class TestPolymorphism {
         a = new Dog();
         a.sound(); // Dog's sound()
         a = new Cat();
-        a.sound(); // Cat's sound()
+                a.sound(); // Cat's sound()
+    }
+}
+```
+
+**Output:**
+```
+Dog barks
+Cat meows
+```
     }
 }
 ```
@@ -417,6 +430,7 @@ class Triangle extends Shape {
 Triangle t1 = new Triangle();
 t1.color = "Red";  // Inherited from Shape
 t1.area(10, 5);    // Triangle's own method
+```
 
 **Output:**
 ```
@@ -476,6 +490,7 @@ class EquilateralTriangle extends Triangle {
 // Usage
 EquilateralTriangle et = new EquilateralTriangle();
 et.area(6);
+```
 
 **Output:**
 ```
@@ -519,6 +534,7 @@ Triangle t = new Triangle();
 Circle c = new Circle();
 t.area();
 c.area();
+```
 
 **Output:**
 ```
@@ -630,6 +646,7 @@ public class Main {
         acc1.display();
     }
 }
+```
 
 **Output:**
 ```
@@ -729,6 +746,7 @@ public class Account {
 Account acc = new Account();
 acc.setPassword("abc123");
 System.out.println(acc.getPassword());
+```
 
 **Output:**
 ```
@@ -830,8 +848,15 @@ h1.eat();   // Calls Animal's implementation
 ```
 **Output:**
 ```
+h1.walk();  // Calls Horse's implementation
+h1.eat();   // Calls Animal's implementation
+```
+
+**Output:**
+```
 Horse walks on four legs
 Animal eats
+```
 ```
 
 #### Properties of Abstract Classes
@@ -872,6 +897,7 @@ Horse h = new Horse();
 h.walk();
 h.eat();
 System.out.println("Legs: " + Animal.LEGS);
+```
 
 **Output:**
 ```
@@ -883,8 +909,9 @@ Legs: 4
 #### Method Types in Interfaces
 
 1. **Normal (Abstract) Methods**: 
-   - `public abstract` by default (no modifier needed)
+   - public abstract` by default (no modifier needed)
    - Must be implemented by classes
+   
    ```java
    interface A {
        void show();  // same as public abstract void show();
@@ -958,6 +985,7 @@ class Horse implements Animal, Herbivore {
 Horse h = new Horse();
 h.walk();
 h.eatPlants();
+```
 
 **Output:**
 ```
@@ -992,6 +1020,12 @@ interface Calculator {
 // Usage with lambda expression
 Calculator add = (a, b) -> a + b;
 System.out.println(add.calculate(5, 3));  // Output: 8
+```
+
+**Output:**
+```
+8
+```
 ```
 
 **Common Functional Interfaces:**
@@ -1040,6 +1074,7 @@ Student s2 = new Student("Jane");
 
 System.out.println(s1.school);  // ABC School
 System.out.println(s2.school);  // ABC School (same for all objects)
+```
 
 **Output:**
 ```
@@ -1065,6 +1100,7 @@ int result = MathUtils.add(5, 3);  // No object needed
 int product = MathUtils.multiply(4, 6);
 System.out.println("Result: " + result);
 System.out.println("Product: " + product);
+```
 
 **Output:**
 ```
@@ -1086,6 +1122,7 @@ class Database {
 
 // Usage
 Database db = new Database();  // Static block executes
+```
 
 **Output:**
 ```
@@ -1208,7 +1245,14 @@ System.out.println(s);  // Calls toString() automatically
 
 **Output:**
 ```
+s.age = 20;
+System.out.println(s);  // Calls toString() automatically
+```
+
+**Output:**
+```
 Student[name=John, age=20]
+```
 ```
 
 #### 2. equals()
