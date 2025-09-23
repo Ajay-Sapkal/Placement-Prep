@@ -1,19 +1,21 @@
 # Object-Oriented Programming (OOPs) - Complete Notes
 
 ## Table of Contents
-1. [Introduction to OOPs](#introduction-to-oops)
-2. [Classes and Objects](#classes-and-objects)
-3. [Access Modifiers](#access-modifiers)
-4. [Encapsulation](#encapsulation)
-5. [Constructors](#constructors)
-6. [this Pointer](#this-pointer)
-7. [Copy Constructor (Shallow vs Deep Copy)](#copy-constructor-shallow-vs-deep-copy)
-8. [Destructor](#destructor)
-9. [Inheritance](#inheritance)
-10. [Polymorphism](#polymorphism)
-11. [Abstraction](#abstraction)
-12. [Static Keyword](#static-keyword)
-13. [Friend Functions and Friend Classes](#friend-functions-and-friend-classes)
+1. [Introduction to OOPs](#1-introduction-to-oops)
+2. [Classes and Objects](#2-classes-and-objects)
+3. [Access Modifiers](#3-access-modifiers)
+4. [Encapsulation](#4-encapsulation)
+5. [Constructors](#5-constructors)
+6. [this Pointer](#6-this-pointer)
+7. [Copy Constructor (Shallow vs Deep Copy)](#7-copy-constructor-shallow-vs-deep-copy)
+8. [Destructor](#8-destructor)
+9. [Inheritance](#9-inheritance)
+10. [Polymorphism](#10-polymorphism)
+11. [Abstraction](#11-abstraction)
+12. [Static Keyword](#12-static-keyword)
+13. [Friend Functions and Friend Classes](#13-friend-functions-and-friend-classes)
+14. [Key Interview Questions](#key-interview-questions)
+15. [Best Practices](#best-practices)
 
 ---
 
