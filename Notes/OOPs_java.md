@@ -193,10 +193,11 @@ class Student {
         System.out.println("Constructor called");
     }
 }
-
-// Usage
-Student s1 = new Student();
 ```
+
+**Usage:**
+```java
+Student s1 = new Student();
 
 **Output:**
 ```
@@ -215,10 +216,11 @@ class Student {
         this.age = age;
     }
 }
-
-// Usage
-Student s1 = new Student("Aman", 20);
 ```
+
+**Usage:**
+```java
+Student s1 = new Student("Aman", 20);
 
 #### 3. Copy Constructor
 ```java
@@ -232,13 +234,16 @@ class Student {
         this.age = other.age;
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 Student s1 = new Student("Aman", 20);
 Student s2 = new Student(s1);  // Copy constructor
 ```
 
 ### Constructor Overloading
+
 ```java
 class Student {
     String name;
@@ -307,12 +312,14 @@ class Calculator {
         return a + b + c;
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 Calculator calc = new Calculator();
 System.out.println(calc.add(5, 10));           // Calls add(int, int)
 System.out.println(calc.add(5.5, 10.5));       // Calls add(double, double)
-System.out.println(calc.add(1, 2, 3));         // Calls add(int, int, int)
+System.out.println(calc.add(1, 2, 3));         // Calls add(int, int, int);
 ```
 
 **Output:**
@@ -425,8 +432,10 @@ class Triangle extends Shape {
         System.out.println("Area: " + (0.5 * length * height));
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 Triangle t1 = new Triangle();
 t1.color = "Red";  // Inherited from Shape
 t1.area(10, 5);    // Triangle's own method
@@ -486,11 +495,12 @@ class EquilateralTriangle extends Triangle {
         System.out.println("Equilateral triangle area: " + (0.5 * length * length));
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 EquilateralTriangle et = new EquilateralTriangle();
 et.area(6);
-```
 
 **Output:**
 ```
@@ -528,13 +538,14 @@ class Circle extends Shape {
         System.out.println("Circle area calculation");
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 Triangle t = new Triangle();
 Circle c = new Circle();
 t.area();
 c.area();
-```
 
 **Output:**
 ```
@@ -741,12 +752,13 @@ public class Account {
         this.password = password;
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 Account acc = new Account();
 acc.setPassword("abc123");
 System.out.println(acc.getPassword());
-```
 
 **Output:**
 ```
@@ -839,7 +851,11 @@ class Horse extends Animal {
     }
 }
 
-// Usage
+}
+```
+
+**Usage:**
+```java
 Animal h1 = new Horse();  // Can create Horse object
 // Animal a1 = new Animal();  // ERROR: Cannot instantiate abstract class
 h1.walk();  // Calls Horse's implementation
@@ -891,13 +907,14 @@ class Horse implements Animal {
         System.out.println("Horse eats grass");
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 Horse h = new Horse();
 h.walk();
 h.eat();
 System.out.println("Legs: " + Animal.LEGS);
-```
 
 **Output:**
 ```
@@ -980,12 +997,13 @@ class Horse implements Animal, Herbivore {
         System.out.println("Horse eats plants");
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 Horse h = new Horse();
 h.walk();
 h.eatPlants();
-```
 
 **Output:**
 ```
@@ -1065,8 +1083,10 @@ class Student {
         this.name = name;
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 Student.school = "ABC School";  // Access without object
 
 Student s1 = new Student("John");
@@ -1074,7 +1094,6 @@ Student s2 = new Student("Jane");
 
 System.out.println(s1.school);  // ABC School
 System.out.println(s2.school);  // ABC School (same for all objects)
-```
 
 **Output:**
 ```
@@ -1094,14 +1113,16 @@ class MathUtils {
         return a * b;
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 int result = MathUtils.add(5, 3);  // No object needed
 int product = MathUtils.multiply(4, 6);
 System.out.println("Result: " + result);
 System.out.println("Product: " + product);
-```
 
+```
 **Output:**
 ```
 Result: 8
@@ -1119,8 +1140,10 @@ class Database {
         System.out.println("Database connection initialized");
     }
 }
+```
 
-// Usage
+**Usage:**
+```java
 Database db = new Database();  // Static block executes
 ```
 
@@ -1253,7 +1276,7 @@ System.out.println(s);  // Calls toString() automatically
 ```
 Student[name=John, age=20]
 ```
-```
+
 
 #### 2. equals()
 ```java
