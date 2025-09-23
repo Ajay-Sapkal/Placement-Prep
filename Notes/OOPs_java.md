@@ -12,6 +12,8 @@
 9. [Encapsulation](#9-encapsulation)
 10. [Abstraction](#10-abstraction)
 11. [Static Keyword](#11-static-keyword)
+12. [final Keyword](#12-final-keyword)
+13. [Object Class Methods](#13-object-class-methods)
 
 ---
 
@@ -259,25 +261,11 @@ class Student {
 ### Important Notes
 - If no constructor is defined, Java automatically provides a default constructor
 - Once you define any constructor, Java doesn't provide default constructor automatically
-- Copy constructors in Java are user-defined (unlike C++ where they're automatic)
+- **Copy Constructor**: Creates object from another object (user-defined in Java, unlike C++)
 
-### Why Java Doesn't Have Destructors
+### Java Destructors
 
-Unlike C++, Java doesn't have destructors because:
-
-1. **Automatic Garbage Collection**: Java has a built-in garbage collector that automatically deallocates memory for unused objects
-2. **No Manual Cleanup**: Objects are automatically cleaned up when they're no longer referenced
-3. **Memory Safety**: Prevents memory leaks and makes programming easier
-
-```java
-// No destructor needed in Java
-class Student {
-    Student(String name) {
-        System.out.println("Student created: " + name);
-    }
-    // Garbage collector handles cleanup automatically
-}
-```
+**Java doesn't have destructors; Garbage Collection handles memory automatically.**
 
 **Interview Answer**: "Java doesn't have destructors because it has automatic garbage collection that handles memory management automatically."
 
@@ -384,7 +372,13 @@ Cat meows
 - The reference variable `a` is of type `Animal`, but at runtime it points to a `Dog` or `Cat` object.
 - The overridden method in the actual object is called, demonstrating runtime polymorphism.
 - Method is determined at runtime, not compile time
-- More dangerous as errors occur during execution
+- Runtime polymorphism is safer than casting as it avoids ClassCastException
+
+**Note:** Runtime polymorphism can also be achieved with interfaces:
+```java
+Animal a = new Dog();  // Interface reference to implementation
+a.sound();  // Calls Dog's implementation
+```
 
 ---
 
@@ -550,6 +544,29 @@ Circle area calculation
 - Uses `super()` keyword to call parent constructor
 - `super()` must be first statement if used explicitly
 - Execution order: Parent → Child
+
+### Access Modifiers in Inheritance
+
+1. **Private members**: Cannot be inherited (not accessible in subclass)
+2. **Protected members**: Inherited and accessible in subclass
+3. **Public members**: Inherited and accessible everywhere
+4. **Default (package-private)**: Inherited only if subclass is in same package
+
+```java
+class Parent {
+    private int a = 10;    // Not inherited
+    protected int b = 20;  // Inherited, accessible in subclass
+    public int c = 30;     // Inherited, accessible everywhere
+}
+
+class Child extends Parent {
+    void show() {
+        // System.out.println(a);  // ERROR: Cannot access private
+        System.out.println(b);     // OK: Can access protected
+        System.out.println(c);     // OK: Can access public
+    }
+}
+```
 
 ---
 
@@ -783,9 +800,9 @@ public class BankAccount {
 - Fourth pillar of OOPs
 - Focus on "what" an object does, not "how" it does it
 
-### Difference: Abstraction vs Encapsulation
-- **Abstraction**: Hiding implementation details (complexity hiding)
-- **Encapsulation**: Hiding data (data hiding)
+### Key Difference
+- **Abstraction**: Hiding implementation details (what to do)
+- **Encapsulation**: Hiding data (how it's stored)
 
 ### Implementation Methods
 
@@ -825,8 +842,12 @@ Animal eats
 1. **Cannot be instantiated** (cannot create objects)
 2. **Can have constructors** (called by subclass constructors)
 3. **Can have both abstract and normal methods**
-4. **Must be extended** by concrete classes
-5. **Subclasses must implement all abstract methods**
+4. **Can have final, static, and non-final variables**
+5. **Can implement interfaces**
+6. **Cannot be declared final** (final classes cannot be extended)
+7. **Must be extended** by concrete classes
+8. **Subclasses must implement all abstract methods**
+9. **Abstract class reference can point to subclass object** (`Animal a = new Horse()`)
 
 #### 2. Interfaces
 ```java
@@ -864,13 +885,58 @@ Legs: 4
 ```
 ```
 
-#### Properties of Interfaces
-1. **All methods are abstract by default** (public abstract)
-2. **All variables are constants** (public static final)
-3. **Cannot have constructors**
-4. **Supports multiple inheritance**
-5. **Classes implement interfaces using `implements` keyword**
-6. **Multiple inheritance is only possible using interfaces** (not with classes)
+#### Method Types in Interfaces
+
+1. **Normal (Abstract) Methods**: 
+   - `public abstract` by default (no modifier needed)
+   - Must be implemented by classes
+   ```java
+   interface A {
+       void show();  // same as public abstract void show();
+   }
+   ```
+
+2. **Default Methods** (Java 8+): 
+   - Use `default` keyword, always `public`
+   - Provide implementation in interface itself
+   - default keyword is not an access modifier, it just provides a body. All default methods are implicitly public.
+   ```java
+   interface A {
+       default void hello() {
+           System.out.println("Hello from default method");
+       }
+   }
+   ```
+
+3. **Static Methods** (Java 8+): 
+   - Use `static` keyword, always `public`
+   - Called using interface name
+   ```java
+   interface A {
+       static void info() {
+           System.out.println("Static method in interface");
+       }
+   }
+   // Call: A.info();
+   ```
+
+4. **Private Methods** (Java 9+): 
+   - Use `private` keyword, only for internal use
+   - Support code reusability within interface
+   - Java 9+ also allows private static methods inside interfaces.
+   ```java
+   interface A {
+       private void helper() {
+           System.out.println("Helper method");
+       }
+       
+       default void show() {
+           helper();  // allowed
+       }
+   }
+   ```
+
+5. **Restrictions**: Cannot use `protected` or package-private modifiers
 
 #### Multiple Inheritance with Interfaces
 ```java
@@ -904,6 +970,41 @@ Horse walks
 Horse eats plants
 ```
 ```
+
+#### Properties of Interfaces
+1. **Normal methods are abstract by default** (public abstract)
+2. **All variables are constants** (public static final)
+3. **Cannot have constructors**
+4. **Supports multiple inheritance**
+5. **Classes implement interfaces using `implements` keyword**
+6. **Multiple inheritance is only possible using interfaces** (not with classes)
+7. **Can have method bodies using `default`, `static`, or `private` methods** (Java 8+/9+)
+
+### Functional Interfaces (Java 8+)
+
+**Definition**: Interface with exactly one abstract method (can have default/static methods)
+
+```java
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);  // Only one abstract method
+    
+    // Can have default methods
+    default void show() {
+        System.out.println("Calculator interface");
+    }
+}
+
+// Usage with lambda expression
+Calculator add = (a, b) -> a + b;
+System.out.println(add.calculate(5, 3));  // Output: 8
+```
+
+**Common Functional Interfaces:**
+- `Runnable` - `run()`
+- `Predicate<T>` - `test(T t)`
+- `Function<T,R>` - `apply(T t)`
+- `Consumer<T>` - `accept(T t)`
 
 ### Abstract Class vs Interface
 
@@ -1000,42 +1101,195 @@ Database connection initialized
 ```
 ```
 
-### Properties of Static Members
+### Properties & Usage of Static Members
+
+**Properties:**
 1. **Class Level**: Belong to class, not objects
 2. **Single Copy**: Only one copy exists in memory
 3. **Early Loading**: Loaded when class is first accessed
 4. **Direct Access**: Can be accessed using class name
 5. **Shared**: Same value for all objects
 
-### Static Method Restrictions
-- **Cannot access instance variables directly**
-- **Cannot call non-static methods directly**
-- **Cannot use `this` or `super` keywords**
+**Restrictions:**
+- Cannot access instance variables directly
+- Cannot call non-static methods directly  
+- Cannot use `this` or `super` keywords
 
+**Memory Management:**
+- Static members: Method Area (shared memory)
+- Instance members: Heap (separate for each object)
+
+**When to Use:**
+- Utility methods, constants, counters, factory methods, main method
+
+**Static Final Constants:**
+```java
+class Constants {
+    public static final int MAX_SIZE = 100;
+    public static final String APP_NAME = "MyApp";
+}
+```
+
+**Static Import** (Optional):
+```java
+import static java.lang.Math.*;
+// Now use: PI instead of Math.PI, sqrt(16) instead of Math.sqrt(16)
+```
+
+---
+
+## 12. final Keyword
+
+### Definition
+- **final** = Cannot be changed/modified once initialized
+- Used with variables, methods, and classes
+
+### Types of final
+
+#### 1. Final Variables (Constants)
 ```java
 class Example {
-    int instanceVar = 10;
-    static int staticVar = 20;
+    final int x = 10;        // Must initialize
+    static final int Y = 20; // Constant
     
-    static void staticMethod() {
-        System.out.println(staticVar);        // OK
-        // System.out.println(instanceVar);  // ERROR
-        // System.out.println(this.instanceVar); // ERROR
+    void test() {
+        // x = 15;  // ERROR: Cannot modify final variable
     }
 }
 ```
 
-### Memory Management
-- **Static members**: Allocated in Method Area (shared memory)
-- **Instance members**: Allocated in Heap (separate for each object)
-- **Memory efficient**: Static members save memory when data is common
+#### 2. Final Methods
+```java
+class Parent {
+    final void display() {
+        System.out.println("Cannot be overridden");
+    }
+}
 
-### When to Use Static
-1. **Utility methods**: Mathematical operations, string utilities
-2. **Constants**: Values that don't change (final static)
-3. **Counters**: Count total objects created
-4. **Factory methods**: Create and return objects
-5. **Main method**: Entry point of program (must be static)
+class Child extends Parent {
+    // void display() { }  // ERROR: Cannot override final method
+}
+```
+
+#### 3. Final Classes
+```java
+final class Utility {
+    // Class methods
+}
+
+// class MyUtil extends Utility { }  // ERROR: Cannot extend final class
+```
+
+### Properties
+- **Final variables**: Must be initialized, cannot be reassigned
+- **Final methods**: Cannot be overridden by subclasses
+- **Final classes**: Cannot be extended (e.g., String, Integer)
+- **Best practice**: Use for constants (`public static final`)
+
+---
+
+## 13. Object Class Methods
+
+### Definition
+- **Object class** is the root class of all Java classes
+- Every class directly or indirectly extends Object class
+- Provides common methods available to all objects
+
+### Important Object Class Methods
+
+#### 1. toString()
+```java
+class Student {
+    String name;
+    int age;
+    
+    // Override toString()
+    public String toString() {
+        return "Student[name=" + name + ", age=" + age + "]";
+    }
+}
+
+Student s = new Student();
+s.name = "John";
+s.age = 20;
+System.out.println(s);  // Calls toString() automatically
+```
+
+**Output:**
+```
+Student[name=John, age=20]
+```
+
+#### 2. equals()
+```java
+class Student {
+    String name;
+    int age;
+    
+    // Override equals()
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Student student = (Student) obj;
+        return age == student.age && name.equals(student.name);
+    }
+}
+
+Student s1 = new Student("John", 20);
+Student s2 = new Student("John", 20);
+System.out.println(s1.equals(s2));  // true
+```
+
+#### 3. hashCode()
+```java
+class Student {
+    String name;
+    int age;
+    
+    // Override hashCode() - should be consistent with equals()
+    public int hashCode() {
+        return name.hashCode() + age;
+    }
+}
+```
+
+#### 4. getClass()
+```java
+Student s = new Student();
+Class<?> cls = s.getClass();
+System.out.println(cls.getName());  // Output: Student
+```
+
+#### 5. clone()
+- it performs shallow copy by default.
+```java
+class Student implements Cloneable {
+    String name;
+    int age;
+    
+    public Student clone() throws CloneNotSupportedException {
+        return (Student) super.clone();
+    }
+}
+```
+
+### Key Rules
+- **toString()**: Return string representation of object
+- **equals()**: Compare objects for equality (override with hashCode())
+- **hashCode()**: Return hash value (must override if equals() is overridden)
+- **getClass()**: Return runtime class of object
+- **clone()**: Create copy of object (implement Cloneable interface)
+
+---
+
+## OOP Pillars Comparison Table
+
+| Pillar | Definition | Example | Purpose |
+|--------|------------|---------|---------|
+| **Encapsulation** | Bundling data and methods together, hiding internal details | Private variables with getter/setter methods | Data security and controlled access |
+| **Inheritance** | Child class inherits properties from parent class | `class Dog extends Animal` | Code reusability and IS-A relationship |
+| **Polymorphism** | Same interface, different implementations | Method overriding, interface implementations | Flexibility and runtime behavior |
+| **Abstraction** | Hiding implementation details, showing only essential features | Abstract classes, interfaces | Simplicity and focusing on what, not how |
 
 ---
 
