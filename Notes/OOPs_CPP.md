@@ -1,4 +1,4 @@
-# Object-Oriented Programming (OOPs) - Complete Notes
+# Object-Oriented Programming (OOPs) - CPP
 
 ## Table of Contents
 1. [Introduction to OOPs](#1-introduction-to-oops)
