@@ -1,5 +1,6 @@
 # Object-Oriented Programming (OOPs) in Java - Complete Notes
 
+
 ## Table of Contents
 1. [Introduction to OOPs](#1-introduction-to-oops)
 2. [Classes and Objects](#2-classes-and-objects)
@@ -14,6 +15,10 @@
 11. [Static Keyword](#11-static-keyword)
 12. [final Keyword](#12-final-keyword)
 13. [Object Class Methods](#13-object-class-methods)
+14. [OOP Pillars Comparison Table](#oop-pillars-comparison-table)
+15. [Key Interview Questions](#key-interview-questions)
+16. [Best Practices](#best-practices)
+17. [Summary](#summary)
 
 ---
 
@@ -835,7 +840,6 @@ h1.eat();   // Calls Animal's implementation
 ```
 Horse walks on four legs
 Animal eats
-```
 ```
 
 #### Properties of Abstract Classes
