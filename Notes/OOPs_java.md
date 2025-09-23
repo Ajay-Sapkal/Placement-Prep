@@ -95,7 +95,6 @@ public class Main {
 ```
 Writing something
 ```
-```
 
 ### Student Class Example
 ```java
@@ -124,7 +123,6 @@ public class Main {
 **Output:**
 ```
 Aman 20
-```
 ```
 
 ### Key Points
@@ -200,7 +198,6 @@ Student s1 = new Student();
 **Output:**
 ```
 Constructor called
-```
 ```
 
 #### 2. Parameterized Constructor
@@ -323,7 +320,6 @@ Two doubles
 Three integers
 6
 ```
-```
 
 #### Function Overloading Rules
 For function overloading to work, functions must have:
@@ -426,7 +422,6 @@ t1.area(10, 5);    // Triangle's own method
 ```
 Area: 25.0
 ```
-```
 
 ### Types of Inheritance
 
@@ -486,7 +481,6 @@ et.area(6);
 ```
 Equilateral triangle area: 18.0
 ```
-```
 
 #### 3. Hierarchical Inheritance
 ```
@@ -530,7 +524,6 @@ c.area();
 ```
 Triangle area calculation
 Circle area calculation
-```
 ```
 
 #### 4. Hybrid Inheritance
@@ -642,7 +635,6 @@ public class Main {
 ```
 Account holder: Customer1
 ```
-```
 
 ---
 
@@ -742,7 +734,6 @@ System.out.println(acc.getPassword());
 ```
 abc123
 ```
-```
 
 ---
 
@@ -836,6 +827,7 @@ Animal h1 = new Horse();  // Can create Horse object
 h1.walk();  // Calls Horse's implementation
 h1.eat();   // Calls Animal's implementation
 
+```
 **Output:**
 ```
 Horse walks on four legs
@@ -886,7 +878,6 @@ System.out.println("Legs: " + Animal.LEGS);
 Horse walks
 Horse eats grass
 Legs: 4
-```
 ```
 
 #### Method Types in Interfaces
@@ -973,7 +964,6 @@ h.eatPlants();
 Horse walks
 Horse eats plants
 ```
-```
 
 #### Properties of Interfaces
 1. **Normal methods are abstract by default** (public abstract)
@@ -1056,7 +1046,6 @@ System.out.println(s2.school);  // ABC School (same for all objects)
 ABC School
 ABC School
 ```
-```
 
 #### 2. Static Methods
 ```java
@@ -1082,7 +1071,6 @@ System.out.println("Product: " + product);
 Result: 8
 Product: 24
 ```
-```
 
 #### 3. Static Blocks
 ```java
@@ -1102,7 +1090,6 @@ Database db = new Database();  // Static block executes
 **Output:**
 ```
 Database connection initialized
-```
 ```
 
 ### Properties & Usage of Static Members
