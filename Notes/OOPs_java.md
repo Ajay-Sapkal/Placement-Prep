@@ -222,6 +222,7 @@ class Student {
 **Usage:**
 ```java
 Student s1 = new Student("Aman", 20);
+```
 
 #### 3. Copy Constructor
 ```java
@@ -380,9 +381,6 @@ public class TestPolymorphism {
 Dog barks
 Cat meows
 ```
-    }
-}
-```
 
 **Output:**
 ```
@@ -502,7 +500,7 @@ class EquilateralTriangle extends Triangle {
 ```java
 EquilateralTriangle et = new EquilateralTriangle();
 et.area(6);
-
+```
 **Output:**
 ```
 Equilateral triangle area: 18.0
@@ -547,6 +545,7 @@ Triangle t = new Triangle();
 Circle c = new Circle();
 t.area();
 c.area();
+```
 
 **Output:**
 ```
@@ -760,6 +759,7 @@ public class Account {
 Account acc = new Account();
 acc.setPassword("abc123");
 System.out.println(acc.getPassword());
+```
 
 **Output:**
 ```
@@ -861,8 +861,8 @@ Animal h1 = new Horse();  // Can create Horse object
 // Animal a1 = new Animal();  // ERROR: Cannot instantiate abstract class
 h1.walk();  // Calls Horse's implementation
 h1.eat();   // Calls Animal's implementation
-
 ```
+
 **Output:**
 ```
 h1.walk();  // Calls Horse's implementation
@@ -873,7 +873,6 @@ h1.eat();   // Calls Animal's implementation
 ```
 Horse walks on four legs
 Animal eats
-```
 ```
 
 #### Properties of Abstract Classes
@@ -916,7 +915,7 @@ Horse h = new Horse();
 h.walk();
 h.eat();
 System.out.println("Legs: " + Animal.LEGS);
-
+```
 **Output:**
 ```
 Horse walks
@@ -1005,6 +1004,7 @@ class Horse implements Animal, Herbivore {
 Horse h = new Horse();
 h.walk();
 h.eatPlants();
+```
 
 **Output:**
 ```
@@ -1044,7 +1044,6 @@ System.out.println(add.calculate(5, 3));  // Output: 8
 **Output:**
 ```
 8
-```
 ```
 
 **Common Functional Interfaces:**
@@ -1095,6 +1094,7 @@ Student s2 = new Student("Jane");
 
 System.out.println(s1.school);  // ABC School
 System.out.println(s2.school);  // ABC School (same for all objects)
+```
 
 **Output:**
 ```
