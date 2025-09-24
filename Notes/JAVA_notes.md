@@ -231,7 +231,7 @@ int[][] matrix = {
 System.out.println(matrix[1][2]); // Output: 6
 ```
 
-**Note:** Unlike Strings, arrays in Java are mutable. You can modify their elements after creation, but their size cannot be changed.
+  **Note:** Unlike Strings, arrays in Java are mutable. You can modify their elements after creation, but their size cannot be changed.
 ---
 
 ### Casting in Java
