@@ -382,12 +382,6 @@ Dog barks
 Cat meows
 ```
 
-**Output:**
-```
-Dog barks
-Cat meows
-```
-
 **Explanation:**
 - The reference variable `a` is of type `Animal`, but at runtime it points to a `Dog` or `Cat` object.
 - The overridden method in the actual object is called, demonstrating runtime polymorphism.
@@ -1250,94 +1244,168 @@ final class Utility {
 ### Important Object Class Methods
 
 #### 1. toString()
+**Purpose:** Returns a string representation of the object. By default, it returns the class name followed by @ and the hexadecimal hashcode.
+
 ```java
 class Student {
     String name;
     int age;
     
-    // Override toString()
-    public String toString() {
-        return "Student[name=" + name + ", age=" + age + "]";
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 }
 
-Student s = new Student();
-s.name = "John";
-s.age = 20;
-System.out.println(s);  // Calls toString() automatically
+Student s = new Student("Alice", 20);
+System.out.println(s.toString());  // Default Object toString()
+System.out.println(s);             // Automatically calls toString()
 ```
 
 **Output:**
 ```
-s.age = 20;
-System.out.println(s);  // Calls toString() automatically
+Student@15db9742
+Student@15db9742
 ```
 
-**Output:**
-```
-Student[name=John, age=20]
-```
+**Note:** You can override toString() to provide meaningful output, but by default it shows class@hashcode.
 
 
 #### 2. equals()
+**Purpose:** Compares two objects for equality. By default, it checks reference equality (same object in memory), not content equality.
+
 ```java
 class Student {
     String name;
     int age;
     
-    // Override equals()
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Student student = (Student) obj;
-        return age == student.age && name.equals(student.name);
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 }
 
 Student s1 = new Student("John", 20);
 Student s2 = new Student("John", 20);
-System.out.println(s1.equals(s2));  // true
+Student s3 = s1;
+
+System.out.println(s1.equals(s2));  // false (different objects)
+System.out.println(s1.equals(s3));  // true (same reference)
+System.out.println(s1 == s2);       // false (reference comparison)
+System.out.println(s1 == s3);       // true (same reference)
 ```
 
+**Output:**
+```
+false
+true
+false
+true
+```
+
+**Note:** Default equals() only returns true if both references point to the same object. Override it to compare object contents.
+
 #### 3. hashCode()
+**Purpose:** Returns an integer hash code value for the object. Used in hash-based collections like HashMap, HashSet. Default implementation typically returns a hash based on the object's memory address.
+
 ```java
 class Student {
     String name;
     int age;
     
-    // Override hashCode() - should be consistent with equals()
-    public int hashCode() {
-        return name.hashCode() + age;
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 }
+
+Student s1 = new Student("Alice", 20);
+Student s2 = new Student("Alice", 20);
+Student s3 = s1;
+
+System.out.println(s1.hashCode());  // Some integer (e.g., 366712642)
+System.out.println(s2.hashCode());  // Different integer (e.g., 1829164700)
+System.out.println(s3.hashCode());  // Same as s1 (same object)
 ```
+
+**Output:**
+```
+366712642
+1829164700
+366712642
+```
+
+**Note:** Different objects usually have different hash codes. If you override equals(), you should also override hashCode().
 
 #### 4. getClass()
+**Purpose:** Returns the runtime class of the object. Useful for reflection and determining the actual type of an object at runtime.
+
 ```java
-Student s = new Student();
+class Student {
+    String name;
+    Student(String name) { this.name = name; }
+}
+
+Student s = new Student("John");
 Class<?> cls = s.getClass();
-System.out.println(cls.getName());  // Output: Student
+
+System.out.println(cls.getName());        // Full class name
+System.out.println(cls.getSimpleName());  // Simple class name
+System.out.println(s.getClass());         // Class object
 ```
 
+**Output:**
+```
+Student
+Student
+class Student
+```
+
+**Note:** getClass() returns the actual runtime type, which is useful for type checking and reflection.
+
 #### 5. clone()
-- it performs shallow copy by default.
+**Purpose:** Creates and returns a copy of the object. By default, performs a shallow copy. The class must implement Cloneable interface to use this method.
+
 ```java
 class Student implements Cloneable {
     String name;
     int age;
     
-    public Student clone() throws CloneNotSupportedException {
-        return (Student) super.clone();
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();  // Calls Object's clone method
     }
 }
+
+Student s1 = new Student("Alice", 20);
+Student s2 = (Student) s1.clone();
+
+System.out.println(s1.name + " " + s1.age);
+System.out.println(s2.name + " " + s2.age);
+System.out.println(s1 == s2);  // Different objects
+System.out.println(s1.equals(s2));  // Content comparison
 ```
 
+**Output:**
+```
+Alice 20
+Alice 20
+false
+false
+```
+
+**Note:** clone() creates a new object with copied field values. Shallow copy means object references are copied, not the objects themselves.
+
 ### Key Rules
-- **toString()**: Return string representation of object
-- **equals()**: Compare objects for equality (override with hashCode())
-- **hashCode()**: Return hash value (must override if equals() is overridden)
-- **getClass()**: Return runtime class of object
-- **clone()**: Create copy of object (implement Cloneable interface)
+- **toString()**: By default returns class@hashcode. Override to provide meaningful string representation
+- **equals()**: By default compares references (==). Override to compare object contents  
+- **hashCode()**: Returns hash code based on memory address. Must override when equals() is overridden
+- **getClass()**: Returns the runtime Class object - cannot be overridden (final method)
+- **clone()**: Creates shallow copy. Class must implement Cloneable interface to use it
 
 ---
 

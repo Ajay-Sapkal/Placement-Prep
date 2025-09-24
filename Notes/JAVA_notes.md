@@ -466,7 +466,7 @@ public class InputExample {
 
 ---
 
-## 4. Methods/Functions
+## 3. Methods/Functions
 
 **What are Methods?**
 
@@ -505,9 +505,6 @@ public class MethodExample {
 - **Return Type:** Specifies the type of value the method returns (use `void` if no value is returned).
 
 ---
-___
-
-***
 
 ## 4. Exception Handling
 
@@ -725,7 +722,7 @@ Exception in thread "main" MyRuntimeException: This is an unchecked exception
 
 ---
 
-**Try-with-Resources (Java 7+):**
+### Try-with-Resources (Java 7+):
 
 - Used for working with resources like files, sockets, database connections that must be closed after use.
 - The resource is automatically closed at the end of the try block → no need for finally block to close it.
