@@ -153,6 +153,7 @@ Heap Memory
  ├─ Used Objects (referenced)
  └─ Unused Objects (unreferenced) → Garbage Collector → Memory Freed
 ```
+---
 
 ## 2. Basic Java Topics
 
@@ -232,7 +233,7 @@ System.out.println(matrix[1][2]); // Output: 6
 ```
 
 - **Note:** Unlike Strings, arrays in Java are mutable. You can modify their elements after creation, but their size cannot be changed.
----
+
 
 ### Casting in Java
 
@@ -257,7 +258,7 @@ System.out.println(matrix[1][2]); // Output: 6
     int y = (int) x; // Explicit casting
     ```
 
----
+--
 
 ### 2.2 Variables & Operators
 
