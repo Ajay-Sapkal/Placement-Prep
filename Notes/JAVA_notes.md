@@ -10,12 +10,12 @@
 ### 1.1 JVM, JRE, JDK (Differences & Roles)
 
 **JVM (Java Virtual Machine):**
-- Runs Java bytecode (compiled .class files)
+- the runtime engine that executes Java bytecode(compiled .class files) and manages memory/threads.
 - Platform-independent: "Write Once, Run Anywhere"
-- Handles memory management, garbage collection, security
+- Handles memory management(heap), garbage collection, security
 
 **JRE (Java Runtime Environment):**
-- Contains JVM + core libraries + supporting files
+- Contains JVM + core libraries(java.lang, java.util, java.io, etc.) + supporting files
 - Needed to run Java applications
 - Does NOT include development tools (compiler, debugger)
 
@@ -35,29 +35,80 @@
 
 ```
 JDK
- └── JRE
-	  └── JVM
+ ├── JRE
+ │    ├── JVM
+ │    └── Core Libraries
+ └── Development Tools (javac, debugger, etc.)
+
 ```
+
+#### How Java is Platform Independent
+
+**Source Code Compilation:**
+- You write Java code (`.java` file).
+- The Java compiler (`javac`) does **not** convert it directly into machine code of your OS.
+- Instead, it converts it into **bytecode** (`.class` file).
+
+**Bytecode:**
+- Bytecode is a universal intermediate code, not tied to any specific operating system or hardware.
+
+**Java Virtual Machine (JVM):**
+- Every platform (Windows, Linux, Mac, etc.) has its own JVM implementation.
+- JVM reads the bytecode and translates it into native machine code of that specific OS.
+
+**Result:**
+- The same `.class` file (bytecode) can run on any system, as long as that system has the corresponding JVM installed.
+- That’s why Java is platform independent at the bytecode level, but JVM itself is platform dependent.
 
 ### 1.2 Java Memory Model (Stack vs Heap)
 
 **Stack Memory:**
-- Stores method calls, local variables, and references
+- Stores method calls, local variables, and references to objects in heap
 - Fast access, memory is automatically managed (popped when method ends)
 - Each thread has its own stack
 
 **Heap Memory:**
-- Stores objects and arrays
+- Stores objects, instance variables, Class variables (static) (in Method Area / Metaspace).
 - Shared among all threads
-- Slower access, managed by garbage collector
+- Slower than stack access 
+- Managed by garbage collector
+- Divided into generations for GC:
+  - Young Generation → Eden + Survivor spaces
+  - Old Generation (Tenured)
+  - Metaspace → class metadata (replaced PermGen since Java 8).
 
 **Diagram:**
 
 ```
-| Stack (per thread) |   Heap (shared)   |
-|--------------------|------------------|
-| int x = 5;         | new Student();   |
-| method calls       | object data      |
+            [ Each Thread ]
+         ┌───────────────────┐
+         │   Stack Memory    │   → Local vars, method frames, refs
+         └───────────────────┘
+                  │
+                  ▼
+         ┌───────────────────┐
+         │     Heap Memory   │   → Objects, instance vars, static vars
+         │   (Shared by all) │
+         └───────────────────┘
+
+```
+
+**Example:**
+```java
+class Student {
+    String name;   // stored in Heap (inside object)
+    int age;       // stored in Heap (inside object)
+}
+
+public class MemoryDemo {
+    public static void main(String[] args) {
+        int x = 10;   // stored in Stack
+        Student s1 = new Student(); // s1 ref in Stack, object in Heap
+        s1.name = "Ajay";
+        s1.age = 20;
+    }
+}
+
 ```
 
 **Summary:**
@@ -67,12 +118,28 @@ JDK
 ### 1.3 Garbage Collection Basics
 
 **What is Garbage Collection?**
-- Automatic process to free memory by removing unused objects from the heap.
+- Garbage Collection is the process by which the JVM automatically frees memory by deleting objects that are no longer reachable in the program.
 - Helps prevent memory leaks and optimizes memory usage.
 
 **How it works:**
 - JVM tracks objects that are no longer referenced.
 - Unreachable objects are deleted, and memory is reclaimed.
+
+**Heap is divided into generations:**
+- Young Generation
+  - Newly created objects.
+  - Contains Eden + Survivor spaces (S0, S1).
+  - Most objects die here quickly.
+  - GC here is called Minor GC (fast).
+
+- Old Generation (Tenured)
+  - Objects that survived multiple Minor GCs.
+  - Long-lived objects (like caches, collections).
+  - GC here is Major GC (Full GC) (slow, expensive).
+
+- Metaspace (Java 8+)
+  - Stores class metadata (class structure, method info, static vars).
+  - Replaced PermGen.
 
 **Key Points:**
 - No need for manual memory management (unlike C/C++).
