@@ -59,7 +59,7 @@ JDK
 **Result:**
 - The same `.class` file (bytecode) can run on any system, as long as that system has the corresponding JVM installed.
 - That’s why Java is platform independent at the bytecode level, but JVM itself is platform dependent.
-
+---
 ### 1.2 Java Memory Model (Stack vs Heap)
 
 **Stack Memory:**
@@ -114,6 +114,7 @@ public class MemoryDemo {
 **Summary:**
 - Stack: Fast, thread-specific, for primitives & references
 - Heap: Shared, for objects, managed by JVM
+---
 
 ### 1.3 Garbage Collection Basics
 
@@ -233,7 +234,7 @@ System.out.println(matrix[1][2]); // Output: 6
 ```
 
 - **Note:** Unlike Strings, arrays in Java are mutable. You can modify their elements after creation, but their size cannot be changed.
-
+---
 
 ### Casting in Java
 
@@ -258,8 +259,7 @@ System.out.println(matrix[1][2]); // Output: 6
     int y = (int) x; // Explicit casting
     ```
 
---
-
+---
 ### 2.2 Variables & Operators
 
 **Variables:**
@@ -305,7 +305,6 @@ System.out.println(matrix[1][2]); // Output: 6
   int x = 5;
   System.out.println(++x); // x becomes 6, then Output: 6
   ```
----
 
 **Math Functions:**
 - Java provides the `Math` class for mathematical operations.
