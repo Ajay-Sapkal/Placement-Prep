@@ -809,7 +809,7 @@ Map (Interface) - Key-Value pairs
 - **Iteration:** Enhanced for-loop, Iterator, ListIterator (bidirectional)
 - **Sublist Views:** `subList(fromIndex, toIndex)`
 
-**ArrayList:**
+#### 1. ArrayList:
 - Resizable array implementation.
 - Fast random access by index.
 - Slower insertion/deletion in middle.
@@ -1183,7 +1183,7 @@ public class ArrayDequeExample {
 - Three main implementations: HashMap, LinkedHashMap, TreeMap
 - Common use cases: dictionaries, caches, lookup tables
 
-1. **HashMap:**
+#### 1. HashMap:
 - Uses **hash table** for storage
 - **No ordering** of keys/values
 - Fast operations (O(1) average for put, get, remove)
@@ -1222,68 +1222,116 @@ for (Map.Entry<String, Integer> entry : map.entrySet()) {
 
 ### HashMap Internal Working (Important for Interviews)
 
-**How HashMap Works Internally:**
+**Data Structure:**
+HashMap uses an **array of Node objects** where each Node contains: key, value, hash, and next pointer.
 
-HashMap uses an **array of buckets** where each bucket can store key-value pairs.
+```java
+// Simplified Node structure
+class Node<K,V> {
+    final int hash;    // Cached hash value
+    final K key;       // Key
+    V value;           // Value  
+    Node<K,V> next;    // Pointer to next node (for chaining)
+}
+```
 
-**Step-by-Step Process:**
+**Step-by-Step PUT Process:**
 
-1. **Hash Function:** When you put a key-value pair, HashMap calculates hash code of the key
+1. **Hash Calculation:** `hash = key.hashCode()` (with additional processing to reduce collisions)
 2. **Index Calculation:** `index = hashCode % array.length` (determines which bucket to use)
-3. **Storage:** The key-value pair is stored at that index
+3. **Bucket Check:** 
+   - If bucket empty → create new node
+   - If bucket occupied → handle collision
+4. **Storage:** Place node at calculated index
 
-**Example:**
+**Detailed Example:**
 ```java
-HashMap<String, Integer> map = new HashMap<>();
+HashMap<String, Integer> map = new HashMap<>(); // Default capacity: 16
 map.put("John", 25);
-// Step 1: "John".hashCode() = 2314539 (example)
-// Step 2: index = 2314539 % 16 = 11 (assuming default size 16)
-// Step 3: Store ("John", 25) at bucket[11]
+// Step 1: hash("John") = 2314539 (after hash processing)
+// Step 2: index = 2314539 % 16 = 11
+// Step 3: bucket[11] is empty
+// Step 4: Create new Node("John", 25, hash, null) at bucket[11]
 ```
 
-**Collision Handling:**
-When two keys have the same hash code or same array index, it's called a **collision**.
+**GET Process:**
+1. Calculate hash of search key
+2. Find bucket using `hash % array.length`
+3. If single node → compare keys and return value
+4. If multiple nodes → traverse chain/tree and compare keys
 
-**Before Java 8:** Used **Chaining** (Linked List)
-- Multiple entries at same index stored in linked list
-- Worst case: O(n) time complexity if all keys hash to same bucket
+**Collision Handling (Separate Chaining):**
 
-**Java 8 Improvement:** **Chaining + Red-Black Tree**
-- If chain length > 8, linked list converts to Red-Black Tree
-- Improves worst case from O(n) to O(log n)
-- When tree size < 6, converts back to linked list
+**Before Java 8:** **Linked List Only**
+- All collided entries stored as linked list
+- Search time: O(n) in worst case
+- Simple but inefficient for long chains
 
-**Load Factor & Resizing:**
-- **Load Factor:** Ratio of filled buckets to total buckets (default: 0.75)
-- **Threshold:** When size exceeds `capacity × load factor`, HashMap resizes
-- **Resizing:** Creates new array (double the size) and rehashes all entries
+**Java 8+ Optimization:** **Hybrid Approach**
+- **Threshold 8:** When chain length ≥ 8, convert to Red-Black Tree
+- **Threshold 6:** When tree size ≤ 6, convert back to linked list  
+- **Tree Benefits:** O(log n) search time instead of O(n)
+- **Memory Trade-off:** Trees use more memory than lists
 
-**Example of Collision:**
+**Load Factor & Dynamic Resizing:**
+
+**Load Factor = size / capacity**
+- Default: 0.75 (75% occupancy)
+- **Threshold:** When load factor exceeded, triggers resize
+
+**Resizing Process:**
+1. **Double Capacity:** New array = 2 × old capacity
+2. **Rehashing:** Recalculate index for all existing entries
+3. **Migration:** Move all nodes to new positions
+4. **Cost:** O(n) operation, but amortized over many operations
+
+**Why 0.75 Load Factor:**
+- **Space-Time Trade-off:** Balance between memory usage and performance
+- **< 0.75:** Less collisions but wastes memory
+- **> 0.75:** More collisions, degraded performance
+- **Statistical Optimal:** Based on Poisson distribution for collision probability
+
+**Hash Function Improvements (Java 8):**
 ```java
-// Assume both keys hash to same index
-map.put("FB", 100);  // Goes to bucket[5]
-map.put("Ea", 200);  // Also goes to bucket[5] -> Collision!
-// Both stored in linked list/tree at bucket[5]
+// Additional hash processing to reduce collisions
+static final int hash(Object key) {
+    int h;
+    return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+}
+```
+- **XOR with right shift:** Spreads high bits to low bits
+- **Reduces clustering:** Better distribution across buckets
+
+**equals() and hashCode() Contract:**
+- If `a.equals(b)` is true → Then `a.hashCode() == b.hashCode()` must be true
+- Used for finding correct entry in collision chains
+- **Critical:** Both methods must be consistently overridden
+
+**Time Complexity Analysis:**
+- **Best/Average Case:** O(1) - direct bucket access
+- **Worst Case (Java 8):** O(log n) - tree traversal
+- **Worst Case (Before Java 8):** O(n) - linked list traversal
+- **Resize Operation:** O(n) - rehash all elements
+
+**Memory Structure:**
+```
+HashMap Array:
+[0] → null
+[1] → Node("key1",val1) → Node("key2",val2) → null  (collision chain)
+[2] → TreeNode (Red-Black tree root for long chains)
+[3] → Node("key3",val3) → null
+...
 ```
 
-**Why Load Factor is 0.75:**
-- **Too high (0.9):** More collisions, slower performance
-- **Too low (0.5):** Memory waste, frequent resizing
-- **0.75:** Good balance between time and space
+**Interview Key Points:**
+1. **Array + Chaining:** Core data structure concept
+2. **Hash Function:** How keys map to array indices  
+3. **Collision Resolution:** Linked lists → Red-Black trees (Java 8)
+4. **Load Factor:** Why 0.75 and when resizing occurs
+5. **equals/hashCode Contract:** Essential for correct behavior
+6. **Time Complexity:** O(1) average, O(log n) worst case (Java 8)
 
-**Time Complexity:**
-- **Average Case:** O(1) for get, put, remove
-- **Worst Case:** O(log n) in Java 8 (due to tree), O(n) before Java 8
-
-**Key Points for Interviews:**
-1. HashMap uses array + linked list/tree structure
-2. hashCode() determines bucket location
-3. Collisions handled by chaining
-4. Java 8 uses trees for long chains (length > 8)
-5. Load factor 0.75 balances performance and memory
-6. Resizing doubles the array size and rehashes all entries
-
-2. **LinkedHashMap:**
+#### 2.LinkedHashMap:
 - Extends HashMap with **insertion order** maintained
 - Can also maintain **access order** (LRU cache behavior)
 - Slightly slower than HashMap due to ordering overhead
@@ -1311,7 +1359,7 @@ System.out.println(hashMap); // Output: {Second=2, Third=3, First=1} (random ord
 - `removeEldestEntry(Map.Entry)` - Override for LRU cache behavior
 - Iterator maintains insertion order
 
-3. **TreeMap:**
+#### 3. TreeMap:
 - Uses **Red-Black tree** (self-balancing BST) for storage
 - Keys are **automatically sorted** in natural order (or by Comparator)
 - Operations are O(log n) for put, get, remove
@@ -1344,7 +1392,7 @@ System.out.println(treeMap); // Output: {Alice=25, Bob=30, Charlie=35} (sorted b
 - `descendingMap()` - Get map in reverse order
 - `navigableKeySet()` - Get navigable set of keys
 
-**Hashtable:**
+#### 4. Hashtable:
 - **Legacy class** from Java 1.0 (before Collections Framework)
 - Similar to HashMap but **synchronized** (thread-safe)
 - **Slower** than HashMap due to synchronization overhead
