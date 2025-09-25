@@ -1183,7 +1183,7 @@ public class ArrayDequeExample {
 - Three main implementations: HashMap, LinkedHashMap, TreeMap
 - Common use cases: dictionaries, caches, lookup tables
 
-**HashMap:**
+1. **HashMap:**
 - Uses **hash table** for storage
 - **No ordering** of keys/values
 - Fast operations (O(1) average for put, get, remove)
@@ -1283,7 +1283,7 @@ map.put("Ea", 200);  // Also goes to bucket[5] -> Collision!
 5. Load factor 0.75 balances performance and memory
 6. Resizing doubles the array size and rehashes all entries
 
-**LinkedHashMap:**
+2. **LinkedHashMap:**
 - Extends HashMap with **insertion order** maintained
 - Can also maintain **access order** (LRU cache behavior)
 - Slightly slower than HashMap due to ordering overhead
@@ -1311,7 +1311,7 @@ System.out.println(hashMap); // Output: {Second=2, Third=3, First=1} (random ord
 - `removeEldestEntry(Map.Entry)` - Override for LRU cache behavior
 - Iterator maintains insertion order
 
-**TreeMap:**
+3. **TreeMap:**
 - Uses **Red-Black tree** (self-balancing BST) for storage
 - Keys are **automatically sorted** in natural order (or by Comparator)
 - Operations are O(log n) for put, get, remove
