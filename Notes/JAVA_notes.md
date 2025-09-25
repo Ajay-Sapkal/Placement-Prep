@@ -949,6 +949,34 @@ public class VectorExample {
 - `indexOf(Object)` - Find index of element
 - `setSize(newSize)` - Change the size of vector
 
+**Stack:**
+- **Legacy class** from Java 1.0 that extends Vector
+- Follows **LIFO (Last-In-First-Out)** principle
+- **Synchronized** (thread-safe) but slower due to overhead
+- **Generally avoid using Stack** - use ArrayDeque instead
+
+**Why to Avoid Stack:**
+- Inherits unnecessary methods from Vector (like get, set by index)
+- Performance penalty due to synchronization
+- ArrayDeque is faster and more consistent
+
+**Better Alternative:**
+- **ArrayDeque** - Modern, faster, and more efficient for stack operations
+
+Example:
+```java
+// ❌ Avoid - Old way
+Stack<String> stack = new Stack<>();
+stack.push("First");
+stack.push("Second");
+System.out.println(stack.pop()); // Output: Second
+
+// ✅ Better - Modern approach
+ArrayDeque<String> deque = new ArrayDeque<>();
+deque.push("First");
+deque.push("Second");
+System.out.println(deque.pop()); // Output: Second
+```
 
 **Comparison:**
 | Feature | ArrayList | LinkedList | Vector |
@@ -1192,6 +1220,68 @@ for (Map.Entry<String, Integer> entry : map.entrySet()) {
 - `replace(key, value)` - Replace value for existing key
 - `getOrDefault(key, defaultValue)` - Get value or return default if key not found
 
+### HashMap Internal Working (Important for Interviews)
+
+**How HashMap Works Internally:**
+
+HashMap uses an **array of buckets** where each bucket can store key-value pairs.
+
+**Step-by-Step Process:**
+
+1. **Hash Function:** When you put a key-value pair, HashMap calculates hash code of the key
+2. **Index Calculation:** `index = hashCode % array.length` (determines which bucket to use)
+3. **Storage:** The key-value pair is stored at that index
+
+**Example:**
+```java
+HashMap<String, Integer> map = new HashMap<>();
+map.put("John", 25);
+// Step 1: "John".hashCode() = 2314539 (example)
+// Step 2: index = 2314539 % 16 = 11 (assuming default size 16)
+// Step 3: Store ("John", 25) at bucket[11]
+```
+
+**Collision Handling:**
+When two keys have the same hash code or same array index, it's called a **collision**.
+
+**Before Java 8:** Used **Chaining** (Linked List)
+- Multiple entries at same index stored in linked list
+- Worst case: O(n) time complexity if all keys hash to same bucket
+
+**Java 8 Improvement:** **Chaining + Red-Black Tree**
+- If chain length > 8, linked list converts to Red-Black Tree
+- Improves worst case from O(n) to O(log n)
+- When tree size < 6, converts back to linked list
+
+**Load Factor & Resizing:**
+- **Load Factor:** Ratio of filled buckets to total buckets (default: 0.75)
+- **Threshold:** When size exceeds `capacity × load factor`, HashMap resizes
+- **Resizing:** Creates new array (double the size) and rehashes all entries
+
+**Example of Collision:**
+```java
+// Assume both keys hash to same index
+map.put("FB", 100);  // Goes to bucket[5]
+map.put("Ea", 200);  // Also goes to bucket[5] -> Collision!
+// Both stored in linked list/tree at bucket[5]
+```
+
+**Why Load Factor is 0.75:**
+- **Too high (0.9):** More collisions, slower performance
+- **Too low (0.5):** Memory waste, frequent resizing
+- **0.75:** Good balance between time and space
+
+**Time Complexity:**
+- **Average Case:** O(1) for get, put, remove
+- **Worst Case:** O(log n) in Java 8 (due to tree), O(n) before Java 8
+
+**Key Points for Interviews:**
+1. HashMap uses array + linked list/tree structure
+2. hashCode() determines bucket location
+3. Collisions handled by chaining
+4. Java 8 uses trees for long chains (length > 8)
+5. Load factor 0.75 balances performance and memory
+6. Resizing doubles the array size and rehashes all entries
 
 **LinkedHashMap:**
 - Extends HashMap with **insertion order** maintained
@@ -1254,6 +1344,36 @@ System.out.println(treeMap); // Output: {Alice=25, Bob=30, Charlie=35} (sorted b
 - `descendingMap()` - Get map in reverse order
 - `navigableKeySet()` - Get navigable set of keys
 
+**Hashtable:**
+- **Legacy class** from Java 1.0 (before Collections Framework)
+- Similar to HashMap but **synchronized** (thread-safe)
+- **Slower** than HashMap due to synchronization overhead
+- **No null keys or values** allowed (throws NullPointerException)
+- Uses older enumeration instead of iterators
+- **Generally avoid using Hashtable**
+
+**Why to Avoid Hashtable:**
+- Performance penalty due to synchronization
+- Better alternatives available
+- Not part of modern Collections Framework design
+- Limited functionality compared to HashMap
+
+**Better Alternatives:**
+- **HashMap** - For single-threaded applications (most common)
+- **ConcurrentHashMap** - For thread-safe operations (better than Hashtable)
+- **Collections.synchronizedMap(HashMap)** - For synchronized wrapper
+
+Example:
+```java
+// ❌ Avoid - Old way
+Hashtable<String, Integer> hashtable = new Hashtable<>();
+
+// ✅ Better - Modern approaches
+HashMap<String, Integer> hashMap = new HashMap<>();                    // Single-threaded
+ConcurrentHashMap<String, Integer> concurrentMap = new ConcurrentHashMap<>();  // Multi-threaded
+Map<String, Integer> syncMap = Collections.synchronizedMap(new HashMap<>());   // Synchronized wrapper
+```
+
 ---
 ### 5.5 Common Operations
 
@@ -1290,6 +1410,142 @@ System.out.println(max); // Output: 5
 - **ArrayList vs LinkedList:** ArrayList is better for frequent access, LinkedList for frequent insertion/deletion.
 - **HashSet vs TreeSet:** HashSet is faster, TreeSet maintains sorted order.
 - **HashMap vs TreeMap:** HashMap is faster, TreeMap maintains sorted keys.
+
+---
+### 5.6 Wrapper Classes
+
+**Important:** Collections can only store **Objects**, not **primitives**. Use wrapper classes:
+
+| Primitive | Wrapper | Primitive | Wrapper |
+|-----------|---------|-----------|---------|
+| `int` | `Integer` | `float` | `Float` |
+| `char` | `Character` | `double` | `Double` |
+| `byte` | `Byte` | `boolean` | `Boolean` |
+| `short` | `Short` | `long` | `Long` |
+
+**Autoboxing/Unboxing:** Java automatically converts between primitives and wrappers.
+
+**Example:**
+```java
+List<Integer> numbers = new ArrayList<>();  // Use Integer, not int
+numbers.add(10);  // Autoboxing: int 10 → Integer object
+```
+
+---
+
+## 6. Important Differences & Trade-offs
+
+### 6.1 List Implementations
+
+**ArrayList vs LinkedList:**
+
+| Feature | ArrayList | LinkedList |
+|---------|-----------|------------|
+| **Internal Structure** | Dynamic array (resizable) | Doubly linked list |
+| **Random Access** | Fast O(1) - direct index access | Slow O(n) - traverse from head/tail |
+| **Insertion/Deletion** | Slow O(n) - shift elements | Fast O(1) - if you have node reference |
+| **Memory Overhead** | Low - only stores elements | High - stores data + 2 pointers per node |
+| **Cache Performance** | Better - elements stored contiguously | Worse - nodes scattered in memory |
+| **Best Use Case** | Frequent reading/accessing | Frequent insertion/deletion |
+
+**ArrayList vs Vector:**
+
+| Feature | ArrayList | Vector |
+|---------|-----------|--------|
+| **Synchronization** | Not synchronized (not thread-safe) | Synchronized (thread-safe) |
+| **Performance** | Faster | Slower due to synchronization overhead |
+| **Growth Rate** | Increases by 50% when full | Increases by 100% when full |
+| **Legacy** | Modern (Java 1.2+) | Legacy (Java 1.0) |
+| **Recommendation** | Use for single-threaded apps | Avoid - use ArrayList + external sync |
+
+### 6.2 Set Implementations
+
+**HashSet vs LinkedHashSet vs TreeSet:**
+
+| Feature | HashSet | LinkedHashSet | TreeSet |
+|---------|---------|---------------|---------|
+| **Ordering** | No order | Insertion order | Sorted order |
+| **Time Complexity** | O(1) average | O(1) average | O(log n) |
+| **Internal Structure** | Hash table | Hash table + linked list | Red-Black tree |
+| **Null Values** | One null allowed | One null allowed | No null allowed |
+| **Memory** | Least | Medium | Most |
+| **Best Use Case** | Fast operations | Order + fast operations | Sorted operations |
+
+### 6.3 Map Implementations
+
+**HashMap vs LinkedHashMap vs TreeMap:**
+
+| Feature | HashMap | LinkedHashMap | TreeMap |
+|---------|---------|---------------|---------|
+| **Ordering** | No order | Insertion/Access order | Sorted by keys |
+| **Time Complexity** | O(1) average | O(1) average | O(log n) |
+| **Null Keys** | One null key | One null key | No null keys |
+| **Null Values** | Multiple null values | Multiple null values | Multiple null values |
+| **Memory** | Least | Medium | Most |
+| **Best Use Case** | General purpose | Caching (LRU) | Sorted key operations |
+
+**HashMap vs Hashtable:**
+
+| Feature | HashMap | Hashtable |
+|---------|---------|-----------|
+| **Synchronization** | Not synchronized | Synchronized |
+| **Performance** | Faster | Slower |
+| **Null Values** | Allows null key/values | No null key/values |
+| **Inheritance** | Extends AbstractMap | Extends Dictionary (legacy) |
+| **Introduced** | Java 1.2 | Java 1.0 |
+| **Iteration** | Iterator (fail-fast) | Enumerator (fail-safe) |
+| **Recommendation** | Use this | Avoid - use ConcurrentHashMap |
+
+### 6.4 Queue Implementations
+
+**ArrayDeque vs LinkedList (as Queue):**
+
+| Feature | ArrayDeque | LinkedList |
+|---------|------------|------------|
+| **Internal Structure** | Resizable circular array | Doubly linked list |
+| **Memory** | Less overhead | More overhead (pointers) |
+| **Cache Performance** | Better | Worse |
+| **Null Elements** | Not allowed | Allowed |
+| **Performance** | Faster for queue operations | Slower |
+| **Best Use Case** | Stack/Queue operations | When nulls needed |
+
+### 6.5 Legacy vs Modern
+
+**Stack vs ArrayDeque (for Stack operations):**
+
+| Feature | Stack | ArrayDeque |
+|---------|-------|------------|
+| **Design** | Extends Vector | Implements Deque |
+| **Synchronization** | Synchronized | Not synchronized |
+| **Performance** | Slower | Faster |
+| **Operations** | Limited stack methods | Rich set of methods |
+| **Recommendation** | Avoid | Use this |
+
+### 6.6 Thread Safety Comparison
+
+**Thread-Safe vs Non-Thread-Safe:**
+
+| Thread-Safe (Slower) | Non-Thread-Safe (Faster) | Modern Alternative |
+|----------------------|--------------------------|--------------------|
+| Vector | ArrayList | Collections.synchronizedList() |
+| Hashtable | HashMap | ConcurrentHashMap |
+| Stack | ArrayDeque | Collections.synchronizedDeque() |
+
+### 6.7 When to Use What?
+
+**Quick Decision Guide:**
+
+- **Need fast random access?** → ArrayList
+- **Frequent insertions/deletions?** → LinkedList  
+- **Need unique elements, no order?** → HashSet
+- **Need unique elements, sorted?** → TreeSet
+- **Need unique elements, insertion order?** → LinkedHashSet
+- **Need key-value pairs, fast access?** → HashMap
+- **Need key-value pairs, sorted keys?** → TreeMap
+- **Need key-value pairs, insertion order?** → LinkedHashMap
+- **Need FIFO queue?** → ArrayDeque
+- **Need priority-based processing?** → PriorityQueue
+- **Need thread-safety?** → ConcurrentHashMap, Collections.synchronized*()
 
 ---
 
