@@ -759,3 +759,537 @@ Exception in thread "main" MyRuntimeException: This is an unchecked exception
 
 ---
 
+## 5. Collections Framework
+
+**What is Collections Framework?**
+- A unified architecture for storing and manipulating groups of objects.
+- Provides ready-to-use data structures and algorithms.
+- Part of `java.util` package.
+
+**Hierarchy:**
+```
+Collection (Interface)
+ ├── List (Interface) - Ordered, allows duplicates
+ │    ├── ArrayList - Dynamic array, fast access
+ │    ├── LinkedList - Doubly linked list, fast insertion/deletion
+ │    └── Vector - Synchronized ArrayList (legacy)
+ │
+ ├── Set (Interface) - No duplicates allowed
+ │    ├── HashSet - Hash table, no order
+ │    ├── LinkedHashSet - Maintains insertion order
+ │    └── TreeSet - Sorted set, implements NavigableSet
+ │
+ └── Queue (Interface) - FIFO operations
+      ├── PriorityQueue - Heap-based priority queue
+      └── Deque (Interface) - Double-ended queue
+           ├── ArrayDeque - Resizable array implementation
+           └── LinkedList - Also implements Deque 
+
+Map (Interface) - Key-Value pairs
+ ├── HashMap - Hash table, no order
+ ├── LinkedHashMap - Maintains insertion order
+ └── TreeMap - Sorted map, implements NavigableMap
+```
+
+### 5.1 List Interface
+
+**List Interface:**
+- An **ordered collection** (sequence) that allows duplicate elements
+- Elements can be accessed by their **integer index** (position)
+- Provides **positional access** - insert, remove, and access elements by index
+- Maintains **insertion order** - elements are stored in the order they were added
+- Allows **null elements** and **duplicate values**
+- Three main implementations: ArrayList, LinkedList, Vector
+- Common use cases: maintaining ordered data, indexed access, allowing duplicates
+
+**Key List Features:**
+- **Indexed Access:** `get(index)`, `set(index, element)`
+- **Positional Operations:** `add(index, element)`, `remove(index)`
+- **Search Operations:** `indexOf(element)`, `lastIndexOf(element)`
+- **Iteration:** Enhanced for-loop, Iterator, ListIterator (bidirectional)
+- **Sublist Views:** `subList(fromIndex, toIndex)`
+
+**ArrayList:**
+- Resizable array implementation.
+- Fast random access by index.
+- Slower insertion/deletion in middle.
+
+Example:
+```java
+import java.util.*;
+
+public class ArrayListExample {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        
+        // Adding elements
+        list.add("Java");
+        list.add("Python");
+        list.add("C++");
+        
+        // Accessing elements
+        System.out.println(list.get(0)); // Output: Java
+        
+        // Size
+        System.out.println(list.size()); // Output: 3
+        
+        // Iteration
+        for (String item : list) {
+            System.out.println(item);
+        }
+    }
+}
+```
+
+**Other Important ArrayList Operations:**
+- `set(index, element)` - Update element at specific index
+- `remove(index)` - Remove element by index position
+- `remove(Object)` - Remove first occurrence of specified element
+- `contains(Object)` - Check if list contains specified element
+- `indexOf(Object)` - Find index of first occurrence of element
+- `isEmpty()` - Check if list has no elements
+- `clear()` - Remove all elements from the list
+- `toArray()` - Convert list to array
+- `addAll(Collection)` - Add all elements from another collection
+
+
+**LinkedList:**
+- Doubly linked list implementation.
+- Each element (node) contains data + references to previous and next nodes.
+- Fast insertion/deletion at any position (O(1) if you have the node reference).
+- Slower random access compared to ArrayList (O(n) for get/set operations).
+- Implements both List and Deque interfaces.
+
+Example:
+
+```java
+import java.util.*;
+
+public class LinkedListExample {
+    public static void main(String[] args) {
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        
+        // Adding elements
+        linkedList.add(10);      // Add at end
+        linkedList.addFirst(5);  // Add at beginning
+        linkedList.addLast(20);  // Add at end
+        linkedList.add(1, 15);   // Add at specific index
+        
+        System.out.println(linkedList); // Output: [5, 15, 10, 20]
+        
+        // Queue operations
+        linkedList.offer(25);    // Add to end (queue operation)
+        Integer first = linkedList.poll(); // Removes and returns the first element (head) of the list.
+        System.out.println("Removed: " + first); // Output: Removed: 5
+        
+        // Deque operations
+        linkedList.push(1);      // Add to beginning (stack operation)
+        Integer top = linkedList.pop(); // Removes and returns the first element (top of stack).
+        System.out.println("Popped: " + top); // Output: Popped: 1
+    }
+}
+```
+
+**Other Important LinkedList Operations:**
+- `get(index)` - Access element by index (O(n) time complexity)
+- `set(index, element)` - Update element at specific index
+- `remove(index)` - Remove element by index position
+- `remove(Object)` - Remove first occurrence of specified element
+- `removeFirst()` - Remove and return first element
+- `removeLast()` - Remove and return last element
+- `contains(Object)` - Check if list contains specified element
+- `indexOf(Object)` - Find index of first occurrence of element
+- `size()` - Get number of elements in the list
+- `isEmpty()` - Check if list has no elements
+- `clear()` - Remove all elements from the list
+- `peek()` - View first element without removing it
+- `peekFirst()` - View first element without removing it
+- `peekLast()` - View last element without removing it
+
+
+**Vector:**
+- Legacy class from Java 1.0 (before Collections Framework).
+- Similar to ArrayList but synchronized (thread-safe).
+- Slower than ArrayList due to synchronization overhead.
+- Grows by 100% when capacity is exceeded (ArrayList grows by 50%).
+- Generally avoid using Vector; use ArrayList with external synchronization if needed.
+
+Example:
+```java
+import java.util.*;
+
+public class VectorExample {
+    public static void main(String[] args) {
+        Vector<String> vector = new Vector<>();
+        
+        // Adding elements
+        vector.add("First");
+        vector.add("Second");
+        vector.addElement("Third"); // Legacy method
+        
+        // Accessing elements
+        System.out.println(vector.get(0)); // Output: First
+        System.out.println(vector.elementAt(1)); // Legacy method, Output: Second
+        
+        // Vector is synchronized - thread-safe but slower
+        System.out.println("Size: " + vector.size());
+        System.out.println("Capacity: " + vector.capacity()); // Default capacity is 10
+    }
+}
+```
+
+**Other Important Vector Operations:**
+- `removeElement(Object)` - Remove first occurrence of element (legacy method)
+- `removeElementAt(index)` - Remove element at specific index (legacy method)
+- `insertElementAt(element, index)` - Insert element at specific index (legacy method)
+- `firstElement()` - Get first element (legacy method)
+- `lastElement()` - Get last element (legacy method)
+- `setElementAt(element, index)` - Update element at index (legacy method)
+- `contains(Object)` - Check if vector contains element
+- `indexOf(Object)` - Find index of element
+- `setSize(newSize)` - Change the size of vector
+
+
+**Comparison:**
+| Feature | ArrayList | LinkedList | Vector |
+|---------|-----------|------------|--------|
+| Implementation | Dynamic array | Doubly linked list | Dynamic array |
+| Random Access | Fast (O(1)) | Slow (O(n)) | Fast (O(1)) |
+| Insertion/Deletion | Slow in middle (O(n)) | Fast anywhere (O(1)) | Slow in middle (O(n)) |
+| Memory | Less overhead | More overhead (node pointers) | Less overhead |
+| Thread Safety | Not synchronized | Not synchronized | Synchronized |
+| Growth Rate | 50% | N/A | 100% |
+| Performance | Fastest | Good for frequent modifications | Slowest due to synchronization |
+
+---
+### 5.2 Set Interface
+
+**Set Interface:**
+- A collection that contains **no duplicate elements**
+- Models mathematical set abstraction
+- Three main implementations: HashSet, LinkedHashSet, TreeSet
+- Common use cases: removing duplicates, membership testing, set operations
+
+**HashSet:**
+- Uses **hash table** for storage (backed by HashMap internally)
+- **No ordering** - elements stored in random order
+- **No duplicates** - duplicate elements are ignored
+- Fast operations (O(1) average for add, remove, contains)
+- Allows **one null element**
+- **Not thread-safe**
+
+Example:
+```java
+HashSet<String> set = new HashSet<>();
+set.add("Apple");
+set.add("Banana");
+set.add("Apple"); // Duplicate, won't be added
+
+System.out.println(set); // Output: [Apple, Banana] (order may vary)
+System.out.println(set.contains("Apple")); // Output: true
+```
+
+**Other Important HashSet Operations:**
+- `remove(Object)` - Remove specified element from set
+- `size()` - Get number of elements in the set
+- `isEmpty()` - Check if set has no elements
+- `clear()` - Remove all elements from the set
+- `contains(Object)` - Check if set contains element (O(1) average)
+- `addAll(Collection)` - Add all elements from another collection
+- `removeAll(Collection)` - Remove all elements that exist in another collection
+- `retainAll(Collection)` - Keep only elements that exist in another collection
+- `toArray()` - Convert set to array
+
+
+**LinkedHashSet:**
+- Extends HashSet with **insertion order** maintained
+- Uses doubly-linked list to maintain order
+- Slightly slower than HashSet due to ordering overhead
+- Good compromise between HashSet performance and TreeSet ordering
+- Fast operations (O(1) average for add, remove, contains)
+- Allows **one null element**
+
+Example:
+```java
+LinkedHashSet<String> linkedSet = new LinkedHashSet<>();
+linkedSet.add("First");
+linkedSet.add("Second");
+linkedSet.add("Third");
+linkedSet.add("First"); // Duplicate, won't be added
+
+System.out.println(linkedSet); // Output: [First, Second, Third] (insertion order maintained)
+
+// Compare with HashSet
+HashSet<String> hashSet = new HashSet<>();
+hashSet.add("First");
+hashSet.add("Second");
+hashSet.add("Third");
+System.out.println(hashSet); // Output: [Second, Third, First] (random order)
+```
+
+**operations**
+- LinkedHashSet has exactly the same operations as HashSet because it extends HashSet.
+
+**TreeSet:**
+- Uses **Red-Black tree** (self-balancing BST) for storage
+- Elements are **automatically sorted** in natural order (or by Comparator)
+- **No duplicates** allowed
+- Operations are O(log n) for add, remove, contains
+- **No null elements** allowed (throws NullPointerException)
+- Implements NavigableSet interface with range operations
+- **Not thread-safe**
+
+Example:
+```java
+TreeSet<Integer> treeSet = new TreeSet<>();
+treeSet.add(30);
+treeSet.add(10);
+treeSet.add(20);
+
+System.out.println(treeSet); // Output: [10, 20, 30] (sorted)
+```
+
+**Other Important TreeSet Operations:**
+- `first()` - Get the smallest element
+- `last()` - Get the largest element
+- `lower(element)` - Get largest element smaller than given element
+- `higher(element)` - Get smallest element larger than given element
+- `floor(element)` - Get largest element smaller than or equal to given element
+- `ceiling(element)` - Get smallest element larger than or equal to given element
+- `pollFirst()` - Remove and return smallest element
+- `pollLast()` - Remove and return largest element
+- `headSet(element)` - Get elements smaller than given element
+- `tailSet(element)` - Get elements larger than or equal to given element
+- `subSet(from, to)` - Get elements in range [from, to)
+
+---
+### 5.3 Queue Interface
+
+**Queue Interface:**
+- Follows **FIFO (First-In-First-Out)** principle
+- Designed for holding elements prior to processing
+- Common implementations: PriorityQueue, ArrayDeque, LinkedList
+
+**PriorityQueue:**
+- **Heap-based** priority queue (min-heap by default)
+- Elements are ordered by **natural ordering** or by Comparator
+- **No null elements** allowed
+- Operations: O(log n) for add/remove, O(1) for peek
+
+Example:
+```java
+import java.util.*;
+
+public class PriorityQueueExample {
+    public static void main(String[] args) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        
+        // Adding elements
+        pq.offer(30);  // Same as add()
+        pq.offer(10);
+        pq.offer(20);
+        
+        System.out.println(pq); // Output: [10, 30, 20] (heap structure, not sorted)
+        
+        // Removing elements (always removes smallest)
+        System.out.println(pq.poll()); // Output: 10
+        System.out.println(pq.poll()); // Output: 20
+        System.out.println(pq.poll()); // Output: 30
+    }
+}
+```
+
+**ArrayDeque:**
+- **Resizable array** implementation of Deque interface
+- Can be used as **stack** or **queue**
+- **Faster** than Stack and LinkedList for stack/queue operations
+- **No null elements** allowed
+
+Example:
+```java
+import java.util.*;
+
+public class ArrayDequeExample {
+    public static void main(String[] args) {
+        ArrayDeque<String> deque = new ArrayDeque<>();
+        
+        // Queue operations (FIFO)
+        deque.offer("First");     // Add to rear
+        deque.offer("Second"); 
+        System.out.println(deque.poll()); // Output: First (remove from front)
+        
+        // Stack operations (LIFO)
+        deque.push("A");          // Add to front
+        deque.push("B");
+        System.out.println(deque.pop()); // Output: B (remove from front)
+        
+        // Deque operations
+        deque.addFirst("Front");
+        deque.addLast("Back");
+        System.out.println(deque); // Output: [Front, A, Second, Back]
+    }
+}
+```
+
+**Other Important Queue Operations:**
+- `peek()` - View front element without removing (returns null if empty)
+- `element()` - View front element without removing (throws exception if empty)
+- `offer(element)` - Add element to queue (preferred over add())
+- `poll()` - Remove and return front element (returns null if empty)
+- `remove()` - Remove and return front element (throws exception if empty)
+
+**Other Important Deque Operations:**
+- `addFirst(element)`, `addLast(element)` - Add to front/rear
+- `removeFirst()`, `removeLast()` - Remove from front/rear
+- `peekFirst()`, `peekLast()` - View front/rear element
+- `offerFirst(element)`, `offerLast(element)` - Add to front/rear (safe)
+- `pollFirst()`, `pollLast()` - Remove from front/rear (safe)
+
+---
+### 5.4 Map Interface
+
+**Map Interface:**
+- Stores **key-value pairs** (entries)
+- **No duplicate keys** allowed (values can be duplicated)
+- Each key maps to exactly one value
+- Three main implementations: HashMap, LinkedHashMap, TreeMap
+- Common use cases: dictionaries, caches, lookup tables
+
+**HashMap:**
+- Uses **hash table** for storage
+- **No ordering** of keys/values
+- Fast operations (O(1) average for put, get, remove)
+- Allows **one null key** and **multiple null values**
+- **Not thread-safe** (use ConcurrentHashMap for thread safety)
+- Default initial capacity: 16, load factor: 0.75
+
+Example:
+```java
+HashMap<String, Integer> map = new HashMap<>();
+map.put("Alice", 25);
+map.put("Bob", 30);
+map.put("Charlie", 35);
+
+System.out.println(map.get("Alice")); // Output: 25
+System.out.println(map.containsKey("Bob")); // Output: true
+
+// Iteration
+for (Map.Entry<String, Integer> entry : map.entrySet()) {
+    System.out.println(entry.getKey() + " : " + entry.getValue());
+}
+```
+
+**Other Important HashMap Operations:**
+- `remove(key)` - Remove key-value pair by key
+- `containsValue(value)` - Check if map contains specific value
+- `size()` - Get number of key-value pairs
+- `isEmpty()` - Check if map has no entries
+- `clear()` - Remove all key-value pairs
+- `keySet()` - Get set of all keys
+- `values()` - Get collection of all values
+- `entrySet()` - Get set of key-value pairs for iteration
+- `putAll(Map)` - Add all entries from another map
+- `replace(key, value)` - Replace value for existing key
+- `getOrDefault(key, defaultValue)` - Get value or return default if key not found
+
+
+**LinkedHashMap:**
+- Extends HashMap with **insertion order** maintained
+- Can also maintain **access order** (LRU cache behavior)
+- Slightly slower than HashMap due to ordering overhead
+- Same time complexity as HashMap: O(1) average
+
+Example:
+```java
+LinkedHashMap<String, Integer> linkedMap = new LinkedHashMap<>();
+linkedMap.put("Third", 3);
+linkedMap.put("First", 1);
+linkedMap.put("Second", 2);
+
+System.out.println(linkedMap); // Output: {Third=3, First=1, Second=2} (insertion order)
+
+// Compare with HashMap
+HashMap<String, Integer> hashMap = new HashMap<>();
+hashMap.put("Third", 3);
+hashMap.put("First", 1);
+hashMap.put("Second", 2);
+System.out.println(hashMap); // Output: {Second=2, Third=3, First=1} (random order)
+```
+
+**Other Important LinkedHashMap Operations:**
+- Same as HashMap operations (inherits all methods)
+- `removeEldestEntry(Map.Entry)` - Override for LRU cache behavior
+- Iterator maintains insertion order
+
+**TreeMap:**
+- Uses **Red-Black tree** (self-balancing BST) for storage
+- Keys are **automatically sorted** in natural order (or by Comparator)
+- Operations are O(log n) for put, get, remove
+- **No null keys** allowed (values can be null)
+- Implements NavigableMap interface with range operations
+- **Not thread-safe**
+
+Example:
+```java
+TreeMap<String, Integer> treeMap = new TreeMap<>();
+treeMap.put("Charlie", 35);
+treeMap.put("Alice", 25);
+treeMap.put("Bob", 30);
+
+System.out.println(treeMap); // Output: {Alice=25, Bob=30, Charlie=35} (sorted by keys)
+```
+
+**Other Important TreeMap Operations:**
+- `firstKey()` - Get the smallest key
+- `lastKey()` - Get the largest key
+- `lowerKey(key)` - Get largest key smaller than given key
+- `higherKey(key)` - Get smallest key larger than given key
+- `floorKey(key)` - Get largest key smaller than or equal to given key
+- `ceilingKey(key)` - Get smallest key larger than or equal to given key
+- `pollFirstEntry()` - Remove and return entry with smallest key
+- `pollLastEntry()` - Remove and return entry with largest key
+- `headMap(key)` - Get entries with keys smaller than given key
+- `tailMap(key)` - Get entries with keys larger than or equal to given key
+- `subMap(fromKey, toKey)` - Get entries with keys in range [fromKey, toKey)
+- `descendingMap()` - Get map in reverse order
+- `navigableKeySet()` - Get navigable set of keys
+
+---
+### 5.5 Common Operations
+
+**Iterating Collections:**
+```java
+// Enhanced for loop
+List<String> list = Arrays.asList("A", "B", "C");
+for (String item : list) {
+    System.out.println(item);
+}
+
+// Iterator
+Iterator<String> iterator = list.iterator();
+while (iterator.hasNext()) {
+    System.out.println(iterator.next());
+}
+```
+
+**Collections Utility Class:**
+```java
+List<Integer> numbers = Arrays.asList(3, 1, 4, 1, 5);
+
+Collections.sort(numbers);  // Sort the list
+System.out.println(numbers); // Output: [1, 1, 3, 4, 5]
+
+Collections.reverse(numbers); // Reverse the list
+System.out.println(numbers); // Output: [5, 4, 3, 1, 1]
+
+int max = Collections.max(numbers); // Find maximum
+System.out.println(max); // Output: 5
+```
+
+**Key Differences:**
+- **ArrayList vs LinkedList:** ArrayList is better for frequent access, LinkedList for frequent insertion/deletion.
+- **HashSet vs TreeSet:** HashSet is faster, TreeSet maintains sorted order.
+- **HashMap vs TreeMap:** HashMap is faster, TreeMap maintains sorted keys.
+
+---
+
