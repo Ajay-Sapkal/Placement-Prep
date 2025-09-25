@@ -381,6 +381,57 @@ SELECT COUNT(DISTINCT age) FROM employees;    -- Counts unique age values
 
 ---
 
+### WITH Keyword (Common Table Expressions - CTE)
+- Used to create temporary named result sets that can be referenced within a SELECT, INSERT, UPDATE, or DELETE statement.
+- CTEs make complex queries more readable and maintainable.
+
+#### Examples:
+```sql
+-- Simple CTE
+WITH high_earners AS (
+    SELECT * FROM employees WHERE salary > 50000
+)
+SELECT name, salary FROM high_earners ORDER BY salary DESC;
+
+-- Multiple CTEs
+WITH 
+dept_avg AS (
+    SELECT department, AVG(salary) AS avg_salary 
+    FROM employees 
+    GROUP BY department
+),
+high_performers AS (
+    SELECT * FROM employees WHERE performance_rating > 4
+)
+SELECT hp.name, hp.department, da.avg_salary
+FROM high_performers hp
+JOIN dept_avg da ON hp.department = da.department;
+
+-- Recursive CTE (for hierarchical data)
+WITH RECURSIVE employee_hierarchy AS (
+    -- Base case: top-level managers
+    SELECT id, name, manager_id, 1 as level
+    FROM employees 
+    WHERE manager_id IS NULL
+    
+    UNION ALL
+    
+    -- Recursive case: employees with managers
+    SELECT e.id, e.name, e.manager_id, eh.level + 1
+    FROM employees e
+    JOIN employee_hierarchy eh ON e.manager_id = eh.id
+)
+SELECT * FROM employee_hierarchy ORDER BY level, name;
+```
+
+**Benefits of WITH:**
+- **Readability**: Breaks complex queries into manageable parts
+- **Reusability**: CTE can be referenced multiple times in the main query
+- **Performance**: Can improve query performance in some cases
+- **Maintenance**: Easier to modify and debug complex queries
+
+---
+
 ### ROUND Function
 - Used to round a numeric value to the specified number of decimal places.
 
@@ -1062,7 +1113,7 @@ FROM employees;
 - Calculates the running total or cumulative sum of a numeric column within a window.
 - Useful for calculating running totals, subtotals, or cumulative metrics.
 
-#### Example:
+#### Example 1 - Basic Running Total:
 ```sql
 SELECT name, department, salary, SUM(salary) OVER (PARTITION BY department ORDER BY salary) AS running_total
 FROM employees;
@@ -1077,6 +1128,83 @@ FROM employees;
 | Mike | IT          |  30000 |         30000 |
 | Alice| IT          |  60000 |         90000 |
 +------+-------------+--------+---------------+
+```
+
+#### Example 2 - Moving Window with ROWS BETWEEN:
+```sql
+-- Calculate 7-day moving average of daily sales
+SELECT 
+    visited_on,
+    daily_amount,
+    SUM(daily_amount) OVER (
+        ORDER BY visited_on 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ) AS amount,
+    ROUND(AVG(daily_amount) OVER (
+        ORDER BY visited_on 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ), 2) AS average_amount
+FROM daily_sales;
+```
+
+**Sample Input:**
+```
++------------+--------------+
+| visited_on | daily_amount |
++------------+--------------+
+| 2019-01-01 |          100 |
+| 2019-01-02 |          110 |
+| 2019-01-03 |          120 |
+| 2019-01-04 |          130 |
+| 2019-01-05 |          110 |
+| 2019-01-06 |          140 |
+| 2019-01-07 |          150 |
+| 2019-01-08 |          180 |
++------------+--------------+
+```
+
+**Output:**
+```
++------------+--------------+--------+----------------+
+| visited_on | daily_amount | amount | average_amount |
++------------+--------------+--------+----------------+
+| 2019-01-01 |          100 |    100 |         100.00 |
+| 2019-01-02 |          110 |    210 |         105.00 |
+| 2019-01-03 |          120 |    330 |         110.00 |
+| 2019-01-04 |          130 |    460 |         115.00 |
+| 2019-01-05 |          110 |    570 |         114.00 |
+| 2019-01-06 |          140 |    710 |         118.33 |
+| 2019-01-07 |          150 |    860 |         122.86 |
+| 2019-01-08 |          180 |    940 |         134.29 |
++------------+--------------+--------+----------------+
+```
+
+**How ROWS BETWEEN Works:**
+- **6 PRECEDING**: Includes the 6 rows before the current row
+- **CURRENT ROW**: Includes the current row itself
+- **Total Window**: 7 rows (6 preceding + 1 current)
+- **Moving Window**: As we move to the next row, the window slides forward
+- **First Row**: Only includes itself (no preceding rows available)
+- **Second Row**: Includes current + 1 preceding row
+- **Seventh Row**: Includes current + 6 preceding rows (full 7-day window)
+- **Eighth Row**: Still 7 rows, but drops the oldest and includes the newest
+
+**Other ROWS Options:**
+```sql
+-- Last 3 rows including current
+ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+
+-- Next 2 rows after current
+ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING
+
+-- 3 rows around current (1 before, current, 1 after)
+ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING
+
+-- All rows from start to current (cumulative)
+ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+
+-- All rows in partition
+ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
 ```
 
 ### Notes
