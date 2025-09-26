@@ -295,6 +295,20 @@ SELECT LTRIM('  Hello');         -- Removes spaces from left side only: 'Hello'
 SELECT RTRIM('Hello  ');         -- Removes spaces from right side only: 'Hello'
 ```
 
+### IFNULL:
+```sql
+SELECT IFNULL(NULL, 'Default');     -- Returns 'Default' if first value is NULL
+SELECT IFNULL('Hello', 'Default');  -- Returns 'Hello' since it's not NULL
+SELECT name, IFNULL(phone, 'No Phone') FROM employees;  -- Replace NULL phone with 'No Phone'
+```
+
+### ISNULL:
+```sql
+SELECT ISNULL(NULL);        -- Returns 1 (true) if value is NULL
+SELECT ISNULL('Hello');     -- Returns 0 (false) if value is not NULL
+SELECT * FROM employees WHERE ISNULL(phone);  -- Find employees with NULL phone numbers
+```
+
 ---
 
 ## 8. Query Modifiers
@@ -352,13 +366,14 @@ SELECT * FROM employees WHERE name NOT LIKE 'J%';  -- Does NOT start with 'J' (e
 
 ---
 
-### LIMIT
+### LIMIT & OFFSET
 - Used to limit the number of rows returned by a query.
 
 #### Examples:
 ```sql
 SELECT * FROM employees LIMIT 5;              -- First 5 rows only
 SELECT * FROM employees LIMIT 3, 5;           -- Skip 3 rows, then take 5 rows (OFFSET, COUNT)
+SELECT * FROM employees LIMIT 5 OFFSET 3;     -- Skip 3 rows, then take 5 rows (alternative syntax)
 SELECT * FROM employees ORDER BY salary DESC LIMIT 3; -- Top 3 highest salaries
 ```
 
