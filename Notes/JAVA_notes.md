@@ -853,7 +853,7 @@ public class ArrayListExample {
 - `addAll(Collection)` - Add all elements from another collection
 
 
-**LinkedList:**
+#### 2. LinkedList:
 - Doubly linked list implementation.
 - Each element (node) contains data + references to previous and next nodes.
 - Fast insertion/deletion at any position (O(1) if you have the node reference).
@@ -907,7 +907,7 @@ public class LinkedListExample {
 - `peekLast()` - View last element without removing it
 
 
-**Vector:**
+#### 3. Vector:
 - Legacy class from Java 1.0 (before Collections Framework).
 - Similar to ArrayList but synchronized (thread-safe).
 - Slower than ArrayList due to synchronization overhead.
@@ -949,7 +949,7 @@ public class VectorExample {
 - `indexOf(Object)` - Find index of element
 - `setSize(newSize)` - Change the size of vector
 
-**Stack:**
+#### 4. Stack:
 - **Legacy class** from Java 1.0 that extends Vector
 - Follows **LIFO (Last-In-First-Out)** principle
 - **Synchronized** (thread-safe) but slower due to overhead
@@ -978,17 +978,6 @@ deque.push("Second");
 System.out.println(deque.pop()); // Output: Second
 ```
 
-**Comparison:**
-| Feature | ArrayList | LinkedList | Vector |
-|---------|-----------|------------|--------|
-| Implementation | Dynamic array | Doubly linked list | Dynamic array |
-| Random Access | Fast (O(1)) | Slow (O(n)) | Fast (O(1)) |
-| Insertion/Deletion | Slow in middle (O(n)) | Fast anywhere (O(1)) | Slow in middle (O(n)) |
-| Memory | Less overhead | More overhead (node pointers) | Less overhead |
-| Thread Safety | Not synchronized | Not synchronized | Synchronized |
-| Growth Rate | 50% | N/A | 100% |
-| Performance | Fastest | Good for frequent modifications | Slowest due to synchronization |
-
 ---
 ### 5.2 Set Interface
 
@@ -998,7 +987,7 @@ System.out.println(deque.pop()); // Output: Second
 - Three main implementations: HashSet, LinkedHashSet, TreeSet
 - Common use cases: removing duplicates, membership testing, set operations
 
-**HashSet:**
+#### 1. HashSet:
 - Uses **hash table** for storage (backed by HashMap internally)
 - **No ordering** - elements stored in random order
 - **No duplicates** - duplicate elements are ignored
@@ -1029,7 +1018,7 @@ System.out.println(set.contains("Apple")); // Output: true
 - `toArray()` - Convert set to array
 
 
-**LinkedHashSet:**
+#### 2. LinkedHashSet:
 - Extends HashSet with **insertion order** maintained
 - Uses doubly-linked list to maintain order
 - Slightly slower than HashSet due to ordering overhead
@@ -1058,7 +1047,7 @@ System.out.println(hashSet); // Output: [Second, Third, First] (random order)
 **operations**
 - LinkedHashSet has exactly the same operations as HashSet because it extends HashSet.
 
-**TreeSet:**
+#### 3. TreeSet:
 - Uses **Red-Black tree** (self-balancing BST) for storage
 - Elements are **automatically sorted** in natural order (or by Comparator)
 - **No duplicates** allowed
@@ -1098,7 +1087,7 @@ System.out.println(treeSet); // Output: [10, 20, 30] (sorted)
 - Designed for holding elements prior to processing
 - Common implementations: PriorityQueue, ArrayDeque, LinkedList
 
-**PriorityQueue:**
+#### 1. PriorityQueue:
 - **Heap-based** priority queue (min-heap by default)
 - Elements are ordered by **natural ordering** or by Comparator
 - **No null elements** allowed
@@ -1127,7 +1116,7 @@ public class PriorityQueueExample {
 }
 ```
 
-**ArrayDeque:**
+#### 2. ArrayDeque:
 - **Resizable array** implementation of Deque interface
 - Can be used as **stack** or **queue**
 - **Faster** than Stack and LinkedList for stack/queue operations
@@ -1331,7 +1320,7 @@ HashMap Array:
 5. **equals/hashCode Contract:** Essential for correct behavior
 6. **Time Complexity:** O(1) average, O(log n) worst case (Java 8)
 
-#### 2.LinkedHashMap:
+#### 2. LinkedHashMap:
 - Extends HashMap with **insertion order** maintained
 - Can also maintain **access order** (LRU cache behavior)
 - Slightly slower than HashMap due to ordering overhead
@@ -1423,7 +1412,7 @@ Map<String, Integer> syncMap = Collections.synchronizedMap(new HashMap<>());   /
 ```
 
 ---
-### 5.5 Common Operations
+### 5 Common Operations
 
 **Iterating Collections:**
 ```java
@@ -1452,6 +1441,168 @@ System.out.println(numbers); // Output: [5, 4, 3, 1, 1]
 
 int max = Collections.max(numbers); // Find maximum
 System.out.println(max); // Output: 5
+```
+
+### 6. Anonymous Classes (Pre-Java 8 Context)
+
+**What are Anonymous Classes?**
+- **Classes without a name** declared and instantiated together
+- **One-time use** for implementing interfaces or extending classes
+- **Pre-Java 8** way to implement functional interfaces
+
+**Examples:**
+```java
+interface Animal {
+    void sound();
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        // Anonymous class implementing Animal
+        Animal dog = new Animal() {
+            @Override
+            public void sound() {
+                System.out.println("Bark Bark!");
+            }
+        };
+        
+        dog.sound();
+    }
+}
+```
+- You are not making an object of the interface itself, you are making an object of an anonymous class that implements that interface.
+
+**Problems:** Verbose, hard to read, lots of boilerplate code.
+**Solution:** Lambda expressions (Java 8+) - much cleaner syntax.
+
+### 5.7 Comparable vs Comparator
+
+**Purpose:** Both interfaces are used for **sorting objects** in Java collections.
+
+#### Comparable Interface:
+- **Natural ordering** - defines the default way to sort objects
+- **Single sorting logic** - only one way to sort
+- **Class implements Comparable** - sorting logic is part of the class
+- **Method:** `int compareTo(T other)`
+
+**Predefined Implementations:**
+Many built-in Java classes already implement Comparable:
+- **String** - alphabetical order
+- **Integer, Double, etc.** - numerical order
+- **Date** - chronological order
+
+```java
+// These work automatically (no custom implementation needed)
+List<String> names = Arrays.asList("Charlie", "Alice", "Bob");
+Collections.sort(names); // [Alice, Bob, Charlie]
+
+List<Integer> numbers = Arrays.asList(3, 1, 2);
+Collections.sort(numbers); // [1, 2, 3]
+```
+
+**Custom Implementation (for your own classes):**
+```java
+class Student implements Comparable<Student> {
+    String name;
+    int age;
+    
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    @Override
+    public int compareTo(Student other) {
+        return this.age - other.age; // Sort by age (ascending)
+    }
+    
+    @Override
+    public String toString() {
+        return name + ":" + age;
+    }
+}
+
+// Usage
+List<Student> students = Arrays.asList(
+    new Student("Alice", 22),
+    new Student("Bob", 20),
+    new Student("Charlie", 25)
+);
+
+Collections.sort(students); // Uses compareTo() method
+System.out.println(students); // Output: [Bob:20, Alice:22, Charlie:25]
+```
+
+#### Comparator Interface:
+- **Custom ordering** - defines external sorting logic
+- **Multiple sorting ways** - can have different comparators
+- **Separate class/lambda** - sorting logic is external to the class
+- **Method:** `int compare(T o1, T o2)`
+
+```java
+// Using anonymous class
+Comparator<Student> nameComparator = new Comparator<Student>() {
+    @Override
+    public int compare(Student s1, Student s2) {
+        return s1.name.compareTo(s2.name); // Sort by name
+    }
+};
+
+// Using lambda expression (Java 8+)
+Comparator<Student> ageComparator = (s1, s2) -> s1.age - s2.age;
+
+// Using method reference (Java 8+)
+Comparator<Student> nameComparator2 = Comparator.comparing(s -> s.name);
+
+// Usage
+Collections.sort(students, nameComparator); // Sort by name
+Collections.sort(students, ageComparator);  // Sort by age
+
+// Or using stream (Java 8+)
+List<Student> sortedByName = students.stream()
+    .sorted(Comparator.comparing(s -> s.name))
+    .collect(Collectors.toList());
+```
+
+#### Comparison Table:
+
+| Feature | Comparable | Comparator |
+|---------|------------|------------|
+| **Purpose** | Natural/Default ordering | Custom ordering |
+| **Method** | `compareTo(T other)` | `compare(T o1, T o2)` |
+| **Location** | Inside the class | External (separate class/lambda) |
+| **Sorting Ways** | Single way only | Multiple ways possible |
+| **Usage** | `Collections.sort(list)` | `Collections.sort(list, comparator)` |
+| **Flexibility** | Less flexible | More flexible |
+
+#### When to Use What:
+
+- **Use Comparable** when:
+  - There's a clear natural ordering for objects (e.g., numbers, strings)
+  - You control the class source code
+  - Only one sorting criteria is needed
+
+- **Use Comparator** when:
+  - You need multiple sorting criteria
+  - You can't modify the class (external library)
+  - You want different sorting logic for different scenarios
+
+#### Java 8+ Comparator Enhancements:
+
+```java
+// Multiple criteria sorting
+Comparator<Student> multiCriteria = Comparator
+    .comparing((Student s) -> s.age)          // Primary: age
+    .thenComparing(s -> s.name);              // Secondary: name
+
+// Reverse ordering
+Comparator<Student> reverseAge = Comparator
+    .comparing((Student s) -> s.age)
+    .reversed();
+
+// Null-safe comparison
+Comparator<Student> nullSafeName = Comparator
+    .comparing(s -> s.name, Comparator.nullsLast(String::compareTo));
 ```
 
 **Key Differences:**
@@ -1594,6 +1745,437 @@ numbers.add(10);  // Autoboxing: int 10 → Integer object
 - **Need FIFO queue?** → ArrayDeque
 - **Need priority-based processing?** → PriorityQueue
 - **Need thread-safety?** → ConcurrentHashMap, Collections.synchronized*()
+
+---
+
+## 7. Java 8+ Features
+
+### 7.1 Lambda Expressions
+
+**What are Lambdas?**
+- **Anonymous functions** that can be treated as values
+- **Functional programming** approach in Java
+- Used for only functional interfaces – interfaces with only one method.
+- Lambda is basically a shorter version of anonymous class.
+- **Syntax:** `(parameters) -> expression/statement`
+
+**Basic Syntax:**
+```java
+// Before Java 8 - Anonymous class
+Runnable r1 = new Runnable() {
+    public void run() { 
+        System.out.println("Hello World"); 
+    }
+};
+r1.run();
+
+// Java 8+ - Lambda expression
+Runnable r2 = () -> System.out.println("Hello World");
+r2.run();
+```
+
+**Lambda Examples:**
+```java
+// No parameters
+() -> System.out.println("Hello")
+
+// One parameter (parentheses optional)
+x -> x * x
+(x) -> x * x
+
+// Multiple parameters
+(x, y) -> x + y
+
+// Multiple statements (requires braces)
+(x, y) -> {
+    int sum = x + y;
+    return sum * 2;
+}
+
+// Real-world example - Sorting with Comparator
+// Before Java 8 (Anonymous class)
+Collections.sort(list, new Comparator<String>() {
+    public int compare(String a, String b) {
+        return a.length() - b.length();
+    }
+});
+
+// Java 8+ (Lambda expression)
+Collections.sort(list, (a, b) -> a.length() - b.length());
+```
+
+### 7.2 Functional Interfaces
+
+**Definition:** Interface with exactly **one abstract method** (can have default/static methods)
+
+**@FunctionalInterface Annotation:**
+```java
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);  // Only one abstract method
+    
+    // Default and static methods allowed
+    default void print() { System.out.println("Calculating..."); }
+    static void info() { System.out.println("Calculator interface"); }
+}
+
+// Usage with lambda
+Calculator add = (a, b) -> a + b;
+Calculator multiply = (a, b) -> a * b;
+System.out.println(add.calculate(4,8));
+```
+
+**Built-in Functional Interfaces:**
+
+Java already has many built-in functional interfaces in `java.util.function` package:
+
+| Functional Interface | Method | Usage Example |
+|---------------------|--------|---------------|
+| `Runnable` | `run()` | For running code in threads |
+| `Callable<T>` | `call()` | Similar to Runnable but returns a value |
+| `Comparator<T>` | `compare(T a, T b)` | For custom sorting |
+| `Consumer<T>` | `accept(T t)` | Takes input, returns nothing |
+| `Supplier<T>` | `get()` | Returns a value, takes nothing |
+| `Function<T,R>` | `apply(T t)` | Takes input, returns output |
+| `Predicate<T>` | `test(T t)` | Returns true/false |
+
+### 7.3 Stream API
+
+**What is Stream?**
+- **Sequence of elements** supporting sequential and parallel operations
+- **Not a data structure** - processes data from collections, arrays, etc.
+- **Functional-style operations** on collections
+
+**Stream Creation:**
+```java
+// From collections
+List<String> list = Arrays.asList("a", "b", "c");
+Stream<String> stream1 = list.stream();
+
+// From arrays
+String[] array = {"x", "y", "z"};
+Stream<String> stream2 = Arrays.stream(array);
+
+// Direct creation
+Stream<Integer> stream3 = Stream.of(1, 2, 3, 4, 5);
+
+// Infinite streams
+Stream<Integer> infiniteStream = Stream.generate(() -> 1);
+Stream<Integer> iterateStream = Stream.iterate(0, n -> n + 2);
+```
+
+**Stream Operations:**
+
+**Intermediate Operations (return Stream):**
+- `filter()` - Filters elements based on condition
+- `map()` - Transforms elements
+- `sorted()` - Sorts elements
+- `distinct()` - Removes duplicates
+- `limit(n)` - Limits number of elements
+- `skip(n)` - Skips first n elements
+
+**Terminal Operations (return result):**
+- `collect()` - Collects to collection
+- `forEach()` - Performs action on each element
+- `reduce()` - Reduces to single value
+- `count()` - Counts elements
+- `anyMatch()`, `allMatch()`, `noneMatch()` - Boolean operations
+
+**Examples:**
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+// Filter even numbers, square them, collect to list
+List<Integer> result = numbers.stream()
+    .filter(n -> n % 2 == 0)        // 2, 4, 6, 8, 10
+    .map(n -> n * n)                // 4, 16, 36, 64, 100
+    .collect(Collectors.toList());
+
+// Find sum of squares of odd numbers
+int sum = numbers.stream()
+    .filter(n -> n % 2 == 1)        // 1, 3, 5, 7, 9
+    .map(n -> n * n)                // 1, 9, 25, 49, 81
+    .reduce(0, Integer::sum);       // 165
+
+// Group by even/odd
+Map<Boolean, List<Integer>> grouped = numbers.stream()
+    .collect(Collectors.groupingBy(n -> n % 2 == 0));
+```
+
+### 7.4 Method References
+
+**Shorthand for lambda expressions** when calling existing methods
+- If lambda just calls an existing method, use method reference.
+
+**Types of Method References:**
+
+```java
+List<String> names = Arrays.asList("John", "Jane", "Bob");
+
+// 1. Static method reference
+// Lambda: x -> Integer.parseInt(x)
+Function<String, Integer> parser = Integer::parseInt;
+
+// 2. Instance method reference
+// Lambda: x -> x.toLowerCase()
+names.stream().map(String::toLowerCase);
+
+// 3. Constructor reference
+// Lambda: () -> new ArrayList<>()
+Supplier<List<String>> listSupplier = ArrayList::new;
+
+// 4. Instance method of particular object
+String prefix = "Hello ";
+// Lambda: x -> prefix.concat(x)
+Function<String, String> greeter = prefix::concat;
+```
+
+### 7.5 Optional Class
+
+- **Purpose:** Avoid `NullPointerException` by representing optional values
+- A container object which may or may not contain a non-null value.
+- Think of it as a box that may be empty or may contain a value.
+
+**Creation:**
+```java
+// Creating Optional
+Optional<String> empty = Optional.empty(); // empty Optional
+Optional<String> nonEmpty = Optional.of("Hello"); // must have non-null value
+Optional<String> nullable = Optional.ofNullable(getString()); // may return null
+```
+
+**Common Methods:**
+
+| Method | Description |
+|--------|-------------|
+| `isPresent()` | Checks if value exists |
+| `get()` | Returns the value (throws exception if empty) |
+| `orElse(T other)` | Returns value or default if empty |
+| `orElseGet(Supplier)` | Returns value or gets from supplier if empty |
+| `ifPresent(Consumer)` | Executes code if value exists |
+
+```java
+Optional<String> optional = Optional.of("Hello World");
+
+// Check if value present
+if (optional.isPresent()) {
+    System.out.println(optional.get());
+}
+
+// Better approach - ifPresent()
+optional.ifPresent(System.out::println);
+
+// Provide default value
+String result = optional.orElse("Default");
+String result2 = optional.orElseGet(() -> "Generated Default");
+
+// Chain operations
+String upperCase = optional
+    .filter(s -> s.length() > 5)
+    .map(String::toUpperCase)
+    .orElse("SHORT");
+```
+
+### 7.6 Default Methods in Interfaces
+
+**Before Java 8:** Interfaces could only have abstract methods
+**Java 8+:** Interfaces can have default implementations
+
+```java
+interface Vehicle {
+    // Abstract method
+    void start();
+    
+    // Default method
+    default void stop() {
+        System.out.println("Vehicle stopping...");
+        cleanup(); // Can call private method
+    }
+    
+    // Static method
+    static void honk() {
+        System.out.println("Beep beep!");
+        playSound(); // Can call private static method
+    }
+    
+    // Private method (Java 9+) - for code reuse within interface
+    private void cleanup() {
+        System.out.println("Cleaning up resources");
+    }
+    
+    // Private static method (Java 9+)
+    private static void playSound() {
+        System.out.println("Playing honk sound");
+    }
+}
+```
+
+**Default Methods:**
+- Allow interface evolution without breaking code
+- Optional override by implementing classes
+- Called using object reference
+
+**Static Methods:**
+- Utility methods for the interface
+- Called using interface name (e.g., `Vehicle.honk()`)
+- Cannot be overridden or inherited
+
+**Private Methods (Java 9+):**
+- Code reuse within the interface only
+- Not accessible to implementing classes
+- Can be instance or static private methods
+
+### 7.7 New Date/Time API (java.time)
+
+**Problems with old Date/Calendar:**
+- Not thread-safe, mutable objects, confusing API design
+- Java 8 introduced java.time package → cleaner, immutable, thread-safe classes.
+
+**🔹 Key Classes:**
+
+| Class | Description |
+|-------|-------------|
+| `LocalDate` | Date without time (yyyy-MM-dd) |
+| `LocalTime` | Time without date (HH:mm:ss) |
+| `LocalDateTime` | Date + Time (yyyy-MM-dd HH:mm:ss) |
+| `ZonedDateTime` | Date + Time + Timezone |
+| `Instant` | Point in timeline (like timestamp) |
+| `Duration` | Time between two instants or times |
+| `Period` | Difference between two dates (days, months, years) |
+| `DateTimeFormatter` | Format/parse date-time strings |
+
+**Common Operations:**
+```java
+// Current date/time
+LocalDate today = LocalDate.now();              // 2024-03-15
+LocalTime time = LocalTime.now();               // 19:45:30.123
+LocalDateTime now = LocalDateTime.now();        // 2024-03-15T14:30:45
+
+// Creating specific values
+LocalDate date = LocalDate.of(2024, 3, 15);
+LocalTime time = LocalTime.of(14, 30, 45);
+
+// Operations
+LocalDate tomorrow = today.plusDays(1);
+LocalDate nextMonth = today.plusMonths(1);
+LocalDate lastWeek = today.minusWeeks(1);
+
+// Period and Duration
+LocalDate start = LocalDate.of(2025, 1, 1);
+LocalDate end = LocalDate.of(2025, 12, 31);
+Period period = Period.between(start, end);
+System.out.println(period.getMonths() + " months, " + period.getDays() + " days");
+
+// Formatting
+LocalDate now = LocalDate.now();
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+String formatted = now.format(formatter);     // "15-03-2024 19:45"
+```
+
+### 7.8 CompletableFuture (Java 8)
+
+**What is CompletableFuture?**
+- Class in `java.util.concurrent` package
+- Represents future result of asynchronous computation
+- Runs tasks in parallel without blocking main thread
+- Can combine multiple asynchronous tasks and handle results
+
+**🔹 Key Points:**
+- Non-blocking async programming
+- Chain tasks: `thenApply`, `thenAccept`, `thenRun`
+- Handle exceptions: `exceptionally`
+- Combine futures: `thenCombine`, `allOf`, `anyOf`
+
+**🔹 Examples:**
+```java
+// Simple async task
+CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello World");
+
+// Chaining tasks
+CompletableFuture<String> result = CompletableFuture
+    .supplyAsync(() -> "Hello")
+    .thenApply(s -> s + " World")
+    .thenApply(String::toUpperCase);
+
+// Handling exceptions
+CompletableFuture<String> safe = CompletableFuture
+    .supplyAsync(() -> "Hello")
+    .exceptionally(ex -> "Error occurred: " + ex.getMessage());
+```
+
+**🔹 Key Methods:**
+
+| Method | Description |
+|--------|-------------|
+| `supplyAsync()` | Run async task that returns a value |
+| `runAsync()` | Run async task that returns void |
+| `thenApply()` | Transform result of future |
+| `thenAccept()` | Consume result of future |
+| `thenRun()` | Run task after future completes, no input |
+| `exceptionally()` | Handle exceptions |
+| `thenCombine()` | Combine two futures |
+| `allOf()` | Wait for multiple futures to complete |
+
+### 7.9 Collectors (Java 8+)
+
+**What is Collectors?**
+- A utility class in `java.util.stream` package
+- Provides static methods to collect Stream results into different forms like List, Set, Map, String, sum, average, etc.
+- Always used with the `collect()` terminal operation
+
+**🔹 Commonly Used Collectors:**
+
+| Collector | Description |
+|-----------|-------------|
+| `toList()` | Collects elements into a List |
+| `toSet()` | Collects elements into a Set (removes duplicates) |
+| `toMap()` | Collects elements into a Map (need key + value mapping) |
+| `joining()` | Concatenates elements into a String |
+| `counting()` | Counts number of elements |
+| `summingInt()`, `averagingInt()` | Sum / Average of elements |
+| `groupingBy()` | Groups elements by a property |
+| `partitioningBy()` | Divides elements into two groups (true/false) |
+
+**🔹 Examples:**
+```java
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "Alice");
+
+// Basic collections
+List<String> list = names.stream().collect(Collectors.toList());
+Set<String> uniqueNames = names.stream().collect(Collectors.toSet());
+Map<Integer, String> map = names.stream()
+    .collect(Collectors.toMap(String::length, s -> s)); // ex. key = 3, value = Bob
+
+// Joining strings
+String joined = names.stream().collect(Collectors.joining(", ")); // "Alice, Bob, Charlie, Alice"
+
+// Grouping by length
+Map<Integer, List<String>> grouped = names.stream()
+    .collect(Collectors.groupingBy(String::length));
+// Output: {3=[Bob], 5=[Alice, Alice], 7=[Charlie]}
+
+// Partitioning by condition
+Map<Boolean, List<String>> partitioned = names.stream()
+    .collect(Collectors.partitioningBy(name -> name.length() > 3));
+// Output: {false=[Bob], true=[Alice, Charlie, Alice]}
+```
+
+### 7.10 Key Interview Points
+
+**Most Important Java 8+ Features for Interviews:**
+1. **Lambda Expressions** - Syntax and usage
+2. **Stream API** - filter, map, collect operations
+3. **Functional Interfaces** - Predicate, Function, Consumer, Supplier
+4. **Optional** - Avoiding null pointer exceptions
+5. **Method References** - Different types and syntax
+6. **Default Methods** - Interface evolution without breaking changes
+
+**Common Interview Questions:**
+- "What are lambda expressions and how do they work?"
+- "Explain the difference between map() and flatMap()"
+- "How do you avoid NullPointerException using Optional?"
+- "What are the benefits of Stream API over traditional loops?"
+- "How do default methods solve the interface evolution problem?"
 
 ---
 
