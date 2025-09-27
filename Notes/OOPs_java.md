@@ -4,7 +4,7 @@
 ## Table of Contents
 1. [Introduction to OOPs](#1-introduction-to-oops)
 2. [Classes and Objects](#2-classes-and-objects)
-3. [this Keyword](#3-this-keyword)
+3. [this and super Keywords](#3-this-and-super-keywords)
 4. [Constructors](#4-constructors)
 5. [Polymorphism](#5-polymorphism)
 6. [Inheritance](#6-inheritance)
@@ -135,35 +135,74 @@ Aman 20
 
 ---
 
-## 3. this Keyword
+## 3. this and super Keywords
 
-### Definition
+### this Keyword
 - **this** is a reference to the current object
-- Used to refer to the current object's properties and methods
-- Helps distinguish between parameter names and instance variables
+- Used to distinguish between parameter names and instance variables
+- Can call other constructors using `this()`
 
-### Example
 ```java
 class Student {
     String name;
     int age;
     
-    public void printInfo() {
-        System.out.println(this.name + " " + this.age);
-    }
-    
-    // this keyword helps distinguish between parameter and instance variable
     public void setName(String name) {
         this.name = name;  // this.name refers to instance variable
+    }
+    
+    public Student() {
+        this("Unknown", 0);  // Constructor chaining
+    }
+    
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 }
 ```
 
-### When to Use this
-1. When parameter names are same as instance variable names
-2. To explicitly refer to current object's properties
-3. To call one constructor from another constructor
-4. To return current object from methods
+### super Keyword
+- **super** is a reference to the parent class object
+- Used to access parent class variables, methods, and constructors
+- `super()` must be first statement in constructor
+
+```java
+class Animal {
+    String name;
+    
+    public Animal(String name) {
+        this.name = name;
+    }
+    
+    public void eat() {
+        System.out.println("Animal is eating");
+    }
+}
+
+class Dog extends Animal {
+    String breed;
+    
+    public Dog(String name, String breed) {
+        super(name);  // Call parent constructor
+        this.breed = breed;
+    }
+    
+    public void eat() {
+        super.eat();  // Call parent method
+        System.out.println("Dog is eating bones");
+    }
+}
+```
+
+### Key Differences
+
+| Feature | this | super |
+|---------|------|-------|
+| **Purpose** | Current object reference | Parent class reference |
+| **Constructor** | `this()` - current class | `super()` - parent class |
+| **Variables** | Current class variables | Parent class variables |
+| **Methods** | Current class methods | Parent class methods |
 
 ---
 
