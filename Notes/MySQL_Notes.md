@@ -244,6 +244,16 @@ SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM users;  -- Joins str
 ```sql
 SELECT CONCAT_WS('-', first_name, last_name, id) FROM users;  -- Joins with separator: 'John-Doe-123' (skips NULL values)
 ```
+### GROUP_CONCAT:
+```sql
+SELECT GROUP_CONCAT(name) FROM employees;                    -- Combines all names: 'John,Jane,Mike'
+SELECT GROUP_CONCAT(name SEPARATOR '; ') FROM employees;     -- Custom separator: 'John; Jane; Mike'
+SELECT department, GROUP_CONCAT(name ORDER BY name) 
+FROM employees 
+GROUP BY department;  -- Group names by dept, sorted
+
+SELECT GROUP_CONCAT(DISTINCT department) FROM employees;     -- Unique departments only: 'HR,IT,Finance'
+```
 
 ### SUBSTRING:
 ```sql
@@ -309,6 +319,7 @@ SELECT ISNULL('Hello');     -- Returns 0 (false) if value is not NULL
 SELECT * FROM employees WHERE ISNULL(phone);  -- Find employees with NULL phone numbers
 ```
 
+
 ---
 
 ## 8. Query Modifiers
@@ -363,6 +374,65 @@ SELECT * FROM employees WHERE name NOT LIKE 'J%';  -- Does NOT start with 'J' (e
 - `%` = any number of characters (0 or more)
 - `_` = exactly one character
 - `NOT LIKE` = opposite of LIKE (excludes matching patterns)
+
+---
+
+### REGEXP (Regular Expressions)
+- Used for advanced pattern matching with regular expression syntax.
+- More powerful than LIKE for complex pattern matching.
+
+#### Examples:
+```sql
+SELECT * FROM employees WHERE name REGEXP '^J';        -- Starts with 'J' (same as LIKE 'J%')
+SELECT * FROM employees WHERE name REGEXP 'son$';      -- Ends with 'son' (same as LIKE '%son')
+SELECT * FROM employees WHERE name REGEXP 'oh';        -- Contains 'oh' (same as LIKE '%oh%')
+SELECT * FROM employees WHERE name REGEXP '^J.n$';     -- J + any single char + n (same as LIKE 'J_n')
+SELECT * FROM employees WHERE name REGEXP '[0-9]';     -- Contains any digit (0-9)
+SELECT * FROM employees WHERE name REGEXP '^[A-Z][a-z]+$'; -- Starts with uppercase, followed by lowercase letters
+SELECT * FROM employees WHERE name REGEXP 'John|Jane'; -- Contains 'John' OR 'Jane'
+SELECT * FROM employees WHERE name NOT REGEXP '^[0-9]'; -- Does NOT start with a digit
+```
+
+### REGEXP_LIKE Function
+- Alternative function syntax for regular expression matching.
+- Returns 1 (true) if the string matches the pattern, 0 (false) otherwise.
+- More explicit function-based approach compared to REGEXP operator.
+
+#### Examples:
+```sql
+SELECT * FROM employees WHERE REGEXP_LIKE(name, '^J');        -- Starts with 'J'
+SELECT * FROM employees WHERE REGEXP_LIKE(name, 'son$');      -- Ends with 'son'
+SELECT * FROM employees WHERE REGEXP_LIKE(name, '[0-9]');     -- Contains any digit
+SELECT * FROM employees WHERE REGEXP_LIKE(name, '^[A-Z][a-z]+$'); -- Proper case names
+SELECT * FROM employees WHERE REGEXP_LIKE(email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'); -- Valid email format
+
+-- With case-insensitive matching (flag 'i')
+SELECT * FROM employees WHERE REGEXP_LIKE(name, '^john', 'i'); -- Case-insensitive match
+
+-- Multiple flags can be combined
+SELECT * FROM employees WHERE REGEXP_LIKE(description, 'pattern', 'im'); -- Case-insensitive + multiline
+```
+
+**REGEXP_LIKE Flags:**
+- `'i'` = case-insensitive matching
+- `'c'` = case-sensitive matching (default)
+- `'m'` = multiline mode (^ and $ match line boundaries)
+- `'n'` = dot (.) matches newline characters
+- `'x'` = ignore whitespace in pattern
+
+**Common REGEXP Patterns:**
+- `^` = start of string
+- `$` = end of string
+- `.` = any single character (like `_` in LIKE)
+- `[A-Z]` = any uppercase letter
+- `[a-z]` = any lowercase letter
+- `[0-9]` = any digit
+- `[A-Za-z]` = any letter
+- `+` = one or more of the preceding character
+- `*` = zero or more of the preceding character
+- `|` = OR operator
+- `{n}` = exactly n occurrences
+- `{n,m}` = between n and m occurrences
 
 ---
 
