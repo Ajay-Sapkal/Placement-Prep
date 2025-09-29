@@ -2,6 +2,82 @@
 
 ---
 
+## Table of Contents
+
+### 1. Absolute Must-Knows
+- [1.1 JVM, JRE, JDK (Differences & Roles)](#11-jvm-jre-jdk-differences--roles)
+- [1.2 Java Memory Model (Stack vs Heap)](#12-java-memory-model-stack-vs-heap)
+- [1.3 Garbage Collection Basics](#13-garbage-collection-basics)
+
+### 2. Basic Java Topics
+- [2.1 Data Types (Primitive vs Reference)](#21-data-types-primitive-vs-reference)
+- [2.2 Variables & Operators](#22-variables--operators)
+- [2.3 Conditional Statements](#23-conditional-statements)
+- [2.4 Keywords: `static`, `final`](#24-keywords-static-final)
+
+### 3. Methods/Functions
+- [What are Methods?](#what-are-methods)
+
+### 4. Exception Handling
+- [What is Exception Handling?](#what-is-exception-handling)
+- [Creating Custom Exceptions](#creating-custom-exceptions)
+- [Try-with-Resources (Java 7+)](#try-with-resources-java-7)
+
+### 5. Collections Framework
+- [What is Collections Framework?](#what-is-collections-framework)
+- [5.1 List Interface](#51-list-interface)
+  - [ArrayList](#1-arraylist)
+  - [LinkedList](#2-linkedlist)
+  - [Vector](#3-vector)
+  - [Stack](#4-stack)
+- [5.2 Set Interface](#52-set-interface)
+  - [HashSet](#1-hashset)
+  - [LinkedHashSet](#2-linkedhashset)
+  - [TreeSet](#3-treeset)
+- [5.3 Queue Interface](#53-queue-interface)
+  - [PriorityQueue](#1-priorityqueue)
+  - [ArrayDeque](#2-arraydeque)
+- [5.4 Map Interface](#54-map-interface)
+  - [HashMap](#1-hashmap)
+  - [HashMap Internal Working](#hashmap-internal-working-important-for-interviews)
+  - [LinkedHashMap](#2-linkedhashmap)
+  - [TreeMap](#3-treemap)
+  - [Hashtable](#4-hashtable)
+- [5.5 Common Operations](#5-common-operations)
+- [5.6 Wrapper Classes](#56-wrapper-classes)
+- [5.7 Comparable vs Comparator](#57-comparable-vs-comparator)
+
+### 6. Important Differences & Trade-offs
+- [6.1 List Implementations](#61-list-implementations)
+- [6.2 Set Implementations](#62-set-implementations)
+- [6.3 Map Implementations](#63-map-implementations)
+- [6.4 Queue Implementations](#64-queue-implementations)
+- [6.5 Legacy vs Modern](#65-legacy-vs-modern)
+- [6.6 Thread Safety Comparison](#66-thread-safety-comparison)
+- [6.7 When to Use What?](#67-when-to-use-what)
+
+### 7. Java 8+ Features
+- [7.1 Lambda Expressions](#71-lambda-expressions)
+- [7.2 Functional Interfaces](#72-functional-interfaces)
+- [7.3 Stream API](#73-stream-api)
+- [7.4 Method References](#74-method-references)
+- [7.5 Optional Class](#75-optional-class)
+- [7.6 Default Methods in Interfaces](#76-default-methods-in-interfaces)
+- [7.7 New Date/Time API (java.time)](#77-new-datetime-api-javatime)
+- [7.8 CompletableFuture (Java 8)](#78-completablefuture-java-8)
+- [7.9 Collectors (Java 8+)](#79-collectors-java-8)
+- [7.10 Key Interview Points](#710-key-interview-points)
+
+### 8. Multithreading and Concurrency
+- [What is Multithreading?](#what-is-multithreading)
+- [8.1 Multitasking vs Multithreading](#81-multitasking-vs-multithreading)
+- [8.2 Why Multithreading?](#82-why-multithreading)
+- [8.3 Main Thread](#83-main-thread)
+- [8.4 User Thread vs Daemon Thread](#84-user-thread-vs-daemon-thread)
+- [8.5 Creating Threads](#85-creating-threads)
+
+---
+
 ## 1. Absolute Must-Knows
 
 ### 1.1 JVM, JRE, JDK (Differences & Roles)
