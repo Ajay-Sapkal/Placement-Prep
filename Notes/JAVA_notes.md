@@ -26,13 +26,13 @@
 
 
 **[5. Collections Framework](#5-collections-framework)*
-- [5.1 List Interface](#51-list-interface
-- [5.2 Set Interface](#52-set-interface
-- [5.3 Queue Interface](#53-queue-interface
-- [5.4 Map Interface](#54-map-interface
-- [5.5 Common Operations](#55-common-operations
-- [5.6 Aonymous Classes (Pre-Java 8 Context)](#56-anonymous-classes-pre-java-8-context
-- [5.7 Comparable vs Comparator](#57-comparable-vs-comparator
+- [5.1 List Interface](#51-list-interface)
+- [5.2 Set Interface](#52-set-interface)
+- [5.3 Queue Interface](#53-queue-interface)
+- [5.4 Map Interface](#54-map-interface)
+- [5.5 Common Operations](#55-common-operations)
+- [5.6 Aonymous Classes (Pre-Java 8 Context)](#56-anonymous-classes-pre-java-8-context)
+- [5.7 Comparable vs Comparator](#57-comparable-vs-comparator)
 - [5.8 Important Differences & Trade-offs](#58-important-differences--trade-offs)
 
 
