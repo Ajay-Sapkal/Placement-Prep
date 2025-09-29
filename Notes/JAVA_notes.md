@@ -4,77 +4,79 @@
 
 ## Table of Contents
 
-### 1. Absolute Must-Knows
-- [1.1 JVM, JRE, JDK (Differences & Roles)](#11-jvm-jre-jdk-differences--roles)
-- [1.2 Java Memory Model (Stack vs Heap)](#12-java-memory-model-stack-vs-heap)
-- [1.3 Garbage Collection Basics](#13-garbage-collection-basics)
 
-### 2. Basic Java Topics
-- [2.1 Data Types (Primitive vs Reference)](#21-data-types-primitive-vs-reference)
-- [2.2 Variables & Operators](#22-variables--operators)
-- [2.3 Conditional Statements](#23-conditional-statements)
-- [2.4 Keywords: `static`, `final`](#24-keywords-static-final)
+**[1. Absolute Must-Knows](#1-absolute-must-knows)**
+    - [1.1 JVM, JRE, JDK (Differences & Roles)](#11-jvm-jre-jdk-differences--roles)
+    - [1.2 Java Memory Model (Stack vs Heap)](#12-java-memory-model-stack-vs-heap)
+    - [1.3 Garbage Collection Basics](#13-garbage-collection-basics)
 
-### 3. Methods/Functions
-- [What are Methods?](#what-are-methods)
 
-### 4. Exception Handling
-- [What is Exception Handling?](#what-is-exception-handling)
-- [Creating Custom Exceptions](#creating-custom-exceptions)
-- [Try-with-Resources (Java 7+)](#try-with-resources-java-7)
+**[2. Basic Java Topics](#2-basic-java-topics)**
+    - [2.1 Data Types (Primitive vs Reference)](#21-data-types-primitive-vs-reference)
+    - [2.2 Variables & Operators](#22-variables--operators)
+    - [2.3 Conditional Statements](#23-conditional-statements)
+    - [2.4 Keywords: `static`, `final`](#24-keywords-static-final)
 
-### 5. Collections Framework
-- [What is Collections Framework?](#what-is-collections-framework)
-- [5.1 List Interface](#51-list-interface)
-  - [ArrayList](#1-arraylist)
-  - [LinkedList](#2-linkedlist)
-  - [Vector](#3-vector)
-  - [Stack](#4-stack)
-- [5.2 Set Interface](#52-set-interface)
-  - [HashSet](#1-hashset)
-  - [LinkedHashSet](#2-linkedhashset)
-  - [TreeSet](#3-treeset)
-- [5.3 Queue Interface](#53-queue-interface)
-  - [PriorityQueue](#1-priorityqueue)
-  - [ArrayDeque](#2-arraydeque)
-- [5.4 Map Interface](#54-map-interface)
-  - [HashMap](#1-hashmap)
-  - [HashMap Internal Working](#hashmap-internal-working-important-for-interviews)
-  - [LinkedHashMap](#2-linkedhashmap)
-  - [TreeMap](#3-treemap)
-  - [Hashtable](#4-hashtable)
-- [5.5 Common Operations](#5-common-operations)
-- [5.6 Wrapper Classes](#56-wrapper-classes)
-- [5.7 Comparable vs Comparator](#57-comparable-vs-comparator)
 
-### 6. Important Differences & Trade-offs
-- [6.1 List Implementations](#61-list-implementations)
-- [6.2 Set Implementations](#62-set-implementations)
-- [6.3 Map Implementations](#63-map-implementations)
-- [6.4 Queue Implementations](#64-queue-implementations)
-- [6.5 Legacy vs Modern](#65-legacy-vs-modern)
-- [6.6 Thread Safety Comparison](#66-thread-safety-comparison)
-- [6.7 When to Use What?](#67-when-to-use-what)
 
-### 7. Java 8+ Features
-- [7.1 Lambda Expressions](#71-lambda-expressions)
-- [7.2 Functional Interfaces](#72-functional-interfaces)
-- [7.3 Stream API](#73-stream-api)
-- [7.4 Method References](#74-method-references)
-- [7.5 Optional Class](#75-optional-class)
-- [7.6 Default Methods in Interfaces](#76-default-methods-in-interfaces)
-- [7.7 New Date/Time API (java.time)](#77-new-datetime-api-javatime)
-- [7.8 CompletableFuture (Java 8)](#78-completablefuture-java-8)
-- [7.9 Collectors (Java 8+)](#79-collectors-java-8)
-- [7.10 Key Interview Points](#710-key-interview-points)
+**[3. Methods/Functions](#3-methodsfunctions)**
 
-### 8. Multithreading and Concurrency
-- [What is Multithreading?](#what-is-multithreading)
-- [8.1 Multitasking vs Multithreading](#81-multitasking-vs-multithreading)
-- [8.2 Why Multithreading?](#82-why-multithreading)
-- [8.3 Main Thread](#83-main-thread)
-- [8.4 User Thread vs Daemon Thread](#84-user-thread-vs-daemon-thread)
-- [8.5 Creating Threads](#85-creating-threads)
+
+**[4. Exception Handling](#4-exception-handling)**
+
+
+**[5. Collections Framework](#5-collections-framework)**
+    - [5.1 List Interface](#51-list-interface)
+    - [5.2 Set Interface](#52-set-interface)
+    - [5.3 Queue Interface](#53-queue-interface)
+    - [5.4 Map Interface](#54-map-interface)
+    - [5.5 Common Operations](#55-common-operations)
+    - [5.6 Anonymous Classes (Pre-Java 8 Context)](#56-anonymous-classes-pre-java-8-context)
+    - [5.7 Comparable vs Comparator](#57-comparable-vs-comparator)
+    - [5.8 Important Differences & Trade-offs](#58-important-differences--trade-offs)
+
+
+**[6. Java 8+ Features](#6-java-8-features)**
+    - [6.1 Lambda Expressions](#61-lambda-expressions)
+    - [6.2 Functional Interfaces](#62-functional-interfaces)
+    - [6.3 Stream API](#63-stream-api)
+    - [6.4 Method References](#64-method-references)
+    - [6.5 Optional Class](#65-optional-class)
+    - [6.6 Default Methods in Interfaces](#66-default-methods-in-interfaces)
+    - [6.7 New Date/Time API (java.time)](#67-new-datetime-api-javatime)
+    - [6.8 CompletableFuture (Java 8)](#68-completablefuture-java-8)
+    - [6.9 Collectors (Java 8+)](#69-collectors-java-8)
+    - [6.10 Key Interview Points](#610-key-interview-points)
+
+
+
+**[7. Multithreading and Concurrency](#7-multithreading-and-concurrency)**
+    - [7.1 Multitasking vs Multithreading](#71-multitasking-vs-multithreading)
+    - [7.2 Why Multithreading?](#72-why-multithreading)
+    - [7.3 Main Thread](#73-main-thread)
+    - [7.4 User Thread vs Daemon Thread](#74-user-thread-vs-daemon-thread)
+    - [7.5 Creating Threads](#75-creating-threads)
+    - [7.6 How Thread Creation Works Internally](#76-how-thread-creation-works-internally)
+    - [7.7 Thread Lifecycle and States](#77-thread-lifecycle-and-states)
+    - [7.8 Thread Synchronization](#78-thread-synchronization)
+    - [7.9 wait(), notify(), and notifyAll()](#79-wait-notify-and-notifyall)
+    - [7.10 volatile Keyword](#710-volatile-keyword)
+    - [7.11 Thread Methods](#711-thread-methods)
+    - [7.12 Thread Priorities](#712-thread-priorities)
+    - [7.13 Deadlock](#713-deadlock)
+    - [7.14 Thread Safety](#714-thread-safety)
+    - [7.15 Best Practices and Interview Tips](#715-best-practices-and-interview-tips)
+
+
+
+**[8. String Handling](#8-string-handling)**
+    - [8.1 String Class](#81-string-class)
+    - [8.2 StringBuilder Class](#82-stringbuilder-class)
+    - [8.3 StringBuffer Class](#83-stringbuffer-class)
+    - [8.4 String vs StringBuilder vs StringBuffer](#84-string-vs-stringbuilder-vs-stringbuffer)
+    - [8.5 String Pool and Memory Management](#85-string-pool-and-memory-management)
+    - [8.6 Common String Operations and Patterns](#86-common-string-operations-and-patterns)
+    - [8.7 Best Practices and Interview Tips](#87-best-practices-and-interview-tips)
 
 ---
 
@@ -1488,7 +1490,7 @@ Map<String, Integer> syncMap = Collections.synchronizedMap(new HashMap<>());   /
 ```
 
 ---
-### 5 Common Operations
+### 5.5 Common Operations
 
 **Iterating Collections:**
 ```java
@@ -1519,7 +1521,28 @@ int max = Collections.max(numbers); // Find maximum
 System.out.println(max); // Output: 5
 ```
 
-### 6. Anonymous Classes (Pre-Java 8 Context)
+#### Wrapper Classes
+
+**Important:** Collections can only store **Objects**, not **primitives**. Use wrapper classes:
+
+| Primitive | Wrapper | Primitive | Wrapper |
+|-----------|---------|-----------|---------|
+| `int` | `Integer` | `float` | `Float` |
+| `char` | `Character` | `double` | `Double` |
+| `byte` | `Byte` | `boolean` | `Boolean` |
+| `short` | `Short` | `long` | `Long` |
+
+**Autoboxing/Unboxing:** Java automatically converts between primitives and wrappers.
+
+**Example:**
+```java
+List<Integer> numbers = new ArrayList<>();  // Use Integer, not int
+numbers.add(10);  // Autoboxing: int 10 → Integer object
+```
+
+---
+
+### 5.6 Anonymous Classes (Pre-Java 8 Context)
 
 **What are Anonymous Classes?**
 - **Classes without a name** declared and instantiated together
@@ -1687,30 +1710,10 @@ Comparator<Student> nullSafeName = Comparator
 - **HashMap vs TreeMap:** HashMap is faster, TreeMap maintains sorted keys.
 
 ---
-### 5.6 Wrapper Classes
 
-**Important:** Collections can only store **Objects**, not **primitives**. Use wrapper classes:
+### 5.8 Important Differences & Trade-offs
 
-| Primitive | Wrapper | Primitive | Wrapper |
-|-----------|---------|-----------|---------|
-| `int` | `Integer` | `float` | `Float` |
-| `char` | `Character` | `double` | `Double` |
-| `byte` | `Byte` | `boolean` | `Boolean` |
-| `short` | `Short` | `long` | `Long` |
-
-**Autoboxing/Unboxing:** Java automatically converts between primitives and wrappers.
-
-**Example:**
-```java
-List<Integer> numbers = new ArrayList<>();  // Use Integer, not int
-numbers.add(10);  // Autoboxing: int 10 → Integer object
-```
-
----
-
-## 6. Important Differences & Trade-offs
-
-### 6.1 List Implementations
+### 8.1 List Implementations
 
 **ArrayList vs LinkedList:**
 
@@ -1733,7 +1736,7 @@ numbers.add(10);  // Autoboxing: int 10 → Integer object
 | **Legacy** | Modern (Java 1.2+) | Legacy (Java 1.0) |
 | **Recommendation** | Use for single-threaded apps | Avoid - use ArrayList + external sync |
 
-### 6.2 Set Implementations
+### 8.2 Set Implementations
 
 **HashSet vs LinkedHashSet vs TreeSet:**
 
@@ -1746,7 +1749,7 @@ numbers.add(10);  // Autoboxing: int 10 → Integer object
 | **Memory** | Least | Medium | Most |
 | **Best Use Case** | Fast operations | Order + fast operations | Sorted operations |
 
-### 6.3 Map Implementations
+### 8.3 Map Implementations
 
 **HashMap vs LinkedHashMap vs TreeMap:**
 
@@ -1771,7 +1774,7 @@ numbers.add(10);  // Autoboxing: int 10 → Integer object
 | **Iteration** | Iterator (fail-fast) | Enumerator (fail-safe) |
 | **Recommendation** | Use this | Avoid - use ConcurrentHashMap |
 
-### 6.4 Queue Implementations
+### 8.4 Queue Implementations
 
 **ArrayDeque vs LinkedList (as Queue):**
 
@@ -1784,7 +1787,7 @@ numbers.add(10);  // Autoboxing: int 10 → Integer object
 | **Performance** | Faster for queue operations | Slower |
 | **Best Use Case** | Stack/Queue operations | When nulls needed |
 
-### 6.5 Legacy vs Modern
+### 8.5 Legacy vs Modern
 
 **Stack vs ArrayDeque (for Stack operations):**
 
@@ -1796,7 +1799,7 @@ numbers.add(10);  // Autoboxing: int 10 → Integer object
 | **Operations** | Limited stack methods | Rich set of methods |
 | **Recommendation** | Avoid | Use this |
 
-### 6.6 Thread Safety Comparison
+### 8.6 Thread Safety Comparison
 
 **Thread-Safe vs Non-Thread-Safe:**
 
@@ -1806,7 +1809,7 @@ numbers.add(10);  // Autoboxing: int 10 → Integer object
 | Hashtable | HashMap | ConcurrentHashMap |
 | Stack | ArrayDeque | Collections.synchronizedDeque() |
 
-### 6.7 When to Use What?
+### 8.7 When to Use What?
 
 **Quick Decision Guide:**
 
@@ -1824,9 +1827,9 @@ numbers.add(10);  // Autoboxing: int 10 → Integer object
 
 ---
 
-## 7. Java 8+ Features
+## 6. Java 8+ Features
 
-### 7.1 Lambda Expressions
+### 6.1 Lambda Expressions
 
 **What are Lambdas?**
 - **Anonymous functions** that can be treated as values
@@ -1880,7 +1883,7 @@ Collections.sort(list, new Comparator<String>() {
 Collections.sort(list, (a, b) -> a.length() - b.length());
 ```
 
-### 7.2 Functional Interfaces
+### 6.2 Functional Interfaces
 
 **Definition:** Interface with exactly **one abstract method** (can have default/static methods)
 
@@ -1915,7 +1918,7 @@ Java already has many built-in functional interfaces in `java.util.function` pac
 | `Function<T,R>` | `apply(T t)` | Takes input, returns output |
 | `Predicate<T>` | `test(T t)` | Returns true/false |
 
-### 7.3 Stream API
+### 6.3 Stream API
 
 **What is Stream?**
 - **Sequence of elements** supporting sequential and parallel operations
@@ -1978,7 +1981,7 @@ Map<Boolean, List<Integer>> grouped = numbers.stream()
     .collect(Collectors.groupingBy(n -> n % 2 == 0));
 ```
 
-### 7.4 Method References
+### 6.4 Method References
 
 **Shorthand for lambda expressions** when calling existing methods
 - If lambda just calls an existing method, use method reference.
@@ -2006,7 +2009,7 @@ String prefix = "Hello ";
 Function<String, String> greeter = prefix::concat;
 ```
 
-### 7.5 Optional Class
+### 6.5 Optional Class
 
 - **Purpose:** Avoid `NullPointerException` by representing optional values
 - A container object which may or may not contain a non-null value.
@@ -2052,7 +2055,7 @@ String upperCase = optional
     .orElse("SHORT");
 ```
 
-### 7.6 Default Methods in Interfaces
+### 6.6 Default Methods in Interfaces
 
 **Before Java 8:** Interfaces could only have abstract methods
 **Java 8+:** Interfaces can have default implementations
@@ -2101,7 +2104,7 @@ interface Vehicle {
 - Not accessible to implementing classes
 - Can be instance or static private methods
 
-### 7.7 New Date/Time API (java.time)
+### 6.7 New Date/Time API (java.time)
 
 **Problems with old Date/Calendar:**
 - Not thread-safe, mutable objects, confusing API design
@@ -2148,7 +2151,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 String formatted = now.format(formatter);     // "15-03-2024 19:45"
 ```
 
-### 7.8 CompletableFuture (Java 8)
+### 6.8 CompletableFuture (Java 8)
 
 **What is CompletableFuture?**
 - Class in `java.util.concurrent` package
@@ -2192,7 +2195,7 @@ CompletableFuture<String> safe = CompletableFuture
 | `thenCombine()` | Combine two futures |
 | `allOf()` | Wait for multiple futures to complete |
 
-### 7.9 Collectors (Java 8+)
+### 6.9 Collectors (Java 8+)
 
 **What is Collectors?**
 - A utility class in `java.util.stream` package
@@ -2236,7 +2239,7 @@ Map<Boolean, List<String>> partitioned = names.stream()
 // Output: {false=[Bob], true=[Alice, Charlie, Alice]}
 ```
 
-### 7.10 Key Interview Points
+### 6.10 Key Interview Points
 
 **Most Important Java 8+ Features for Interviews:**
 1. **Lambda Expressions** - Syntax and usage
@@ -2255,7 +2258,7 @@ Map<Boolean, List<String>> partitioned = names.stream()
 
 ---
 
-## 8. Multithreading and Concurrency
+## 7. Multithreading and Concurrency
 
 **What is Multithreading?**
 - Multithreading is the ability of a program to execute multiple threads concurrently
@@ -2264,7 +2267,7 @@ Map<Boolean, List<String>> partitioned = names.stream()
 
 ---
 
-### 8.1 Multitasking vs Multithreading
+### 7.1 Multitasking vs Multithreading
 
 **Process-based Multitasking:**
 - Running multiple programs simultaneously (e.g., MS Word + Chrome)
@@ -2290,7 +2293,7 @@ Map<Boolean, List<String>> partitioned = names.stream()
 
 ---
 
-### 8.2 Why Multithreading?
+### 7.2 Why Multithreading?
 
 **Real-world Examples:**
 - **Developer Building Code:** While code is compiling (30 min), developer can read documentation, attend meetings, etc.
@@ -2305,7 +2308,7 @@ Map<Boolean, List<String>> partitioned = names.stream()
 
 ---
 
-### 8.3 Main Thread
+### 7.3 Main Thread
 
 **What is Main Thread?**
 - Every Java program starts with a main thread
@@ -2320,7 +2323,7 @@ Map<Boolean, List<String>> partitioned = names.stream()
 
 ---
 
-### 8.4 User Thread vs Daemon Thread
+### 7.4 User Thread vs Daemon Thread
 
 **User Thread:**
 - Normal threads that perform application work
@@ -2352,7 +2355,7 @@ thread.start(); // Start the daemon thread
 
 ---
 
-### 8.5 Creating Threads
+### 7.5 Creating Threads
 
 **Two Ways to Create Threads:**
 
@@ -2460,7 +2463,7 @@ public class LambdaThreadDemo {
 
 ---
 
-### 8.6 How Thread Creation Works Internally
+### 7.6 How Thread Creation Works Internally
 
 **Thread Class Internal Structure:**
 ```java
@@ -2491,7 +2494,7 @@ public class Thread implements Runnable {
 
 ---
 
-### 8.7 Thread Lifecycle and States
+### 7.7 Thread Lifecycle and States
 
 **Thread States:**
 ```
@@ -2532,7 +2535,7 @@ System.out.println("Final state: " + thread.getState()); // TERMINATED - thread 
 
 ---
 
-### 8.8 Thread Synchronization
+### 7.8 Thread Synchronization
 
 **Why Synchronization?**
 - Threads share memory space and resources
@@ -2653,7 +2656,8 @@ class StaticSync {
 
 ---
 
-### 8.9 wait(), notify(), and notifyAll()
+
+### 7.9 wait(), notify(), and notifyAll()
 
 **Producer-Consumer Problem:**
 ```java
@@ -2722,7 +2726,8 @@ while (queue.size() == capacity) {
 
 ---
 
-### 8.10 volatile Keyword
+
+### 7.10 volatile Keyword
 
 **Problem: CPU Cache Visibility**
 ```
@@ -2770,7 +2775,8 @@ class VolatileExample {
 
 ---
 
-### 8.11 Thread Methods
+
+### 7.11 Thread Methods
 
 **🔹 Important Thread Methods**
 
@@ -2861,7 +2867,7 @@ worker.interrupt(); // Interrupt the sleeping worker thread - causes Interrupted
 
 ---
 
-### 8.12 Thread Priorities
+### 7.12 Thread Priorities
 
 **Priority Levels:**
 ```java
@@ -2901,7 +2907,7 @@ lowPriorityThread.start();
 
 ---
 
-### 8.13 Deadlock
+### 7.13 Deadlock
 
 **What is Deadlock?**
 - Two or more threads waiting for each other indefinitely
@@ -2985,7 +2991,7 @@ thread2.start();
 
 ---
 
-### 8.14 Thread Safety
+### 7.14 Thread Safety
 
 **What is Thread Safety?**
 - A class/method is thread-safe if it behaves correctly when accessed by multiple threads
@@ -3009,7 +3015,7 @@ thread2.start();
 
 ---
 
-### 8.15 Best Practices and Interview Tips
+### 7.15 Best Practices and Interview Tips
 
 **Common Interview Questions:**
 
@@ -3050,7 +3056,7 @@ thread2.start();
 
 ---
 
-## 9. String Handling
+## 8. String Handling
 
 **What is String Handling?**
 - String handling refers to the manipulation, processing, and management of text data in Java
@@ -3059,7 +3065,7 @@ thread2.start();
 
 ---
 
-### 9.1 String Class
+### 8.1 String Class
 
 **What is String?**
 - A String represents a sequence of characters
@@ -3139,7 +3145,7 @@ for (int i = 0; i < 1000; i++) {
 
 ---
 
-### 9.2 StringBuilder Class
+### 8.2 StringBuilder Class
 
 **What is StringBuilder?**
 - StringBuilder is a **mutable** sequence of characters
@@ -3237,7 +3243,7 @@ String result = sb.toString(); // Only one final string object created
 
 ---
 
-### 9.3 StringBuffer Class
+### 8.3 StringBuffer Class
 
 **What is StringBuffer?**
 - StringBuffer is a **mutable** sequence of characters (similar to StringBuilder)
@@ -3279,7 +3285,7 @@ String result = sb.toString();
 
 ---
 
-### 9.4 String vs StringBuilder vs StringBuffer
+### 8.4 String vs StringBuilder vs StringBuffer
 
 **Comparison Table:**
 
@@ -3314,7 +3320,7 @@ String result = sb.toString();
 
 ---
 
-### 9.5 String Pool and Memory Management
+### 8.5 String Pool and Memory Management
 
 **String Pool Mechanism:**
 ```java
@@ -3361,7 +3367,7 @@ System.out.println(s2 == s3);         // false (heap vs pool)
 
 ---
 
-### 9.6 Common String Operations and Patterns
+### 8.6 Common String Operations and Patterns
 
 **String Validation:**
 ```java
@@ -3430,7 +3436,7 @@ public String buildCSV(List<String> data) {
 
 ---
 
-### 9.7 Best Practices and Interview Tips
+### 8.7 Best Practices and Interview Tips
 
 **Common Interview Questions:**
 
