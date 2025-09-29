@@ -6,16 +6,16 @@
 
 
 **[1. Absolute Must-Knows](#1-absolute-must-knows)**
-    - [1.1 JVM, JRE, JDK (Differences & Roles)](#11-jvm-jre-jdk-differences--roles)
-    - [1.2 Java Memory Model (Stack vs Heap)](#12-java-memory-model-stack-vs-heap)
-    - [1.3 Garbage Collection Basics](#13-garbage-collection-basics)
+- [1.1 JVM, JRE, JDK (Differences & Roles)](#11-jvm-jre-jdk-differences--roles)
+- [1.2 Java Memory Model (Stack vs Heap)](#12-java-memory-model-stack-vs-heap)
+- [1.3 Garbage Collection Basics](#13-garbage-collection-basics)
 
 
 **[2. Basic Java Topics](#2-basic-java-topics)**
-    - [2.1 Data Types (Primitive vs Reference)](#21-data-types-primitive-vs-reference)
-    - [2.2 Variables & Operators](#22-variables--operators)
-    - [2.3 Conditional Statements](#23-conditional-statements)
-    - [2.4 Keywords: `static`, `final`](#24-keywords-static-final)
+- [2.1 Data Types (Primitive vs Reference)](#21-data-types-primitive-vs-reference)
+- [2.2 Variables & Operators](#22-variables--operators)
+- [2.3 Conditional Statements](#23-conditional-statements)
+- [2.4 Keywords: `static`, `final`](#24-keywords-static-final)
 
 
 
@@ -25,58 +25,40 @@
 **[4. Exception Handling](#4-exception-handling)**
 
 
-**[5. Collections Framework](#5-collections-framework)**
-    - [5.1 List Interface](#51-list-interface)
-    - [5.2 Set Interface](#52-set-interface)
-    - [5.3 Queue Interface](#53-queue-interface)
-    - [5.4 Map Interface](#54-map-interface)
-    - [5.5 Common Operations](#55-common-operations)
-    - [5.6 Anonymous Classes (Pre-Java 8 Context)](#56-anonymous-classes-pre-java-8-context)
-    - [5.7 Comparable vs Comparator](#57-comparable-vs-comparator)
-    - [5.8 Important Differences & Trade-offs](#58-important-differences--trade-offs)
+**[5. Collections Framework](#5-collections-framework)*- [5.1 List Interface](#51-list-interface- [5.2 Set Interface](#52-set-interface- [5.3 Queue Interface](#53-queue-interface- [5.4 Map Interface](#54-map-interface- [5.5 Common Operations](#55-common-operations- [5.6 Aonymous Classes (Pre-Java 8 Context)](#56-anonymous-classes-pre-java-8-context- [5.7 Comparable vs Comparator](#57-comparable-vs-comparator- [5.8 Important Differences & Trade-offs](#58-important-differences--trade-offs)
 
 
-**[6. Java 8+ Features](#6-java-8-features)**
-    - [6.1 Lambda Expressions](#61-lambda-expressions)
-    - [6.2 Functional Interfaces](#62-functional-interfaces)
-    - [6.3 Stream API](#63-stream-api)
-    - [6.4 Method References](#64-method-references)
-    - [6.5 Optional Class](#65-optional-class)
-    - [6.6 Default Methods in Interfaces](#66-default-methods-in-interfaces)
-    - [6.7 New Date/Time API (java.time)](#67-new-datetime-api-javatime)
-    - [6.8 CompletableFuture (Java 8)](#68-completablefuture-java-8)
-    - [6.9 Collectors (Java 8+)](#69-collectors-java-8)
-    - [6.10 Key Interview Points](#610-key-interview-points)
+**[6. Java 8+ Features](#6-java-8-features)**- [6.1 Lambda Expressions](#61-lambda-expressions)- [6.2 Functional Interfaces](#62-functional-interfaces)- [6.3 Stream API](#63-stream-api)- [6.4 Method References](#64-method-references)- [6.5 Optional Class](#65-optional-class)- [6.6 Default Methods in Interfaces](#66-default-methods-in-interfaces)- [6.7 New Date/Time API (java.time)](#67-new-datetime-api-javatime)- [6.8 CompletableFuture (Java 8)](#68-completablefuture-java-8)- [6.9 Collectors (Java 8+)](#69-collectors-java-8)- [6.10 Key Interview Points](#610-key-interview-points)
 
 
 
 **[7. Multithreading and Concurrency](#7-multithreading-and-concurrency)**
-    - [7.1 Multitasking vs Multithreading](#71-multitasking-vs-multithreading)
-    - [7.2 Why Multithreading?](#72-why-multithreading)
-    - [7.3 Main Thread](#73-main-thread)
-    - [7.4 User Thread vs Daemon Thread](#74-user-thread-vs-daemon-thread)
-    - [7.5 Creating Threads](#75-creating-threads)
-    - [7.6 How Thread Creation Works Internally](#76-how-thread-creation-works-internally)
-    - [7.7 Thread Lifecycle and States](#77-thread-lifecycle-and-states)
-    - [7.8 Thread Synchronization](#78-thread-synchronization)
-    - [7.9 wait(), notify(), and notifyAll()](#79-wait-notify-and-notifyall)
-    - [7.10 volatile Keyword](#710-volatile-keyword)
-    - [7.11 Thread Methods](#711-thread-methods)
-    - [7.12 Thread Priorities](#712-thread-priorities)
-    - [7.13 Deadlock](#713-deadlock)
-    - [7.14 Thread Safety](#714-thread-safety)
-    - [7.15 Best Practices and Interview Tips](#715-best-practices-and-interview-tips)
+- [7.1 Multitasking vs Multithreading](#71-multitasking-vs-multithreading)
+- [7.2 Why Multithreading?](#72-why-multithreading)
+- [7.3 Main Thread](#73-main-thread)
+- [7.4 User Thread vs Daemon Thread](#74-user-thread-vs-daemon-thread)
+- [7.5 Creating Threads](#75-creating-threads)
+- [7.6 How Thread Creation Works Internally](#76-how-thread-creation-works-internally)
+- [7.7 Thread Lifecycle and States](#77-thread-lifecycle-and-states)
+- [7.8 Thread Synchronization](#78-thread-synchronization)
+- [7.9 wait(), notify(), and notifyAll()](#79-wait-notify-and-notifyall)
+- [7.10 volatile Keyword](#710-volatile-keyword)
+- [7.11 Thread Methods](#711-thread-methods)
+- [7.12 Thread Priorities](#712-thread-priorities)
+- [7.13 Deadlock](#713-deadlock)
+- [7.14 Thread Safety](#714-thread-safety)
+- [7.15 Best Practices and Interview Tips](#715-best-practices-and-interview-tips)
 
 
 
 **[8. String Handling](#8-string-handling)**
-    - [8.1 String Class](#81-string-class)
-    - [8.2 StringBuilder Class](#82-stringbuilder-class)
-    - [8.3 StringBuffer Class](#83-stringbuffer-class)
-    - [8.4 String vs StringBuilder vs StringBuffer](#84-string-vs-stringbuilder-vs-stringbuffer)
-    - [8.5 String Pool and Memory Management](#85-string-pool-and-memory-management)
-    - [8.6 Common String Operations and Patterns](#86-common-string-operations-and-patterns)
-    - [8.7 Best Practices and Interview Tips](#87-best-practices-and-interview-tips)
+- [8.1 String Class](#81-string-class)
+- [8.2 StringBuilder Class](#82-stringbuilder-class)
+- [8.3 StringBuffer Class](#83-stringbuffer-class)
+- [8.4 String vs StringBuilder vs StringBuffer](#84-string-vs-stringbuilder-vs-stringbuffer)
+- [8.5 String Pool and Memory Management](#85-string-pool-and-memory-management)
+- [8.6 Common String Operations and Patterns](#86-common-string-operations-and-patterns)
+- [8.7 Best Practices and Interview Tips](#87-best-practices-and-interview-tips)
 
 ---
 
