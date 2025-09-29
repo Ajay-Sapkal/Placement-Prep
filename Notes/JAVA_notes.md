@@ -25,7 +25,7 @@
 **[4. Exception Handling](#4-exception-handling)**
 
 
-**[5. Collections Framework](#5-collections-framework)*
+**[5. Collections Framework](#5-collections-framework)**
 - [5.1 List Interface](#51-list-interface)
 - [5.2 Set Interface](#52-set-interface)
 - [5.3 Queue Interface](#53-queue-interface)
