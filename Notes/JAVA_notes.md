@@ -2547,6 +2547,9 @@ class SafeCounterWithBlock {
 - **Example:** `synchronized(lock1)` and `synchronized(lock2)` can run concurrently because they use different lock objects
 
 #### Static Synchronization
+- When you declare a static method as synchronized, the lock is on the Class object (e.g., MyClass.class), not on any particular instance.
+- Ensures only one thread can execute any static synchronized method of the class at a time, regardless of how many objects exist.
+
 ```java
 class StaticSync {
     private static int count = 0;
@@ -2968,6 +2971,459 @@ thread2.start();
 - Volatile keyword for visibility
 - Deadlock causes and prevention
 - Thread safety principles
+
+---
+
+## 9. String Handling
+
+**What is String Handling?**
+- String handling refers to the manipulation, processing, and management of text data in Java
+- Strings are one of the most commonly used data types in programming
+- Java provides three main classes for string operations: String, StringBuilder, and StringBuffer
+
+---
+
+### 9.1 String Class
+
+**What is String?**
+- A String represents a sequence of characters
+- Strings in Java are **immutable** - once created, they cannot be changed
+- String objects are stored in a special memory area called **String Pool** (in heap memory)
+- String class implements CharSequence, Serializable, and Comparable interfaces
+
+**Why String Immutability is Important:**
+1. **Security:** Strings used for passwords, file paths, network URLs cannot be modified after creation
+2. **Hash Code Caching:** String's hashCode is calculated once and cached (important for HashMap keys)
+3. **Thread Safety:** Multiple threads can safely access the same String without synchronization
+4. **String Pool Optimization:** Immutable strings can be safely shared in the pool
+
+**String Creation:**
+```java
+// 1. String Literal (Stored in String Pool)
+String s1 = "Hello";
+String s2 = "Hello"; // Points to same object in String Pool
+
+// 2. Using new keyword (Creates new object in heap)
+String s3 = new String("Hello"); // New object every time
+```
+
+**String Pool (Intern Pool):**
+```java
+String s1 = "Java";              // Stored in String Pool
+String s2 = new String("Java");  // New object in heap
+String s3 = s2.intern();         // Returns reference from String Pool
+
+System.out.println(s1 == s2); // false (pool vs heap)
+System.out.println(s1 == s3); // true (intern() returns pool reference)
+```
+
+**Important String Methods:**
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `length()` | Returns string length | `"Hello".length()` → 5 |
+| `charAt(index)` | Returns character at index | `"Hello".charAt(1)` → 'e' |
+| `substring(start, end)` | Returns substring | `"Hello".substring(1, 4)` → "ell" |
+| `indexOf(str)` | Returns first index of substring | `"Hello".indexOf("ll")` → 2 |
+| `contains(str)` | Checks if string contains substring | `"Hello".contains("ell")` → true |
+| `equals(str)` | Compares content | `"Hello".equals("Hello")` → true |
+| `equalsIgnoreCase(str)` | Case-insensitive comparison | `"Hello".equalsIgnoreCase("HELLO")` → true |
+| `toLowerCase()` | Converts to lowercase | `"Hello".toLowerCase()` → "hello" |
+| `toUpperCase()` | Converts to uppercase | `"Hello".toUpperCase()` → "HELLO" |
+| `trim()` | Removes leading/trailing spaces | `" Hello ".trim()` → "Hello" |
+| `replace(old, new)` | Replaces all occurrences | `"Hello".replace('l', 'x')` → "Hexxo" |
+| `split(regex)` | Splits string into array | `"a,b,c".split(",")` → ["a", "b", "c"] |
+| `startsWith(str)` | Checks if starts with | `"Hello".startsWith("He")` → true |
+| `endsWith(str)` | Checks if ends with | `"Hello".endsWith("lo")` → true |
+| `isEmpty()` | Checks if empty | `"".isEmpty()` → true |
+| `isBlank()` | Checks if blank (Java 11+) | `"   ".isBlank()` → true |
+
+**String Immutability Example:**
+```java
+String original = "Hello";
+String modified = original.concat(" World"); // Creates new string object
+
+System.out.println(original); // Output: "Hello" (unchanged)
+System.out.println(modified); // Output: "Hello World" (new object)
+
+// Every string operation creates a new object
+String s = "Java";
+s = s + " Programming"; // Creates new string, old "Java" becomes eligible for GC
+```
+
+**Problem with String Concatenation:**
+```java
+// ❌ Inefficient - creates many temporary objects
+String result = "";
+for (int i = 0; i < 1000; i++) {
+    result += "a"; // Creates new string object in each iteration
+}
+// This creates 1000 intermediate string objects!
+```
+
+---
+
+### 9.2 StringBuilder Class
+
+**What is StringBuilder?**
+- StringBuilder is a **mutable** sequence of characters
+- Provides efficient string manipulation operations
+- **Not thread-safe** (faster than StringBuffer)
+- Introduced in Java 5 as a replacement for StringBuffer in single-threaded scenarios
+
+**Key Features:**
+- **Mutable:** Can modify contents without creating new objects
+- **Resizable:** Automatically grows when needed (default capacity: 16 characters)
+- **Efficient:** Much faster than String for multiple concatenations
+- **Not synchronized:** Better performance in single-threaded applications
+
+**StringBuilder Creation:**
+```java
+// 1. Default constructor (capacity 16)
+StringBuilder sb1 = new StringBuilder();
+
+// 2. With initial capacity
+StringBuilder sb2 = new StringBuilder(50);
+
+// 3. With initial string
+StringBuilder sb3 = new StringBuilder("Hello");
+
+// 4. With CharSequence
+StringBuilder sb4 = new StringBuilder("Initial Text");
+```
+
+**Why Capacity Matters:**
+- **Default Capacity:** 16 characters (can be insufficient for larger strings)
+- **Resizing Cost:** When capacity exceeded, new array allocated (double size) + copy all characters
+- **Performance Impact:** Frequent resizing causes performance degradation
+- **Best Practice:** Set appropriate initial capacity if final size is known
+
+```java
+// ❌ Poor performance - multiple resizes
+StringBuilder sb = new StringBuilder(); // capacity 16
+// Adding 100 characters triggers 3 resizes: 16→32→64→128
+
+// ✅ Good performance - no resizing needed
+StringBuilder sb = new StringBuilder(100); // Set expected capacity
+```
+
+**Important StringBuilder Methods:**
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `append(str)` | Adds string to end | `sb.append("World")` |
+| `insert(index, str)` | Inserts string at index | `sb.insert(5, " Java")` |
+| `delete(start, end)` | Deletes characters | `sb.delete(0, 5)` |
+| `deleteCharAt(index)` | Deletes character at index | `sb.deleteCharAt(0)` |
+| `replace(start, end, str)` | Replaces substring | `sb.replace(0, 5, "Hi")` |
+| `reverse()` | Reverses the string | `sb.reverse()` |
+| `toString()` | Converts to String | `sb.toString()` |
+| `length()` | Returns current length | `sb.length()` |
+| `capacity()` | Returns current capacity | `sb.capacity()` |
+| `setLength(len)` | Sets new length | `sb.setLength(10)` |
+| `charAt(index)` | Gets character at index | `sb.charAt(0)` |
+| `setCharAt(index, ch)` | Sets character at index | `sb.setCharAt(0, 'H')` |
+
+**StringBuilder Examples:**
+```java
+StringBuilder sb = new StringBuilder("Hello");
+
+// Append operations
+sb.append(" World");           // "Hello World"
+sb.append("!").append(" Java"); // Method chaining: "Hello World! Java"
+
+// Insert operation
+sb.insert(6, "Beautiful ");    // "Hello Beautiful World! Java"
+
+// Delete operations
+sb.delete(6, 16);             // "Hello World! Java"
+sb.deleteCharAt(5);           // "HelloWorld! Java"
+
+// Replace operation
+sb.replace(0, 5, "Hi");       // "Hi World! Java"
+
+// Reverse
+sb.reverse();                 // "avaJ !dlroW iH"
+
+// Convert back to String
+String result = sb.toString();
+```
+
+**Efficient String Concatenation:**
+```java
+// ✅ Efficient - uses StringBuilder internally
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i < 1000; i++) {
+    sb.append("a"); // Modifies existing object, no new objects created
+}
+String result = sb.toString(); // Only one final string object created
+```
+
+---
+
+### 9.3 StringBuffer Class
+
+**What is StringBuffer?**
+- StringBuffer is a **mutable** sequence of characters (similar to StringBuilder)
+- **Thread-safe** (synchronized methods)
+- **Older** than StringBuilder (available since Java 1.0)
+- **Slower** than StringBuilder due to synchronization overhead
+
+**Key Features:**
+- **Mutable:** Can modify contents without creating new objects
+- **Thread-safe:** All methods are synchronized
+- **Resizable:** Automatically grows when needed
+- **Legacy:** Mostly replaced by StringBuilder in modern applications
+
+**StringBuffer Creation:**
+```java
+// Same as StringBuilder
+StringBuffer sb1 = new StringBuffer();           // Default capacity 16
+StringBuffer sb2 = new StringBuffer(50);         // Custom capacity
+StringBuffer sb3 = new StringBuffer("Hello");    // With initial string
+```
+
+**StringBuffer Methods:**
+```java
+StringBuffer sb = new StringBuffer("Hello");
+
+// All methods are synchronized (thread-safe)
+sb.append(" World");          // Thread-safe append
+sb.insert(6, "Beautiful ");   // Thread-safe insert
+sb.delete(6, 16);            // Thread-safe delete
+sb.reverse();                // Thread-safe reverse
+
+String result = sb.toString();
+```
+
+**Thread Safety:**
+- StringBuffer is **synchronized** (all methods are thread-safe)
+- Multiple threads can safely use the same StringBuffer instance
+- Slower than StringBuilder due to synchronization overhead
+
+---
+
+### 9.4 String vs StringBuilder vs StringBuffer
+
+**Comparison Table:**
+
+| Feature | String | StringBuilder | StringBuffer |
+|---------|--------|---------------|--------------|
+| **Mutability** | Immutable | Mutable | Mutable |
+| **Thread Safety** | Immutable (inherently safe) | Not thread-safe | Thread-safe |
+| **Performance** | Slow for concatenations | Fast | Moderate (due to sync) |
+| **Memory** | Creates new objects | Modifies existing | Modifies existing |
+| **Synchronization** | N/A | No | Yes |
+| **Introduced** | Java 1.0 | Java 5 | Java 1.0 |
+| **Use Case** | Simple operations | Single-threaded apps | Multi-threaded apps |
+
+**When to Use What:**
+
+| Scenario | Recommended Choice | Reason |
+|----------|-------------------|---------|
+| **Simple operations** | String | Clean, readable code |
+| **Few concatenations** | String | Compiler optimizes with StringBuilder |
+| **Many concatenations (single-threaded)** | StringBuilder | Best performance |
+| **Many concatenations (multi-threaded)** | StringBuffer | Thread safety required |
+| **Building dynamic strings** | StringBuilder | Efficient and flexible |
+| **Legacy code maintenance** | StringBuffer | Maintain existing thread safety |
+
+**Real-world Use Cases:**
+
+| Class | Best For | Examples |
+|-------|----------|----------|
+| **String** | Constants, immutable data | Config keys, map keys, enum values |
+| **StringBuilder** | Dynamic content building | SQL queries, JSON/XML building, file paths |
+| **StringBuffer** | Thread-safe operations | Logging in multi-threaded systems, shared buffers |
+
+---
+
+### 9.5 String Pool and Memory Management
+
+**String Pool Mechanism:**
+```java
+// String literals go to String Pool
+String s1 = "Hello";  // Stored in String Pool
+String s2 = "Hello";  // Reuses same object from pool
+String s3 = "Hello";  // Reuses same object from pool
+
+// new String() creates heap objects
+String s4 = new String("Hello"); // New object in heap
+String s5 = new String("Hello"); // Another new object in heap
+
+// Memory locations
+System.out.println(s1 == s2); // true (same pool object)
+System.out.println(s1 == s3); // true (same pool object)
+System.out.println(s1 == s4); // false (pool vs heap)
+System.out.println(s4 == s5); // false (different heap objects)
+
+// Content comparison
+System.out.println(s1.equals(s4)); // true (same content)
+```
+
+**intern() Method:**
+```java
+String s1 = "Java";                    // String pool
+String s2 = new String("Java");        // Heap
+String s3 = s2.intern();              // Returns pool reference
+
+System.out.println(s1 == s2);         // false (pool vs heap)
+System.out.println(s1 == s3);         // true (both pool references)
+System.out.println(s2 == s3);         // false (heap vs pool)
+```
+
+**Why Use String Interning?**
+- **Memory Optimization:** Reduces memory usage by reusing identical strings
+- **Performance:** Faster string comparison using `==` instead of `.equals()`
+- **Practical Applications:** Parsers, compilers, configuration systems with repeated string values
+- **Example:** Reading 1000 "SUCCESS" status strings creates 1 pool object instead of 1000 heap objects
+
+**Memory Optimization:**
+- String literals are stored in String Pool for reuse
+- Use StringBuilder/StringBuffer for multiple concatenations
+- Avoid creating unnecessary String objects with `new String()`
+
+---
+
+### 9.6 Common String Operations and Patterns
+
+**String Validation:**
+```java
+public class StringValidation {
+    // Check if string is null or empty
+    public static boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
+    
+    // Check if string is null, empty, or blank
+    public static boolean isNullOrBlank(String str) {
+        return str == null || str.trim().isEmpty();
+    }
+    
+    // Safe string comparison
+    public static boolean safeEquals(String s1, String s2) {
+        return Objects.equals(s1, s2); // Handles null values
+    }
+}
+```
+
+**String Manipulation Examples:**
+```java
+String text = "  Java Programming Language  ";
+
+// Cleaning and formatting
+String cleaned = text.trim().toLowerCase(); // "java programming language"
+
+// Word manipulation
+String[] words = cleaned.split("\\s+"); // ["java", "programming", "language"]
+String joined = String.join("-", words); // "java-programming-language"
+
+// Character manipulation
+StringBuilder acronym = new StringBuilder();
+for (String word : words) {
+    if (!word.isEmpty()) {
+        acronym.append(word.charAt(0)); // First letter of each word
+    }
+}
+String result = acronym.toString().toUpperCase(); // "JPL"
+```
+
+**String Builder Patterns:**
+```java
+// Building formatted strings
+public String buildUserInfo(String name, int age, String city) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("User: ").append(name)
+      .append(", Age: ").append(age)
+      .append(", City: ").append(city);
+    return sb.toString();
+}
+
+// Building CSV data
+public String buildCSV(List<String> data) {
+    StringBuilder csv = new StringBuilder();
+    for (int i = 0; i < data.size(); i++) {
+        csv.append(data.get(i));
+        if (i < data.size() - 1) {
+            csv.append(",");
+        }
+    }
+    return csv.toString();
+}
+```
+
+---
+
+### 9.7 Best Practices and Interview Tips
+
+**Common Interview Questions:**
+
+1. **"What is the difference between String, StringBuilder, and StringBuffer?"**
+   - Mutability, thread safety, performance characteristics
+
+2. **"Why are Strings immutable in Java?"**
+   - Security, thread safety, hash code caching, string pool optimization
+
+3. **"What is String Pool and how does it work?"**
+   - Memory optimization, intern() method, literal vs new String()
+
+4. **"When would you use StringBuilder vs StringBuffer?"**
+   - Single-threaded vs multi-threaded applications
+
+5. **"How does string concatenation work internally?"**
+   - Compiler optimization, StringBuilder usage, performance implications
+
+**Best Practices:**
+
+1. **Use appropriate class for the task:**
+   ```java
+   // ✅ For simple operations
+   String greeting = "Hello " + name;
+   
+   // ✅ For multiple operations in single thread
+   StringBuilder sb = new StringBuilder();
+   
+   // ✅ For multiple operations in multi-threaded environment
+   StringBuffer sbf = new StringBuffer();
+   ```
+
+2. **Avoid unnecessary object creation:**
+   ```java
+   // ❌ Avoid
+   String s = new String("Hello"); // Unnecessary heap object
+   
+   // ✅ Prefer
+   String s = "Hello"; // Uses string pool
+   ```
+
+3. **Use String.join() for joining:**
+   ```java
+   // ✅ Clean and efficient
+   String result = String.join(", ", list);
+   
+   // ❌ Avoid manual concatenation
+   StringBuilder sb = new StringBuilder();
+   for (String item : list) {
+       sb.append(item).append(", ");
+   }
+   ```
+
+4. **Handle null values safely:**
+   ```java
+   // ✅ Safe comparison
+   if (Objects.equals(str1, str2)) { ... }
+   
+   // ❌ Potential NullPointerException
+   if (str1.equals(str2)) { ... }
+   ```
+
+**Key Concepts to Remember:**
+- String immutability and its implications
+- String Pool mechanism and memory optimization
+- Performance differences between String, StringBuilder, and StringBuffer
+- Thread safety considerations
+- When to use each class based on requirements
+- Common string manipulation patterns and best practices
 
 ---
 
