@@ -25,7 +25,15 @@
 **[4. Exception Handling](#4-exception-handling)**
 
 
-**[5. Collections Framework](#5-collections-framework)*- [5.1 List Interface](#51-list-interface- [5.2 Set Interface](#52-set-interface- [5.3 Queue Interface](#53-queue-interface- [5.4 Map Interface](#54-map-interface- [5.5 Common Operations](#55-common-operations- [5.6 Aonymous Classes (Pre-Java 8 Context)](#56-anonymous-classes-pre-java-8-context- [5.7 Comparable vs Comparator](#57-comparable-vs-comparator- [5.8 Important Differences & Trade-offs](#58-important-differences--trade-offs)
+**[5. Collections Framework](#5-collections-framework)*
+- [5.1 List Interface](#51-list-interface
+- [5.2 Set Interface](#52-set-interface
+- [5.3 Queue Interface](#53-queue-interface
+- [5.4 Map Interface](#54-map-interface
+- [5.5 Common Operations](#55-common-operations
+- [5.6 Aonymous Classes (Pre-Java 8 Context)](#56-anonymous-classes-pre-java-8-context
+- [5.7 Comparable vs Comparator](#57-comparable-vs-comparator
+- [5.8 Important Differences & Trade-offs](#58-important-differences--trade-offs)
 
 
 **[6. Java 8+ Features](#6-java-8-features)**- [6.1 Lambda Expressions](#61-lambda-expressions)- [6.2 Functional Interfaces](#62-functional-interfaces)- [6.3 Stream API](#63-stream-api)- [6.4 Method References](#64-method-references)- [6.5 Optional Class](#65-optional-class)- [6.6 Default Methods in Interfaces](#66-default-methods-in-interfaces)- [6.7 New Date/Time API (java.time)](#67-new-datetime-api-javatime)- [6.8 CompletableFuture (Java 8)](#68-completablefuture-java-8)- [6.9 Collectors (Java 8+)](#69-collectors-java-8)- [6.10 Key Interview Points](#610-key-interview-points)
