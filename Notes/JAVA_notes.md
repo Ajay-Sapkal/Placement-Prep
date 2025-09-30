@@ -313,7 +313,7 @@ System.out.println(s.substring(0, 4)); // Output: Java
   - Modify: `arr[1] = 5;` (changes the second element).
   - Length: `arr.length` (returns the size of the array).
   - Example (using `new` keyword): `int[] arr = new int[3];` (creates an array of size 3 with default values).
-  - **Sorting:** Use `Arrays.sort(arr)` to sort an array in ascending order.
+  - **Sorting:** Use `Arrays.sort(arr)` to sort an array in ascending order.(nlog(n))
     ```java
     import java.util.Arrays; // must import arrays use sort function
     int[] arr = {3, 1, 2};
@@ -423,11 +423,12 @@ System.out.println(matrix[1][2]); // Output: 6
 
 - Java provides the `Math` class for mathematical operations.
 - Common functions:
-  - `Math.abs(num)`: Returns the absolute value.
-  - `Math.pow(a, b)`: Calculates `a` raised to the power of `b`.
-  - `Math.sqrt(num)`: Returns the square root.
-  - `Math.max(a, b)`, `Math.min(a, b)`: Returns the maximum/minimum of two numbers.
-  - `Math.random()`: Generates a random number between 0.0 and 1.0.
+    - `Math.abs(num)`: Returns the absolute value.
+    - `Math.pow(a, b)`: Calculates `a` raised to the power of `b`.
+    - `Math.sqrt(num)`: Returns the square root.
+    - `Math.ceil(num)`: Returns the smallest integer greater than or equal to the argument (rounds up). Example: `Math.ceil(4.2)` returns `5.0`.
+    - `Math.max(a, b)`, `Math.min(a, b)`: Returns the maximum/minimum of two numbers.
+    - `Math.random()`: Generates a random number between 0.0 and 1.0.
 
 Example:
 
@@ -960,7 +961,7 @@ public class LinkedListExample {
         Integer first = linkedList.poll(); // Removes and returns the first element (head) of the list.
         System.out.println("Removed: " + first); // Output: Removed: 5
         
-        // Deque operations
+        // Stack operations
         linkedList.push(1);      // Add to beginning (stack operation)
         Integer top = linkedList.pop(); // Removes and returns the first element (top of stack).
         System.out.println("Popped: " + top); // Output: Popped: 1
@@ -1180,19 +1181,25 @@ public class PriorityQueueExample {
         PriorityQueue<Integer> pq = new PriorityQueue<>();
         
         // Adding elements
-        pq.offer(30);  // Same as add()
+        pq.offer(30);  // Same as add() - O(log n)
         pq.offer(10);
         pq.offer(20);
         
         System.out.println(pq); // Output: [10, 30, 20] (heap structure, not sorted)
         
         // Removing elements (always removes smallest)
+
         System.out.println(pq.poll()); // Output: 10
         System.out.println(pq.poll()); // Output: 20
         System.out.println(pq.poll()); // Output: 30
     }
 }
 ```
+
+**Operations:**
+- `offer()` / `add()` → insert element (O(log n)).
+- `peek()` → view smallest element (O(1)).
+- `poll()` → remove and return smallest element (O(log n)).
 
 #### 2. ArrayDeque:
 - **Resizable array** implementation of Deque interface
@@ -1267,11 +1274,30 @@ map.put("Charlie", 35);
 
 System.out.println(map.get("Alice")); // Output: 25
 System.out.println(map.containsKey("Bob")); // Output: true
+```
 
-// Iteration
+Iteration using entrySet()
+- What is entrySet()? It returns a Set of all key-value pairs (Map.Entry objects) in the map.
+- Map.Entry<K, V> is an interface representing a single key-value pair in the map.
+- When you loop: for (Map.Entry<String, Integer> entry : map.entrySet())
+  - entry is a Map.Entry object holding one key and its corresponding value.
+  - entry.getKey() returns the key.
+  - entry.getValue() returns the value.
+- This is the most efficient way to iterate over both keys and values in a HashMap.
+```java
 for (Map.Entry<String, Integer> entry : map.entrySet()) {
-    System.out.println(entry.getKey() + " : " + entry.getValue());
+    System.out.println(entry.getKey() + " : " + entry.getValue());  
 }
+
+/*
+Example breakdown:
+for (Map.Entry<String, Integer> entry : map.entrySet()) {
+    // entry is like: {"Alice"=25}, {"Bob"=30}, etc.
+    String key = entry.getKey();      // e.g., "Alice"
+    Integer value = entry.getValue(); // e.g., 25
+    System.out.println(key + " : " + value);
+}
+*/
 ```
 
 **Other Important HashMap Operations:**
@@ -3117,6 +3143,7 @@ System.out.println(s1 == s3); // true (intern() returns pool reference)
 | `split(regex)` | Splits string into array | `"a,b,c".split(",")` → ["a", "b", "c"] |
 | `startsWith(str)` | Checks if starts with | `"Hello".startsWith("He")` → true |
 | `endsWith(str)` | Checks if ends with | `"Hello".endsWith("lo")` → true |
+| `Integer.parseInt(str)` | Converts a string to an int | `Integer.parseInt("123")` → 123 |
 | `isEmpty()` | Checks if empty | `"".isEmpty()` → true |
 | `isBlank()` | Checks if blank (Java 11+) | `"   ".isBlank()` → true |
 
