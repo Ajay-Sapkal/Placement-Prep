@@ -920,7 +920,10 @@ public class ArrayListExample {
 }
 ```
 
+
 **Other Important ArrayList Operations:**
+- `add(element)` - Add element to the end of the list
+- `add(index, element)` - Insert element at a specific index
 - `set(index, element)` - Update element at specific index
 - `remove(index)` - Remove element by index position
 - `remove(Object)` - Remove first occurrence of specified element
@@ -1303,6 +1306,7 @@ for (Map.Entry<String, Integer> entry : map.entrySet()) {
 **Other Important HashMap Operations:**
 - `remove(key)` - Remove key-value pair by key
 - `containsValue(value)` - Check if map contains specific value
+- `containsKey(key)` - check if map contains specific key
 - `size()` - Get number of key-value pairs
 - `isEmpty()` - Check if map has no entries
 - `clear()` - Remove all key-value pairs
