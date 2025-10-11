@@ -736,6 +736,7 @@ This model focuses on the relationships between data elements. Each element is a
 | **JOINS**                | Typically Required                                   | Typically not required                                                                                 |
 | **Data to Object Mapping**| Required object-relational mapping                   | Many do not require ORMs. MongoDB documents map directly to data structures in most popular programming languages. |
 ---
+
 ## 13. Types of Databases
 
 ### 1. Relational Databases
@@ -795,4 +796,62 @@ Network databases are an extension of the hierarchical model. The main differenc
 - They do not have much web community support.
 
 Examples include Integrated Data Store (IDS) and IDMS.
+
+## 14. Clustering in DBMS
+
+### 1. What is Database Clustering?
+Database Clustering, also known as making Replica-sets, is the process of combining more than one server or instance that connects to a single logical database. It is used when a single server is not adequate to manage the amount of data or the number of user requests. The process involves replicating the same dataset across different servers.
+
+### 2. Advantages of Clustering
+
+- **Data Redundancy:** Clustering provides data redundancy by storing the same data on multiple servers. This is a required type of redundancy that ensures if any server faces a failure for any reason, the data is still available to be accessed from other servers in the cluster.
+
+- **Load Balancing:** Clustering enables load balancing by allocating the workload among the different servers that are part of the cluster. This means more users can be supported, and the system can handle sudden spikes in traffic. By preventing any one machine from getting all the hits, it allows for seamless scaling as required.
+
+- **High Availability:** Availability is the amount of time a database can be accessed. With database clustering, extremely high levels of availability can be reached due to load balancing and having extra machines. If a server shuts down, the database will still be available through the other nodes in the cluster.
+
+### 3. How does Clustering Work?
+In a cluster architecture, all incoming requests are split among many computers so that an individual user request is executed and produced by a number of computer systems. The key serviceable features of clustering are load balancing and high availability. If one node in the cluster collapses, the request is automatically handled by another node, which means there are few or no possibilities of an absolute system failure.
+
+## 15. Partitioning & Sharding in DBMS (DB Optimization)
+
+### 1. What is Partitioning?
+The principle behind partitioning is that a big problem can be solved more easily when it is chopped into smaller sub-problems. In a database context, partitioning is a technique that divides large database objects, like tables and indexes, into smaller, more manageable pieces called partitions. SQL queries can then work directly on these partitions without any alteration. This process cuts down the problems in managing giant database tables by allowing data definition language (DDL) to work on the smaller slices. Partitioning can be used to divide database objects across separate servers, which increases performance and controllability of the data.
+
+### 2. Types of Partitioning
+
+- **Vertical Partitioning:** This involves slicing a table (relation) vertically, or column-wise. This means that to get a complete record (tuple), you may need to access different servers.
+
+- **Horizontal Partitioning:** This involves slicing a table horizontally, or row-wise. This results in independent chunks of data tuples being stored on different servers.
+
+### 3. When to Apply Partitioning
+Partitioning is typically applied in the following scenarios:
+
+- When a dataset becomes so huge that managing it becomes a tedious task.
+- When the number of requests is so large that a single database server's access time is too high, leading to slow system response times.
+
+### 4. Advantages of Partitioning
+
+- **Parallelism**
+- **Availability**
+- **Performance**
+- **Manageability**
+- **Reduced Cost:** Scaling-out (horizontal scaling) can be less costly than scaling-up (vertical scaling).
+
+### 5. Distributed Databases
+A Distributed Database is the product of applying optimization techniques like clustering and partitioning. It is a single logical database that is physically spread across multiple locations (servers) and interconnected by a network.
+
+### 6. What is Sharding?
+Sharding is the technique used to implement Horizontal Partitioning. The fundamental idea is that instead of having all the data on one database instance, the data is split up. A Routing Layer is introduced to forward requests to the specific server (or shard) that actually contains the required data.
+
+### 7. Pros of Sharding
+
+- **Scalability**
+- **Availability**
+
+### 8. Cons of Sharding
+
+- **Complexity:** Implementing the partition mapping and routing layer adds complexity to the system.
+- **Non-uniformity:** If data is not distributed evenly, it can create "hot spots" and the necessity of Re-Sharding.
+- **Scatter-Gather Problem:** Queries that need data from multiple shards can be complex as the data is spread across different database instances.
 
