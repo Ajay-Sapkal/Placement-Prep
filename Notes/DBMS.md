@@ -96,7 +96,7 @@ This is the highest level of abstraction, aiming to simplify user interaction by
 
 **Diagram:**
 
-![DBMS architecture](../images/db architecture.png)
+![DBMS architecture](../images/db_architecture.png)
 
 ### 2. Instances and Schemas
 An instance of a database is the collection of information stored in it at a particular moment.
@@ -131,7 +131,6 @@ A query language is the part of DML used for information retrieval.
 
 In practice, DDL and DML features are present in a single database language, such as SQL.
 
-
 ### 5. How is a Database Accessed from Application Programs?
 Applications (written in host languages like C/C++, Java) interact with the database.
 
@@ -140,6 +139,7 @@ For example, a banking system's payroll module accesses the database by executin
 An API is provided to send DML/DDL statements to the database and retrieve results. Examples include:
 - Open Database Connectivity (ODBC) for "C".
 - Java Database Connectivity (JDBC) for Java.
+
 ### 6. Database Administrator (DBA)
 A DBA is a person with central control of both the data and the programs that access it.
 
@@ -193,6 +193,5 @@ Describes client-server relationships:
 	- Best for web apps; improves scalability, integrity, and security.
 
 **Diagram:**
-```
-Client ↔ App Server ↔ DB Server
-```
+
+![DBMS vs File System Diagram](../images/db_23.avif)
