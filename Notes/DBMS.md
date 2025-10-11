@@ -2,7 +2,7 @@
 
 ---
 
-## Introduction to DBMS
+## 1. Introduction to DBMS
 
 ### 1. What is Data?
 Data is a collection of raw, unorganized facts (text, numbers, symbols, etc.) with no inherent meaning until processed.
@@ -60,7 +60,7 @@ DBMS addresses the limitations of traditional file systems:
 
 ---
 
-## DBMS Architecture
+## 2. DBMS Architecture
 
 
 ### 1. View of Data (Three Schema Architecture)
@@ -194,4 +194,77 @@ Describes client-server relationships:
 
 **Diagram:**
 
-![DBMS vs File System Diagram](../images/db_23.png)
+![DBMS](../images/db_23.png)
+---
+
+## 3: Entity-Relationship Model
+
+A Data Model is a collection of conceptual tools for describing data, data relationships, data semantics, and consistency constraints.
+
+### 1. ER Model
+The Entity-Relationship (ER) Model is a high-level data model based on a perception of the real world, which consists of a collection of basic objects called entities and the relationships among these objects.
+
+The graphical representation of the ER Model is the ER diagram, which acts as a blueprint for the database.
+
+### 2. Entity
+- An Entity is a "thing" or "object" in the real world that is distinguishable from all other objects.
+- It has a physical existence. For example, each student in a college is an entity.
+- An entity can be uniquely identified, usually by a primary attribute known as a Primary Key.
+- **Strong Entity:** An entity that can be uniquely identified on its own.
+- **Weak Entity:** An entity that cannot be uniquely identified by its own attributes and depends on a strong entity for its existence.
+    - It doesn't have sufficient attributes to form a primary key.
+    - For example, a Loan is a strong entity, but a Payment is weak, as its installment numbers are only unique for each specific loan.
+    - A weak entity depends on a strong entity for its existence.
+
+### 3. Entity Set
+An entity set is a group of entities of the same type that share the same properties or attributes.
+
+For example, Student is an entity set, and Customer of a bank is another.
+
+### 4. Attributes
+An entity is represented by a set of attributes.
+
+Each entity has a value for each of its attributes.
+
+For each attribute, there is a set of permitted values called the domain.
+
+For example, a Student entity has attributes like Student ID, Name, Address, etc.
+
+#### Types of Attributes
+- **Simple:** Attributes that cannot be divided further.
+- **Composite:** Attributes that can be divided into subparts (e.g., Name can be divided into first-name, middle-name, last-name).
+- **Single-valued:** Attributes that can only have one value (e.g., Student ID).
+- **Multi-valued:** Attributes that can have more than one value (e.g., phone-number, dependent-name).
+- **Derived:** An attribute whose value can be calculated from other related attributes (e.g., Age can be derived from a date of birth).
+- **NULL Value:** Used when an entity does not have a value for an attribute. It can mean "not applicable" (like a person with no middle name) or "unknown" (the value is missing or not yet known).
+
+### 5. Relationships
+A relationship is an association among two or more entities. For example, a Customer borrows a Loan.
+
+**Strong Relationship:** A relationship between two independent (strong) entities.
+
+**Weak Relationship:** A relationship between a weak entity and its owner strong entity.
+
+**Degree of Relationship:** The number of entity sets participating in a relationship.
+
+- **Unary:** One entity set participates (e.g., an Employee manages an Employee).
+- **Binary:** Two entity sets participate (e.g., a Student takes a Course). This is the most common type.
+- **Ternary:** Three entity sets participate (e.g., an Employee works-on a job at a branch).
+
+### 6. Relationship Constraints
+#### a. Mapping Cardinality / Cardinality Ratio:
+Defines the number of entities in one set that can be associated with entities in another set.
+
+- **One-to-One (1:1):** An entity in A is associated with at most one entity in B, and vice versa (e.g., Citizen has Aadhar Card).
+- **One-to-Many (1:N):** An entity in A is associated with many entities in B, but an entity in B is associated with at most one entity in A (e.g., Citizen has Vehicle).
+- **Many-to-One (N:1):** An entity in A is associated with at most one entity in B, but an entity in B can be associated with many in A (e.g., Course taken by Professor).
+- **Many-to-Many (N:M):** An entity in A can be associated with many entities in B, and vice versa (e.g., Student attends Course).
+
+#### b. Participation Constraints:
+Also known as the minimum cardinality constraint, this specifies whether the existence of an entity depends on its being related to another entity.
+
+- **Total Participation:** Every entity in the entity set must participate in at least one relationship (e.g., a Loan must have a Customer). Weak entities always have total participation.
+- **Partial Participation:** Not every entity in the set needs to participate in the relationship (e.g., not every Customer has a Loan).
+
+### 7. ER Notations
+Page 8 of your PDF contains a diagram illustrating the standard symbols used for ER diagrams.
