@@ -33,6 +33,11 @@
 !CMakeLists.txt
 !README*
 !LICENSE*
+# Allow image files to be tracked
+!*.png
+!*.jpg
+!*.jpeg
+!*.gif
 
 # Compiled Dynamic libraries
 *.so
