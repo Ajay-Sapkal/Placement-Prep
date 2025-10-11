@@ -1,5 +1,23 @@
 # DBMS Notes
 
+## Table of Contents
+
+1. [Introduction to DBMS](#1-introduction-to-dbms)
+2. [DBMS Architecture](#2-dbms-architecture)
+3. [Entity-Relationship Model](#3-entity-relationship-model)
+4. [Extended ER Features](#4-extended-er-features)
+5. [Relational Model](#5-relational-model)
+6. [Mapping the ER Model to the Relational Model](#6-mapping-the-er-model-to-the-relational-model)
+7. [Core SQL Concepts](#7-core-sql-concepts)
+8. [Normalisation](#8-normalisation)
+9. [Transactions](#9-transactions)
+10. [Implementing Atomicity and Durability](#10-implementing-atomicity-and-durability)
+11. [Indexing in DBMS](#11-indexing-in-dbms)
+12. [NoSQL](#12-nosql)
+13. [Types of Databases](#13-types-of-databases)
+14. [Clustering in DBMS](#14-clustering-in-dbms)
+15. [Partitioning & Sharding in DBMS (DB Optimization)](#15-partitioning--sharding-in-dbms-db-optimization)
+
 ---
 
 ## 1. Introduction to DBMS
