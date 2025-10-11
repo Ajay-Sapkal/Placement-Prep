@@ -62,57 +62,115 @@ DBMS addresses the limitations of traditional file systems:
 
 ## DBMS Architecture
 
+
 ### 1. View of Data (Three Schema Architecture)
-DBMS provides users with an abstract view of data using three levels of abstraction:
+- The main purpose of a DBMS is to provide users with an abstract view of the data.
+- The system hides details of how data is stored and maintained.
+- Abstraction is applied through several levels to simplify user interaction.
+- Multiple users can access the same data with personalized views, while the data is stored only once.
+- This is achieved using three levels of abstraction:
 
-#### a. Physical Level (Internal Level)
-- Lowest level; describes how data is actually stored (physical schema).
-- Deals with storage allocation, compression, encryption.
-- Focus: efficient data access.
 
-#### b. Logical Level (Conceptual Level)
-- Describes what data is stored and relationships (conceptual schema).
-- Used by DBAs to design the database.
-- Hides physical details from users.
+#### a. Physical level / Internal level
+This is the lowest level of abstraction and describes how the data is actually stored.
 
-#### c. View Level (External Level)
-- Highest level; provides different views to different users (external schemas/subschemas).
-- Hides rest of the database, offers security.
-- Multiple views possible.
+- Utilizes low-level data structures.
+- Has a Physical Schema, which describes the physical storage structure of the database.
+- Deals with storage allocation, data compression, and encryption.
+- The goal is to define algorithms that allow for efficient access to data.
+
+#### b. Logical level / Conceptual level
+This level describes what data is stored in the database and the relationships that exist among that data.
+
+- The Conceptual Schema describes the database's design at the conceptual level.
+- A user at the logical level doesn't need to be aware of the physical-level structures.
+- Database Administrators (DBAs), who decide what information to keep in the database, use this level of abstraction.
+- Its goal is to be easy to use.
+
+#### c. View level / External level
+This is the highest level of abstraction, aiming to simplify user interaction by providing different views to different end-users.
+
+- Each External Schema (also called a subschema) describes the part of the database that a particular user group is interested in, hiding the rest.
+- A database can have several external schemas.
+- Views also provide a security mechanism to prevent users from accessing certain parts of the database.
 
 **Diagram:**
-```
-User Views (External Schemas)
-				↑
-	 Logical Schema (Conceptual)
-				↑
-	 Physical Schema (Internal)
-```
+
+![DBMS architecture](../images/db architecture.png)
 
 ### 2. Instances and Schemas
-- **Instance:** Data stored in the database at a particular moment.
-- **Schema:** Overall design/structure of the database (rarely changes).
-- Types: Physical, Logical, and View Schemas.
-- Logical schema is most important for application development.
-- **Physical data independence:** Changes to physical schema don't affect logical schema/applications.
+An instance of a database is the collection of information stored in it at a particular moment.
+
+The schema is the overall design of the database. It is the structural description of the data and doesn't change frequently, while the data in the instance may change often.
+
+- A database schema is analogous to variable declarations in a program.
+- There are three types of schemas: Physical, Logical, and several view schemas (subschemas).
+- The Logical Schema is the most important in its effect on application programs, as programmers build apps using it.
+- Physical data independence means that changes to the physical schema should not affect the logical schema or application programs.
+
 
 ### 3. Data Models
-A Data Model is a set of tools to describe data, relationships, and constraints at the logical level.
+A Data Model is a collection of conceptual tools for describing data, relationships, semantics, and consistency constraints.
 
-- Examples: Entity-Relationship (ER) model, Relational model, Object-oriented model.
+It provides a way to describe the design of a database at the logical level.
+
+Examples include the Entity-Relationship (ER) model, Relational Model, and object-oriented model.
+
 
 ### 4. Database Languages
-- **Data Definition Language (DDL):** Defines database schema and constraints.
-- **Data Manipulation Language (DML):** Used for queries and updates (retrieval, insertion, deletion, update).
-- Query language is part of DML (for retrieval).
-- In practice, SQL combines DDL and DML features.
 
-### 5. Database Access from Application Programs
-- Applications (C/C++, Java, etc.) interact with the database using APIs.
-- DML/DDL statements are sent to the DBMS and results are retrieved.
-- **APIs:**
-	- ODBC (for C)
-	- JDBC (for Java)
+**Data Definition Language (DDL)** is used to specify the database schema. It is also used to define consistency constraints that are checked every time the database is updated.
+
+**Data Manipulation Language (DML)** is used to express database queries and updates. Data manipulation involves:
+- Retrieval of information.
+- Insertion of new information.
+- Deletion of information.
+- Updating existing information.
+
+A query language is the part of DML used for information retrieval.
+
+In practice, DDL and DML features are present in a single database language, such as SQL.
+
+
+### 5. How is a Database Accessed from Application Programs?
+Applications (written in host languages like C/C++, Java) interact with the database.
+
+For example, a banking system's payroll module accesses the database by executing DML statements from the C host language.
+
+An API is provided to send DML/DDL statements to the database and retrieve results. Examples include:
+- Open Database Connectivity (ODBC) for "C".
+- Java Database Connectivity (JDBC) for Java.
+### 6. Database Administrator (DBA)
+A DBA is a person with central control of both the data and the programs that access it.
+
+Functions of a DBA include:
+- Schema Definition.
+- Defining storage structure and access methods.
+- Schema and physical organization modifications.
+- Authorization control.
+- Routine maintenance, such as periodic backups, applying security patches, and handling upgrades.
+
+### 7. DBMS Application Architectures
+These architectures describe the relationship between client machines (where users work) and server machines (where the database runs).
+
+**T1 (One-Tier) Architecture:** The client, server, and database are all present on the same machine.
+
+**T2 (Two-Tier) Architecture:**
+- The application is partitioned into two components: a client and a server.
+- The client machine invokes database system functionality on the server using query language statements.
+- API standards like ODBC and JDBC are used for interaction.
+
+**T3 (Three-Tier) Architecture:**
+- The application is partitioned into three logical components: client, application server, and database server.
+- The client is just a front end and doesn't contain any direct database calls.
+- The client communicates with an application server, and the application server communicates with the database system to access data.
+- Business logic resides in the application server.
+- This architecture is best for World Wide Web applications.
+
+**Advantages:**
+- Scalability due to distributed application servers.
+- Data Integrity, as the app server acts as a middle layer that can minimize data corruption.
+- Security, because the client cannot directly access the database.
 
 ### 6. Database Administrator (DBA)
 - Central control of data and access programs.

@@ -1096,7 +1096,7 @@ System.out.println(set.contains("Apple")); // Output: true
 - `contains(Object)` - Check if set contains element (O(1) average)
 - `addAll(Collection)` - Add all elements from another collection
 - `removeAll(Collection)` - Remove all elements that exist in another collection
-- `retainAll(Collection)` - Keep only elements that exist in another collection
+- `retainAll(Collection)` - Keep only elements that exist in both collections
 - `toArray()` - Convert set to array
 
 
