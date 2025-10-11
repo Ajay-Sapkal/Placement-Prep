@@ -1316,6 +1316,10 @@ for (Map.Entry<String, Integer> entry : map.entrySet()) {
 - `putAll(Map)` - Add all entries from another map
 - `replace(key, value)` - Replace value for existing key
 - `getOrDefault(key, defaultValue)` - Get value or return default if key not found
+- `computeIfAbsent(key, mappingFunction)` 
+    - If not present, it computes the value using the given function, inserts it, and returns it.
+    - If present, it simply returns the existing value without computing or inserting anything. 
+    - Example: `map.computeIfAbsent("key", k -> new ArrayList<>()).add(value)`.
 
 ### HashMap Internal Working (Important for Interviews)
 
