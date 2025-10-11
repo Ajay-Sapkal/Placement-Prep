@@ -194,4 +194,4 @@ Describes client-server relationships:
 
 **Diagram:**
 
-![DBMS vs File System Diagram](../images/db_23.avif)
+![DBMS vs File System Diagram](../images/db_23.png)
