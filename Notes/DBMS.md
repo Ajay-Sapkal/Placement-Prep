@@ -44,6 +44,7 @@ A Database Management System (DBMS) is software for storing, retrieving, and man
 - Main goal: convenient and efficient data management.
 
 **Diagram:**
+
 ![DBMS vs File System Diagram](../images/1.png)
 
 ### 7. DBMS vs File Systems
